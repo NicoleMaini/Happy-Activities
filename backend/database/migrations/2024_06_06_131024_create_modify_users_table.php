@@ -10,13 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('microtasks', function (Blueprint $table) {
-            $table->id();
+        Schema::create('modify_users', function (Blueprint $table) {
+            $table->string('profile_image')->nullable();
+            $table->enum('role', ['lead', 'collaborator']);
             $table->foreignId('task_id')->nullable()->constrained();
-            $table->string('title', 300);
-            $table->string('description', 1000)->nullable();
-            $table->enum('progress', ['to do', 'completed']);
-            $table->timestamps();
         });
     }
 
@@ -25,6 +22,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('microtasks');
+        Schema::dropIfExists('modify_users');
     }
 };
