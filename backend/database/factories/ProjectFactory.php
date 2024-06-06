@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\tasks>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\projects>
  */
-class TasksFactory extends Factory
+class ProjectFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class TasksFactory extends Factory
     public function definition(): array
     {
         return [
-            //
-        ];
+                //
+            ];
     }
 }

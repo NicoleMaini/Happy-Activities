@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('cover_image')->nullable();
+            $table->string('cover_image', 500)->nullable();
             $table->string('name', 200);
             $table->enum('type', ['work', 'study', 'event', 'free-time']);
             $table->string('description', 1000)->nullable();

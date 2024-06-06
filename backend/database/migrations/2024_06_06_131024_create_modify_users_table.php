@@ -10,8 +10,8 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('modify_users', function (Blueprint $table) {
-            $table->string('profile_image')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('profile_image', 500)->nullable();
             $table->string('role', 10);
             $table->foreignId('task_id')->nullable()->constrained();
         });
@@ -22,6 +22,10 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('modify_users');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('profile_image');
+            $table->dropColumn('role');
+            $table->dropForeign(['task_id']); // TODO: make this work
+        });
     }
 };
