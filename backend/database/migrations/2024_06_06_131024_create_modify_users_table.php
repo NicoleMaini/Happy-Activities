@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('modify_users', function (Blueprint $table) {
             $table->string('profile_image')->nullable();
+            $table->string('role', 10);
             $table->foreignId('task_id')->nullable()->constrained();
         });
     }
