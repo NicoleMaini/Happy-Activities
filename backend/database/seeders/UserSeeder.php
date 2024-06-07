@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Project;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -37,5 +38,13 @@ class UserSeeder extends Seeder
             'profile_image' => 'https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833546.jpg?size=338&ext=jpg&ga=GA1.1.672697106.1717632000&semt=ais_user',
             'role' => 'lead',
         ]);
+
+        $users = User::all();
+        $projects = Project::all();
+
+        // Popola la tabella ponte project_user
+        foreach ($users as $user) {
+            $user->projects()->attach($user->id);
+        }
     }
 }

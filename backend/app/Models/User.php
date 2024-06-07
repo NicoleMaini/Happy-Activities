@@ -3,9 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -38,13 +39,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function projects(): BelongToMany
+    public function projects(): BelongsToMany
     {
-        return $this->belongToMany(Project::class)->withPivot('role');
+        return $this->belongsToMany(Project::class)->withPivot('team');
     }
 
-    public function tasks(): BelongToMany
+    public function tasks(): BelongsToMany
     {
-        return $this->belongToMany(Task::class);
+        return $this->belongsToMany(Task::class);
     }
 }

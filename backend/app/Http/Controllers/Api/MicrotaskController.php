@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\projects;
-use App\Http\Requests\StoreprojectsRequest;
-use App\Http\Requests\UpdateprojectsRequest;
+use App\Models\microtasks;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoremicrotasksRequest;
+use App\Http\Requests\UpdatemicrotasksRequest;
 
-class ProjectsController extends Controller
+class MicrotaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ProjectsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreprojectsRequest $request)
+    public function store(StoremicrotasksRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ProjectsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(projects $projects)
+    public function show(microtasks $microtasks)
     {
         //
     }
@@ -43,7 +44,7 @@ class ProjectsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(projects $projects)
+    public function edit(microtasks $microtasks)
     {
         //
     }
@@ -51,7 +52,7 @@ class ProjectsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateprojectsRequest $request, projects $projects)
+    public function update(UpdatemicrotasksRequest $request, microtasks $microtasks)
     {
         //
     }
@@ -59,7 +60,7 @@ class ProjectsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(projects $projects)
+    public function destroy(microtasks $microtasks)
     {
         //
     }

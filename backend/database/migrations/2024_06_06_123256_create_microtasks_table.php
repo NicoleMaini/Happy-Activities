@@ -12,10 +12,11 @@ return new class extends Migration {
     {
         Schema::create('microtasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->nullable()->constrained();
+            $table->foreignId('task_id')->constrained();
             $table->string('title', 300);
             $table->string('description', 1000)->nullable();
-            $table->enum('progress', ['to do', 'completed']);
+            $table->string('assigned', 50)->nullable();
+            $table->enum('progress', ['to do', 'completed', 'delete']);
             $table->timestamps();
         });
     }

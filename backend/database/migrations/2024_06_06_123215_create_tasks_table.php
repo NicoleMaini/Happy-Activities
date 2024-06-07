@@ -20,7 +20,8 @@ return new class extends Migration {
             $table->string('image4')->nullable();
             $table->string('title', 300);
             $table->string('description', 1000)->nullable();
-            $table->enum('progress', ['to do', 'completed']);
+            $table->string('assigned', 50)->nullable();
+            $table->enum('progress', ['to do', 'completed', 'delete']);
             $table->dateTime('appointment')->nullable();
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('project_user', function (Blueprint $table) {
             $table->foreignId('project_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->enum('team', ['rejected', 'pending', 'collaborator']);
+            $table->enum('team', ['rejected', 'pending', 'collaborator', 'team-lead']);
         });
     }
 
