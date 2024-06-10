@@ -58,6 +58,7 @@ class TaskSeeder extends Seeder
             'assigned' => 1,
         ]);
         Task::factory()->create([
+            'project_id' => '2',
             'title' => 'For Textual Content with the client',
             'description' => 'Review session with clients to gather testimonials and finalize team member profiles.',
             'appointment' => fake()->dateTimeThisMonth(),
@@ -65,12 +66,14 @@ class TaskSeeder extends Seeder
             'assigned' => 1,
         ]);
         Task::factory()->create([
+            'project_id' => '2',
             'title' => 'For Visual Content with the design',
             'description' => 'Review session with the design team to select and edit images for optimal visual impact.',
             'appointment' => fake()->dateTimeThisMonth(),
             'progress' => 'to do',
         ]);
         Task::factory()->create([
+            'project_id' => '2',
             'title' => 'D-Day, Lunch app',
             'description' => ' Launch day meeting to deploy the landing page, monitor its performance, and discuss initial promotion strategies.',
             'appointment' => '2024-06-07 09:40:23',
