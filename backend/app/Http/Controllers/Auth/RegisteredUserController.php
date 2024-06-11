@@ -22,14 +22,18 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'profile_image' => ['nullable', 'image', 'max:1024'], // size in kilobytes
         ]);
+
+        $file_path = $request['profile_image'] ? Storage::put('/profiles', $request['profile_image']) : null; // usa lo storage di default
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->string('password')),
+            'profile_image' => 'storage/' . $file_path,
         ]);
 
         event(new Registered($user));

@@ -46,6 +46,7 @@ class User extends Authenticatable
 
     public function tasks(): BelongsToMany
     {
+        //da controllare se effettivamente serve
         return $this->belongsToMany(Task::class);
     }
 }

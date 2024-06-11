@@ -127,4 +127,8 @@ class UserController extends Controller
             return response()->json(['message' => 'La riga nella tabella pivot non esiste'], 404);
         }
     }
+
+    public function taskForUser()
+    {
+    }
 }
