@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -63,7 +64,7 @@ class UserController extends Controller
 
     protected function checkAuthorizationForPivot($projectId, $targetUser)
     {
-        $currentUser = auth()->user();
+        $currentUser = Auth::user();
         if (!$currentUser) {
             return response()->json(['message' => 'Utente non autenticato'], 401);
         }

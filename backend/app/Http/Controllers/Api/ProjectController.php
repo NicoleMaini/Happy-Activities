@@ -20,8 +20,8 @@ class ProjectController extends Controller
 
     protected function checkAuthorization()
     {
-        // $user = Auth::user();
-        $user = User::find(2);
+        $user = Auth::user();
+        // $user = User::find(2);
 
         if ($user === null) {
             throw new \Exception("L'utente selezionato non esiste", 404);
@@ -47,7 +47,7 @@ class ProjectController extends Controller
     public function index()
     {
         try {
-            // $this->checkAuthentication();
+            $this->checkAuthentication();
             $query = $this->checkAuthorization();
             $projects = $query->get();
 
@@ -68,7 +68,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         try {
-            // $this->checkAuthentication();
+            $this->checkAuthentication();
 
             $validatedData = $request->validate([
                 'cover_image' => 'nullable|string',
@@ -86,9 +86,8 @@ class ProjectController extends Controller
 
             // controllare se funziona
             // Se il tipo di progetto è 'work' o 'study', assegna il ruolo 'team-lead' all'utente attuale
-            if ($newProject->type === 'work' || $newProject->type === 'study') {
-                $newProject->users()->attach($request->user()->id, ['team' => 'team-lead']);
-            }
+
+            $newProject->users()->attach($request->user()->id, ['team' => 'team-lead']);
 
             // Restituisci i dati del nuovo prodotto creato in formato JSON
             return response()->json(['message' => 'Project created successfully', 'project' => $newPoject], 201);
@@ -118,7 +117,7 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // $this->checkAuthentication();
+            $this->checkAuthentication();
 
             $project = Project::findOrFail($id);
 
@@ -153,7 +152,7 @@ class ProjectController extends Controller
         }
     }
 
-    protected function moveProjectAutorizaion($id)
+    protected function moveProjectAuthorization($id)
     {
         //da controllarne il funzionamento
         $userId = Auth::id();
@@ -181,9 +180,9 @@ class ProjectController extends Controller
     public function delete($id)
     {
         try {
-            // $this->checkAuthentication();
+            $this->checkAuthentication();
 
-            $project = $this->moveProjectAutorizaion($id);
+            $project = $this->moveProjectAuthorization($id);
 
             $newValue = 'delete';
             $project->update(['progress' => $newValue]);
@@ -198,9 +197,9 @@ class ProjectController extends Controller
     public function restore($id)
     {
         try {
-            // $this->checkAuthentication();
+            $this->checkAuthentication();
 
-            $project = $this->moveProjectAutorizaion($id);
+            $project = $this->moveProjectAuthorization($id);
 
             $newValue = 'active';
             $project->update(['progress' => $newValue]);
@@ -214,9 +213,9 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         try {
-            // $this->checkAuthentication();
+            $this->checkAuthentication();
 
-            $project = $this->moveProjectAutorizaion($id);
+            $project = $this->moveProjectAuthorization($id);
             $project->delete();
 
             return response()->json(['message' => 'Project delete with success'], 200);

@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
 
         // Popola la tabella ponte project_user
         foreach ($users as $user) {
-            $user->projects()->attach($user->id);
+            $user->projects()->attach($user->id, ['team' => 'team-lead']);
         }
     }
 }

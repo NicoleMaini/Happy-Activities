@@ -40,10 +40,10 @@ class TaskController extends Controller
     public function index()
     {
         try {
-            // $this->checkAutentication();
-            // $user = Auth::user();
+            $this->checkAutentication();
+            $user = Auth::user();
 
-            $user = User::find(2);
+            // $user = User::find(2);
 
             if ($user === null) {
                 throw new \Exception("L'utente selezionato non esiste", 404);
@@ -84,7 +84,7 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $this->checkAuthorization($request->project_id);
 
@@ -118,7 +118,7 @@ class TaskController extends Controller
     public function show($id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             // Recupera il task
             $task = Task::with([
@@ -145,7 +145,7 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $task = Task::findOrFail($id);
 
@@ -189,7 +189,7 @@ class TaskController extends Controller
     public function completed($id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $task = Task::findOrFail($id);
 
@@ -209,7 +209,7 @@ class TaskController extends Controller
     public function delete($id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $task = Task::findOrFail($id);
 
@@ -228,7 +228,7 @@ class TaskController extends Controller
     public function restore($id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $task = Task::findOrFail($id);
 
@@ -247,7 +247,7 @@ class TaskController extends Controller
     public function destroy($id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $task = Task::findOrFail($id);
 

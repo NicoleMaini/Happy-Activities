@@ -22,8 +22,8 @@ class MicrotaskController extends Controller
 
     protected function checkAuthorization($project_id)
     {
-        // $user = Auth::user();
-        $user = User::find(2);
+        $user = Auth::user();
+        // $user = User::find(2);
 
         // Verifica se l'utente è collegato al progetto
         $isAuthorized = Project::where('id', $project_id)
@@ -40,10 +40,9 @@ class MicrotaskController extends Controller
     public function index()
     {
         try {
-            // $this->checkAutentication();
-            // $user = Auth::user();
-
-            $user = User::find(2);
+            $this->checkAutentication();
+            $user = Auth::user();
+            // $user = User::find(2);
 
             if ($user === null) {
                 throw new \Exception("L'utente selezionato non esiste", 404);
@@ -103,7 +102,7 @@ class MicrotaskController extends Controller
     {
         // + task_id
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $task = Task::find($request->task_id); // task_id da inviare con un hidden input value
 
@@ -138,7 +137,7 @@ class MicrotaskController extends Controller
     public function show($id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $microtask = Microtask::with([
                 'task' => function ($query) {
@@ -164,7 +163,7 @@ class MicrotaskController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $task = Task::find($request->task_id);
 
@@ -201,7 +200,7 @@ class MicrotaskController extends Controller
     public function completed($id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $microtask = Microtask::findOrFail($id);
             $task = Task::find($microtask->task_id);
@@ -221,7 +220,7 @@ class MicrotaskController extends Controller
     public function delete($id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $microtask = Microtask::findOrFail($id);
             $task = Task::find($microtask->task_id);
@@ -241,7 +240,7 @@ class MicrotaskController extends Controller
     public function restore($id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $microtask = Microtask::findOrFail($id);
             $task = Task::find($microtask->task_id);
@@ -261,7 +260,7 @@ class MicrotaskController extends Controller
     public function destroy($id)
     {
         try {
-            // $this->checkAutentication();
+            $this->checkAutentication();
 
             $microtask = Microtask::findOrFail($id);
             $task = Task::find($microtask->task_id);
