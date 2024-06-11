@@ -13,17 +13,35 @@ use App\Http\Requests\UpdatetasksRequest;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected function checkAutentication()
+    {
+        if (!Auth::check()) {
+            abort(401);
+        }
+    }
+
+    protected function checkAuthorization($project_id)
+    {
+        // $user = Auth::user();
+        $user = User::find(2);
+
+        // Verifica se l'utente è collegato al progetto
+        $isAuthorized = Project::where('id', $project_id)
+            ->whereHas('users', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->exists();
+
+        if (!$isAuthorized) {
+            abort(403, 'Unauthorized');
+        }
+    }
+
     public function index()
     {
         try {
+            // $this->checkAutentication();
             // $user = Auth::user();
-
-            // if (Auth::check()) {
-            //     abort(401, 'Non autenticato');
-            // }
 
             $user = User::find(2);
 
@@ -66,22 +84,9 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            $user = User::find(2);
-
-            // Verifica se l'utente è il creatore o un collaboratore del progetto
-            $isAuthorized = Project::where('id', $request->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($request->project_id);
 
             $validatedData = $request->validate([
                 'image1' => 'nullable|string',
@@ -113,11 +118,7 @@ class TaskController extends Controller
     public function show($id)
     {
         try {
-            $user = User::find(2);
-
-            // if (Auth::check()) {
-            //     abort(401, 'Non autenticato');
-            // }
+            // $this->checkAutentication();
 
             // Recupera il task
             $task = Task::with([
@@ -132,16 +133,7 @@ class TaskController extends Controller
                 throw new \Exception('Il task non è stato trovato.', 404);
             }
 
-            // Verifica se l'utente è autorizzato a accedere al task
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Non autorizzato');
-            }
+            $this->checkAuthorization($task->project_id);
 
             return response()->json(['status' => 'success', 'data' => $task]);
         } catch (\Exception $e) {
@@ -153,24 +145,11 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            // $user = Auth::user();
-            $user = User::find(2);
             $task = Task::findOrFail($id);
 
-            // Verifica se l'utente è collegato al progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $validator = Validator::make($request->all(), [
                 'image1' => 'nullable|string',
@@ -210,24 +189,12 @@ class TaskController extends Controller
     public function completed($id)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            // $user = Auth::user();
-            $user = User::find(2);
             $task = Task::findOrFail($id);
 
             // Verifica se l'utente è collegato al progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $newValue = 'completed';
             $task->update(['progress' => $newValue]);
@@ -242,24 +209,11 @@ class TaskController extends Controller
     public function delete($id)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            // $user = Auth::user();
-            $user = User::find(2);
             $task = Task::findOrFail($id);
 
-            // Verifica se l'utente è collegato al progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $newValue = 'delete';
             $task->update(['progress' => $newValue]);
@@ -274,24 +228,11 @@ class TaskController extends Controller
     public function restore($id)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            // $user = Auth::user();
-            $user = User::find(2);
             $task = Task::findOrFail($id);
 
-            // Verifica se l'utente è collegato al progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $newValue = 'to do';
             $task->update(['progress' => $newValue]);
@@ -306,24 +247,12 @@ class TaskController extends Controller
     public function destroy($id)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            // $user = Auth::user();
-            $user = User::find(2);
             $task = Task::findOrFail($id);
 
             // Verifica se l'utente è collegato al progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $task->delete();
 

@@ -13,13 +13,35 @@ use App\Http\Requests\UpdatemicrotasksRequest;
 
 class MicrotaskController extends Controller
 {
+    protected function checkAutentication()
+    {
+        if (!Auth::check()) {
+            abort(401);
+        }
+    }
+
+    protected function checkAuthorization($project_id)
+    {
+        // $user = Auth::user();
+        $user = User::find(2);
+
+        // Verifica se l'utente è collegato al progetto
+        $isAuthorized = Project::where('id', $project_id)
+            ->whereHas('users', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->exists();
+
+        if (!$isAuthorized) {
+            abort(403, 'Unauthorized');
+        }
+    }
+
     public function index()
     {
         try {
+            // $this->checkAutentication();
             // $user = Auth::user();
-            // if (Auth::check()) {
-            //     abort(401, 'Non autenticato');
-            // }
 
             $user = User::find(2);
 
@@ -81,23 +103,11 @@ class MicrotaskController extends Controller
     {
         // + task_id
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            $user = User::find(2);
             $task = Task::find($request->task_id); // task_id da inviare con un hidden input value
 
-            // Verifica se l'utente è il creatore o un collaboratore del progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $validatedData = $request->validate([
                 'image1' => 'nullable|string',
@@ -128,16 +138,7 @@ class MicrotaskController extends Controller
     public function show($id)
     {
         try {
-            // $user = Auth::user();
-            // if (Auth::check()) {
-            //     abort(401, 'Non autenticato');
-            // }
-
-            $user = User::find(2);
-
-            if ($user === null) {
-                throw new \Exception("L'utente selezionato non esiste", 404);
-            }
+            // $this->checkAutentication();
 
             $microtask = Microtask::with([
                 'task' => function ($query) {
@@ -152,15 +153,7 @@ class MicrotaskController extends Controller
                 throw new \Exception("Non ci sono microtask disponibili per $user->name", 404);
             }
 
-            $isAuthorized = Project::where('id', $microtask->task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Non autorizzato');
-            }
+            $this->checkAuthorization($microtask->task->project_id);
 
             return response()->json(['status' => 'success', 'data' => $microtask]);
         } catch (\Exception $e) {
@@ -171,24 +164,11 @@ class MicrotaskController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // if (Auth::check()) {
-            //     abort(401);
-            // }
-
-            $user = User::find(2);
+            // $this->checkAutentication();
 
             $task = Task::find($request->task_id);
 
-            // Verifica se l'utente è il creatore o un collaboratore del progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $validator = Validator::make($request->all(), [
                 'title' => 'required|string',
@@ -211,7 +191,7 @@ class MicrotaskController extends Controller
             ]);
 
             // Restituisci i dati del nuovo prodotto creato in formato JSON
-            return response()->json(['message' => 'Task created successfully', 'task' => $newTask], 201);
+            return response()->json(['message' => 'Task updated successfully', 'task' => $newTask], 201);
         } catch (\Exception $e) {
             // Gestisci l'eccezione e restituisci un messaggio di errore appropriato con codice di stato 500 (Internal Server Error)
             return response()->json(['error' => $e->getMessage()], 500);
@@ -221,30 +201,18 @@ class MicrotaskController extends Controller
     public function completed($id)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            $user = User::find(2);
             $microtask = Microtask::findOrFail($id);
             $task = Task::find($microtask->task_id);
 
-            // Verifica se l'utente è il creatore o un collaboratore del progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $newValue = 'completed';
             $microtask->update(['progress' => $newValue]);
 
             // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Microtask destroy successfully']);
+            return response()->json(['message' => 'Microtask completed successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
@@ -253,30 +221,18 @@ class MicrotaskController extends Controller
     public function delete($id)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            $user = User::find(2);
             $microtask = Microtask::findOrFail($id);
             $task = Task::find($microtask->task_id);
 
-            // Verifica se l'utente è il creatore o un collaboratore del progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $newValue = 'delete';
             $microtask->update(['progress' => $newValue]);
 
             // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Microtask destroy successfully']);
+            return response()->json(['message' => 'Microtask delete successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
@@ -285,30 +241,18 @@ class MicrotaskController extends Controller
     public function restore($id)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            $user = User::find(2);
             $microtask = Microtask::findOrFail($id);
             $task = Task::find($microtask->task_id);
 
-            // Verifica se l'utente è il creatore o un collaboratore del progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $newValue = 'to do';
             $microtask->update(['progress' => $newValue]);
 
             // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Microtask destroy successfully']);
+            return response()->json(['message' => 'Microtask restore successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
@@ -317,24 +261,12 @@ class MicrotaskController extends Controller
     public function destroy($id)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAutentication();
 
-            $user = User::find(2);
             $microtask = Microtask::findOrFail($id);
             $task = Task::find($microtask->task_id);
 
-            // Verifica se l'utente è il creatore o un collaboratore del progetto
-            $isAuthorized = Project::where('id', $task->project_id)
-                ->whereHas('users', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->exists();
-
-            if (!$isAuthorized) {
-                abort(403, 'Unauthorized');
-            }
+            $this->checkAuthorization($task->project_id);
 
             $microtask->delete();
 

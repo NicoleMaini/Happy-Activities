@@ -11,34 +11,45 @@ use App\Http\Requests\UpdateprojectsRequest;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected function checkAutentication()
+    {
+        if (!Auth::check()) {
+            abort(401);
+        }
+    }
+
+    protected function checkAuthorization()
+    {
+        // $user = Auth::user();
+        $user = User::find(2);
+
+        if ($user === null) {
+            throw new \Exception("L'utente selezionato non esiste", 404);
+        }
+
+        $projects = Project::where(function ($query) use ($user) {
+            $query->whereIn('id', function ($subQuery) use ($user) {
+                $subQuery
+                    ->select('project_id')
+                    ->from('project_user')
+                    ->where('user_id', $user->id)
+                    ->where(function ($query) {
+                        $query->where('team', 'collaborator')->orWhere('team', 'team-lead');
+                    });
+            });
+        })->orWhere(function ($query) use ($user) {
+            $query->where('id', $user->id); // l'utente è il creatore del progetto
+        });
+
+        return $projects;
+    }
+
     public function index()
     {
         try {
-            // $user = Auth::user();
-            $user = User::find(2);
-
-            if ($user === null) {
-                throw new \Exception("L'utente selezionato non esiste", 404);
-            }
-
-            $projects = Project::where(function ($query) use ($user) {
-                $query->whereIn('id', function ($subQuery) use ($user) {
-                    $subQuery
-                        ->select('project_id')
-                        ->from('project_user')
-                        ->where('user_id', $user->id)
-                        ->where(function ($query) {
-                            $query->where('team', 'collaborator')->orWhere('team', 'team-lead');
-                        });
-                });
-            })
-                ->orWhere(function ($query) use ($user) {
-                    $query->where('id', $user->id); // l'utente è il creatore del progetto
-                })
-                ->get();
+            // $this->checkAuthentication();
+            $query = $this->checkAuthorization();
+            $projects = $query->get();
 
             foreach ($projects as $project) {
                 $project->load('users');
@@ -57,9 +68,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         try {
-            if (Auth::check()) {
-                abort(401);
-            }
+            // $this->checkAuthentication();
 
             $validatedData = $request->validate([
                 'cover_image' => 'nullable|string',
@@ -92,32 +101,15 @@ class ProjectController extends Controller
     public function show($id)
     {
         try {
-            $user = Auth::user();
-            // $user = User::find(2);
-
-            // Verifica se l'utente loggato è il creatore del progetto o un collaboratore
-            $project = Project::where(function ($query) use ($user) {
-                $query->whereIn('id', function ($subQuery) use ($user) {
-                    $subQuery
-                        ->select('project_id')
-                        ->from('project_user')
-                        ->where('user_id', $user->id)
-                        ->where(function ($query) {
-                            $query->where('team', 'collaborator')->orWhere('team', 'team-lead');
-                        });
-                });
-            })
-                ->orWhere(function ($query) use ($user) {
-                    $query->where('id', $user->id); // l'utente è il creatore del progetto
-                })
-                ->with('tasks', 'tasks.microtasks')
-                ->find($id);
+            // $this->checkAuthentication();
+            $query = $this->checkAuthorization();
+            $project = $query->with('tasks', 'tasks.microtasks')->find($id);
 
             if (!$project) {
                 return response(['message' => 'Not found'], 404);
             }
 
-            return ['data' => $project];
+            return response()->json(['status' => 'success', 'data' => $project]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
@@ -125,50 +117,47 @@ class ProjectController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (!Auth::check()) {
-            abort(401);
+        try {
+            // $this->checkAuthentication();
+
+            $project = Project::findOrFail($id);
+
+            if ($project->user_id !== Auth::user()->id) {
+                abort(403, 'Unauthorized');
+            }
+
+            $validator = Validator::make($request->all(), [
+                'cover_image' => 'nullable|string',
+                'name' => 'required|string',
+                'description' => 'nullable|string',
+                'type' => 'required|in:work, study, event, free-time',
+                'progress' => 'required|in:active, delete',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 422);
+            }
+
+            $project->update([
+                'cover_image' => $request->cover_image,
+                'name' => $request->name,
+                'description' => $request->description,
+                'type' => $request->type,
+                'progress' => $request->progress,
+            ]);
+
+            // Restituisci una risposta JSON con il prodotto aggiornato
+            return response()->json(['message' => 'Project updated successfully', 'project' => $project], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
-
-        $project = Project::findOrFail($id);
-
-        if ($project->user_id !== Auth::user()->id) {
-            abort(403, 'Unauthorized');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'cover_image' => 'nullable|string',
-            'name' => 'required|string',
-            'description' => 'nullable|string',
-            'type' => 'required|in:work, study, event, free-time',
-            'progress' => 'required|in:active, delete',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
-        }
-
-        $project->update([
-            'cover_image' => $request->cover_image,
-            'name' => $request->name,
-            'description' => $request->description,
-            'type' => $request->type,
-            'progress' => $request->progress,
-        ]);
-
-        // Restituisci una risposta JSON con il prodotto aggiornato
-        return response()->json(['message' => 'Project updated successfully', 'project' => $project], 200);
     }
 
-    public function delete($id)
+    protected function moveProjectAutorizaion($id)
     {
-        if (!Auth::check()) {
-            abort(401);
-        }
-
-        $project = Project::findOrFail($id);
-
-        //da controllarne il funzionamento e nel caso funzioni inserire anche sopra in update
+        //da controllarne il funzionamento
         $userId = Auth::id();
+        $project = Project::findOrFail($id);
 
         // Esegui la query per verificare se l'utente è autorizzato a eliminare il progetto
         $project = Project::where('id', $project->id)
@@ -186,70 +175,53 @@ class ProjectController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $newValue = 'delete';
+        return $project;
+    }
 
-        $product->update(['progress' => $newValue]);
+    public function delete($id)
+    {
+        try {
+            // $this->checkAuthentication();
 
-        // Restituisci una risposta JSON con il prodotto aggiornato
-        return response()->json(['message' => 'Delete updated successfully', 'project' => $project], 200);
+            $project = $this->moveProjectAutorizaion($id);
+
+            $newValue = 'delete';
+            $project->update(['progress' => $newValue]);
+
+            // Restituisci una risposta JSON con il prodotto aggiornato
+            return response()->json(['message' => 'Delete updated successfully', 'project' => $project], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
+        }
     }
 
     public function restore($id)
     {
-        if (!Auth::check()) {
-            abort(401);
+        try {
+            // $this->checkAuthentication();
+
+            $project = $this->moveProjectAutorizaion($id);
+
+            $newValue = 'active';
+            $project->update(['progress' => $newValue]);
+
+            return response()->json(['message' => 'Restore updated successfully', 'project' => $project], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
-
-        $project = Project::findOrFail($id);
-
-        $userId = Auth::id();
-
-        $project = Project::where('id', $project->id)
-            ->whereIn('type', ['work', 'study'])
-            ->whereHas('users', function ($query) use ($userId) {
-                $query->where('user_id', $userId)->where('team', 'team-lead');
-            })
-            ->orWhere(function ($subQuery) use ($userId) {
-                $subQuery->whereIn('type', ['event', 'free-time'])->where('user_id', $userId);
-            })
-            ->first();
-
-        if (!$project) {
-            abort(403, 'Unauthorized');
-        }
-
-        $newValue = 'active';
-        $product->update(['progress' => $newValue]);
-
-        return response()->json(['message' => 'Restore updated successfully', 'project' => $project], 200);
     }
 
     public function destroy($id)
     {
-        if (!Auth::check()) {
-            abort(401);
+        try {
+            // $this->checkAuthentication();
+
+            $project = $this->moveProjectAutorizaion($id);
+            $project->delete();
+
+            return response()->json(['message' => 'Project delete with success'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
-
-        $project = Project::findOrFail($id);
-
-        $userId = Auth::id();
-
-        $project = Project::where('id', $project->id)
-            ->whereIn('type', ['work', 'study'])
-            ->whereHas('users', function ($query) use ($userId) {
-                $query->where('user_id', $userId)->where('team', 'team-lead');
-            })
-            ->orWhere(function ($subQuery) use ($userId) {
-                $subQuery->whereIn('type', ['event', 'free-time'])->where('user_id', $userId); // Supponendo che user_id sia l'ID del creatore del progetto
-            })
-            ->first();
-
-        if (!$project) {
-            abort(403, 'Unauthorized');
-        }
-
-        $project->delete();
-
-        return response()->json(['message' => 'Project delete with success'], 200);
     }
 }
