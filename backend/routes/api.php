@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\MicrotaskController;
 
@@ -25,4 +26,7 @@ Route::name('api.v1')
         Route::put('/microtasks/completed/{id}', [MicrotaskController::class, 'completed']);
         Route::put('/microtasks/delete/{id}', [MicrotaskController::class, 'delete']);
         Route::put('/microtasks/restore/{id}', [MicrotaskController::class, 'restore']);
+        Route::put('/user/{projectId}/acept-request', [UserController::class], 'acept');
+        Route::put('/user/{projectId}/reject-request', [UserController::class], 'reject');
+        Route::put('/user/{projectId}/pending-request/{targetUserId}', [UserController::class], 'pending');
     });
