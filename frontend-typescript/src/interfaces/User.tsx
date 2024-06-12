@@ -16,3 +16,11 @@ export interface FormDataLogin {
 export interface LoginResponse {
   user: User;
 }
+
+export interface FormDataRegister {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+  profile_image: File | null;
+}

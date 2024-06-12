@@ -27,13 +27,14 @@ class RegisteredUserController extends Controller
             'profile_image' => ['nullable', 'image', 'max:1024'], // size in kilobytes
         ]);
 
-        $file_path = $request['profile_image'] ? Storage::put('/profiles', $request['profile_image']) : null; // usa lo storage di default
-
+        if ($request->hasFile('profile_image')) {
+            $imagePath = $request->file('profile_image')->store('profiles', 'public');
+        }
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->string('password')),
-            'profile_image' => 'storage/' . $file_path,
+            'profile_image' => $imagePath ?? null,
         ]);
 
         event(new Registered($user));

@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 
 function LoginPage() {
   const dispatch = useAppDispatch();
+  const [errors, setErrors] = useState(null);
 
   const [formData, setFormData] = useState<FormDataLogin>({
     email: "",
@@ -32,6 +33,9 @@ function LoginPage() {
           type: LOGIN,
           payload: { user: res.data },
         });
+      })
+      .catch(err => {
+        setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
   };
 
