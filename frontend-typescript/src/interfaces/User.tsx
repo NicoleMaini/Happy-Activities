@@ -7,3 +7,12 @@ export interface User {
   updated_at: string;
   profile_image: string | null;
 }
+
+export interface FormDataLogin {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  user: User;
+}

@@ -1,29 +1,31 @@
 import axios from "axios";
-import { User } from "../../interfaces/User";
+import { FormDataLogin, LoginResponse, User } from "../../interfaces/User";
 import { LOGIN } from "../../redux/actions";
+import { useAppDispatch } from "../../redux/store";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 function LoginPage() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataLogin>({
     email: "",
     password: "",
   });
 
-  const updateInputValue = ev => {
+  const updateInputValue = (ev: ChangeEvent<HTMLInputElement>) => {
     setFormData(oldFormData => ({
       ...oldFormData,
       [ev.target.name]: ev.target.value,
     }));
   };
 
-  const submitLogin = ev => {
+  const submitLogin = (ev: FormEvent) => {
     ev.preventDefault();
     // gli indirizzi relativi, con il proxy attivo fanno la richiesta a http://localhost:8000/login mascherandolo come indirizzo nello stesso host di react (che nel nostro caso è http://localhost:3000/login)
     axios
-      .get<User>("/sanctum/csrf-cookie")
-      .then(() => axios.post("/login", formData))
-      .then(() => axios.get("/api/user"))
+      .get("/sanctum/csrf-cookie")
+      .then(() => axios.post<LoginResponse>("/login", formData))
+      .then(() => axios.get<User>("/api/user"))
       .then(res => {
         // salvare i dati dello user nel Redux state
         dispatch({

@@ -8,11 +8,11 @@ import { User } from "./interfaces/User";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavbarComponent from "./view/components/NavbarComponent";
 import LoginPage from "./view/pages/LoginPage";
-import HomePage from "./view/pages/Homepage";
 import SignInPage from "./view/pages/SignInPage";
 import GuestRoutes from "./view/routes/GuestRoutes";
 import UserRoutes from "./view/routes/UserRoutes";
 import DashboardPage from "./view/pages/DashboardPage";
+import HomePage from "./view/pages/HomePage";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -41,11 +41,11 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         {/* <Route element={<GuestRoutes />}> */}
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/" element={<SignInPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signin" element={<SignInPage />} />
         {/* </Route> */}
         {/* <Route path="" element={<UserRoutes />}> */}
-        <Route path="/" element={<DashboardPage />} />
+        <Route path="/dasboard" element={<DashboardPage />} />
         {/* </Route> */}
       </Routes>
     </BrowserRouter>
