@@ -26,7 +26,8 @@ Route::name('api.v1')
         Route::put('/microtasks/completed/{id}', [MicrotaskController::class, 'completed']);
         Route::put('/microtasks/delete/{id}', [MicrotaskController::class, 'delete']);
         Route::put('/microtasks/restore/{id}', [MicrotaskController::class, 'restore']);
-        Route::put('/user/{projectId}/acept-request', [UserController::class], 'acept');
-        Route::put('/user/{projectId}/reject-request', [UserController::class], 'reject');
-        Route::put('/user/{projectId}/pending-request/{targetUserId}', [UserController::class], 'pending');
+        Route::get('/users', [UserController::class, 'usersGet']);
+        Route::put('/user/{projectId}/acept-request', [UserController::class, 'acept']);
+        Route::put('/user/{projectId}/reject-request', [UserController::class, 'reject']);
+        Route::put('/user/{projectId}/pending-request/{targetUserId}', [UserController::class, 'pending']);
     });

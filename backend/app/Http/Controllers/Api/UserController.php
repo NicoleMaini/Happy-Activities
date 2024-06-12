@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function usersGet()
+    {
+        $users = User::all();
+        return ['return' => 'success', 'data' => $users];
+    }
+
     protected function checkAutentication()
     {
         if (!Auth::check()) {
