@@ -11,17 +11,10 @@ use App\Http\Requests\UpdateprojectsRequest;
 
 class ProjectController extends Controller
 {
-    protected function checkAutentication()
-    {
-        if (!Auth::check()) {
-            abort(401);
-        }
-    }
-
     protected function checkAuthorization()
     {
-        // $user = Auth::user();
-        $user = User::find(2);
+        $user = Auth::user();
+        // $user = User::find(2);
 
         if ($user === null) {
             throw new \Exception("L'utente selezionato non esiste", 404);
@@ -47,8 +40,6 @@ class ProjectController extends Controller
     public function index()
     {
         try {
-            // $this->checkAuthentication();
-
             $query = $this->checkAuthorization();
             $projects = $query->get();
 
@@ -60,7 +51,7 @@ class ProjectController extends Controller
                 throw new \Exception("Non ci sono progetti disponibili per $user->name", 404);
             }
 
-            return ['data' => $projects];
+            return response()->json(['status' => 'success', 'data' => $projects]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
@@ -69,8 +60,6 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         try {
-            $this->checkAuthentication();
-
             $validatedData = $request->validate([
                 'cover_image' => 'nullable|string',
                 'name' => 'required|string',
@@ -101,7 +90,6 @@ class ProjectController extends Controller
     public function show($id)
     {
         try {
-            // $this->checkAuthentication();
             $query = $this->checkAuthorization();
             $project = $query->with('tasks', 'tasks.microtasks')->find($id);
 
@@ -118,8 +106,6 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $this->checkAuthentication();
-
             $project = Project::findOrFail($id);
 
             if ($project->user_id !== Auth::user()->id) {
@@ -181,8 +167,6 @@ class ProjectController extends Controller
     public function delete($id)
     {
         try {
-            $this->checkAuthentication();
-
             $project = $this->moveProjectAuthorization($id);
 
             $newValue = 'delete';
@@ -198,8 +182,6 @@ class ProjectController extends Controller
     public function restore($id)
     {
         try {
-            $this->checkAuthentication();
-
             $project = $this->moveProjectAuthorization($id);
 
             $newValue = 'active';
@@ -214,8 +196,6 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         try {
-            $this->checkAuthentication();
-
             $project = $this->moveProjectAuthorization($id);
             $project->delete();
 

@@ -3,9 +3,11 @@ import { FormDataLogin, LoginResponse, User } from "../../interfaces/User";
 import { LOGIN } from "../../redux/actions";
 import { useAppDispatch } from "../../redux/store";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
 
   const [formData, setFormData] = useState<FormDataLogin>({
@@ -28,11 +30,11 @@ function LoginPage() {
       .then(() => axios.post<LoginResponse>("/login", formData))
       .then(() => axios.get<User>("/api/user"))
       .then(res => {
-        // salvare i dati dello user nel Redux state
         dispatch({
           type: LOGIN,
           payload: { user: res.data },
         });
+        navigate("/dashboard");
       })
       .catch(err => {
         setErrors(err.response?.data.errors || { general: "Unknown error" });

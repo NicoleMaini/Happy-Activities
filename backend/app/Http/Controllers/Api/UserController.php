@@ -39,7 +39,7 @@ class UserController extends Controller
 
     public function acept($project_id)
     {
-        $this->checkAutentication();
+        // $this->checkAutentication();
         $this->checkAuthorization($project_id);
         // Verifica se il tipo del progetto è "work" o "study"
         if ($project->type === 'work' || $project->type === 'study') {
@@ -54,7 +54,7 @@ class UserController extends Controller
 
     public function reject($project_id)
     {
-        $this->checkAutentication();
+        // $this->checkAutentication();
         $this->checkAuthorization($project_id);
 
         // Verifica se il tipo del progetto è "work" o "study"
@@ -106,7 +106,7 @@ class UserController extends Controller
 
     public function pending($projectId, $targetUserId)
     {
-        $this->checkAutentication();
+        // $this->checkAutentication();
         $this->checkAuthorizationForPivot($projectId, $targetUser);
 
         if ($existingPivotRow) {
@@ -122,7 +122,7 @@ class UserController extends Controller
 
     public function checkReject($projectId, $targetUserId)
     {
-        $this->checkAutentication();
+        // $this->checkAutentication();
         $this->checkAuthorizationForPivot($projectId, $targetUser);
 
         if ($existingPivotRow) {

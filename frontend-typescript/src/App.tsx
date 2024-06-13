@@ -45,7 +45,7 @@ function App() {
         <Route path="/signin" element={<SignInPage />} />
         {/* </Route> */}
         {/* <Route path="" element={<UserRoutes />}> */}
-        <Route path="/dasboard" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         {/* </Route> */}
       </Routes>
     </BrowserRouter>

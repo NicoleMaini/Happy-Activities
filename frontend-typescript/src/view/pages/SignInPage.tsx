@@ -3,9 +3,11 @@ import { useAppDispatch } from "../../redux/store";
 import { FormDataRegister, User } from "../../interfaces/User";
 import { LOGIN } from "../../redux/actions";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignInPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormDataRegister>({
@@ -23,7 +25,6 @@ function SignInPage() {
       ...oldFormData,
       [ev.target.name]: ev.target.value,
     }));
-    console.log("siamo qui updateInputValue del form");
   };
 
   const updateImageField = (ev: ChangeEvent<HTMLInputElement>) => {
@@ -64,8 +65,9 @@ function SignInPage() {
       //     payload: { user: res.data },
       //   });
       // })
+      .then(resp => navigate("/login"))
       .catch(err => {
-        setErrors(err.response?.data.errors || { general: "Unknown error" });
+        setErrors(err.response.data.errors || { general: "Unknown error" });
       });
   };
 

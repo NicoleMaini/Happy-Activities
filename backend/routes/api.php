@@ -13,7 +13,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::name('api.v1')
     ->prefix('v1')
-    // ->middleware(['auth:sanctum'])
+    ->middleware(['auth:sanctum'])
     ->group(function () {
         Route::resource('/projects', ProjectController::class);
         Route::put('/projects/delete/{id}', [ProjectController::class, 'delete']);
