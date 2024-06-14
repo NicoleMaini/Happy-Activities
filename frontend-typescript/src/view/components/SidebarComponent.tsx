@@ -25,7 +25,7 @@ function SidebarComponent() {
 
   return (
     <>
-      <div className="d-flex flex-column bg-light h-100">
+      <div className="d-flex flex-column bg-light h-100" style={{ width: "4rem" }}>
         <Button variant="link" onClick={toggleShow} className="me-2">
           <FcOpenedFolder />
           {/* Your Projects */}

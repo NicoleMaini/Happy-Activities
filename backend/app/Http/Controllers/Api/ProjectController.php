@@ -14,7 +14,6 @@ class ProjectController extends Controller
     protected function checkAuthorization()
     {
         $user = Auth::user();
-        // $user = User::find(2);
 
         if ($user === null) {
             throw new \Exception("L'utente selezionato non esiste", 404);

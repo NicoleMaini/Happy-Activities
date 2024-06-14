@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Pt Sans", helvetica, sans-serif;
   line-height: 1.6;
 }
 
@@ -33,6 +33,215 @@ textarea {
   background: none;
 }
 
+:root {
+  --blue: #607c8a;
+  --clear-blue: #bbdefb;
+  --orange: #e38939;
+  --clear-orange: #fff3e0;
+}
+
 /* Aggiungi ulteriori reset CSS specifici per il tuo progetto qui */
 
 /* Fine reset CSS */
+
+/* Login component */
+/*fonts*/
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,400italic);
+
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+
+.container-log {
+  position: relative;
+  top: 100px;
+  text-align: center;
+}
+
+.container-log h1,
+.container-log span {
+  font-family: "Pt Sans", helvetica, sans-serif;
+}
+
+.container-log h1 {
+  text-align: center;
+  color: var(--orange);
+  font-weight: 100;
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.container-log h2 {
+  font-family: "droid serif";
+  font-style: italic;
+  color: var(--blue);
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.container-log form span:before {
+  /* counter-increment: section;
+  content: counter(section); */
+  border: 2px solid var(--orange);
+  width: 40px;
+  height: 40px;
+  color: var(--blue);
+  display: inline-block;
+  border-radius: 50%;
+  line-height: 1.6em;
+  font-size: 1.5em;
+  position: relative;
+  left: -22px;
+  top: -11px;
+  background: var(--clear-orange);
+}
+
+.log span:before {
+  counter-increment: section;
+  content: counter(section);
+}
+
+.sign span:before {
+  counter-increment: section;
+  content: counter(section);
+}
+
+.form-log {
+  margin-top: 25px;
+  display: inline-block;
+}
+
+.fields {
+  border-left: 2px solid var(--blue);
+}
+
+.container-log span {
+  margin-bottom: 22px;
+  display: inline-block;
+}
+
+.container-log span:last-child {
+  margin-bottom: -11px;
+}
+
+.input-log {
+  border: none;
+  outline: none;
+  display: inline-block;
+  height: 34px;
+  vertical-align: middle;
+  position: relative;
+  bottom: 14px;
+  right: 9px;
+  border-bottom: solid 2px var(--blue);
+  width: 220px;
+  box-sizing: border-box;
+  padding: 0 18px;
+}
+
+.input-log:hover,
+.input-log:focus {
+  border-bottom: solid 2px var(--orange);
+}
+
+.button-log {
+  background: var(--clear-orange) !important;
+  color: var(--blue);
+  position: relative;
+  border-bottom: 1px solid var(--orange);
+  left: 9px;
+  top: 25px;
+  width: 100px;
+  cursor: pointer;
+  padding-block: 0.4rem;
+}
+
+#profile-image-log {
+  position: relative;
+  cursor: pointer;
+}
+#profile-image-log::file-selector-button {
+  width: 8px;
+  color: transparent;
+}
+
+#profile-image-log::before {
+  position: absolute;
+  pointer-events: none;
+  top: 10px;
+  left: 16px;
+  height: 20px;
+  width: 20px;
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e38939'%3E%3Cpath d='M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5-5 5z'/%3E%3C/svg%3E");
+}
+
+/* file upload button */
+#profile-image-log::file-selector-button {
+  border-radius: 4px;
+  padding: 0 0px;
+  height: 40px;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  margin-right: 16px;
+  transition: background-color 200ms;
+}
+
+/* file upload button hover state */
+#profile-image-log::file-selector-button:hover {
+  background-color: none;
+}
+
+/* file upload button active state */
+#profile-image-log::file-selector-button:active {
+  background-color: none;
+}
+
+/* NAVBAR */
+
+.container-navbar {
+  border-bottom: 2px solid var(--orange);
+  box-shadow: 1px 1px 5px var(--clear-orange);
+}
+
+.btn-log-navbar {
+  padding: 0.5rem 1rem;
+  border-bottom: 2px solid var(--blue);
+  color: var(--orange);
+  border-radius: 0;
+  text-transform: uppercase;
+}
+
+.btn-log-navbar:hover {
+  border-bottom: 3px solid var(--orange);
+  color: var(--blue);
+  border-radius: 0;
+}
+.btn-log-navbar:active {
+  border-bottom: 3px solid var(--orange);
+  color: var(--blue);
+  border-radius: 0;
+  background-color: #f1f7fd;
+}
+
+.btn-sign-navbar {
+  padding: 0.5rem 1rem;
+  border-bottom: 2px solid var(--orange);
+  background-color: var(--clear-orange);
+  border-radius: 0;
+  color: var(--blue);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.btn-sign-navbar:hover {
+  border-bottom: 3px solid var(--blue);
+  background-color: white;
+  border-radius: 0;
+  color: var(--orange);
+}
+.btn-sign-navbar:active {
+  background-color: var(--clear-orange);
+  border-bottom: 2px solid var(--blue);
+  border-radius: 0;
+  color: var(--orange);
+}

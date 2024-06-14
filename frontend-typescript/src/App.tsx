@@ -13,6 +13,8 @@ import GuestRoutes from "./view/routes/GuestRoutes";
 import UserRoutes from "./view/routes/UserRoutes";
 import DashboardPage from "./view/pages/DashboardPage";
 import HomePage from "./view/pages/HomePage";
+import CreateProjectPage from "./view/pages/CreateProjectPage";
+import ProjectPage from "./view/pages/ProjectPage";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -45,7 +47,9 @@ function App() {
         <Route path="/signin" element={<SignInPage />} />
         {/* </Route> */}
         {/* <Route path="" element={<UserRoutes />}> */}
+        <Route path="/dashboard/project/:projectId" element={<ProjectPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard/create-project" element={<CreateProjectPage />} />
         {/* </Route> */}
       </Routes>
     </BrowserRouter>

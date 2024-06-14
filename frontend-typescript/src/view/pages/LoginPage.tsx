@@ -2,13 +2,17 @@ import axios from "axios";
 import { FormDataLogin, LoginResponse, User } from "../../interfaces/User";
 import { LOGIN } from "../../redux/actions";
 import { useAppDispatch } from "../../redux/store";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
+
+  useEffect(() => {
+    document.title = "Login";
+  }, []);
 
   const [formData, setFormData] = useState<FormDataLogin>({
     email: "",
@@ -42,37 +46,41 @@ function LoginPage() {
   };
 
   return (
-    <form onSubmit={ev => submitLogin(ev)} noValidate>
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label">
-          Email address
-        </label>
-        <input
-          type="email"
-          className="form-control"
-          id="email"
-          name="email"
-          onChange={ev => updateInputValue(ev)}
-          value={formData.email}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="password" className="form-label">
-          Password
-        </label>
-        <input
-          type="password"
-          className="form-control"
-          id="password"
-          name="password"
-          onChange={ev => updateInputValue(ev)}
-          value={formData.password}
-        />
-      </div>
-      <button type="submit" className="btn btn-primary">
-        Login
-      </button>
-    </form>
+    <div className="container-log">
+      <h2>It's now or never</h2>
+      <h1>Come on , Join us!</h1>
+
+      <form className="form-log log" onSubmit={ev => submitLogin(ev)} noValidate>
+        <div className="fields">
+          <span>
+            <input
+              className="input-log"
+              placeholder="Email address"
+              type="email"
+              id="email"
+              name="email"
+              onChange={ev => updateInputValue(ev)}
+              value={formData.email}
+            />
+          </span>
+          <br />
+          <span>
+            <input
+              className="input-log"
+              placeholder="Password"
+              type="password"
+              id="password"
+              name="password"
+              onChange={ev => updateInputValue(ev)}
+              value={formData.password}
+            />
+          </span>
+        </div>
+        <button type="submit" className="button-log">
+          Login
+        </button>
+      </form>
+    </div>
   );
 }
 

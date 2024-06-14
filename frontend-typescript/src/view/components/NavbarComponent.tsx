@@ -32,38 +32,43 @@ function NavbarComponent() {
   };
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-body-white container-navbar">
       <Container fluid>
         <Link className="nav-brand" to="/">
-          <img src={logo} alt="" width={70} />
+          <img src={logo} alt="" width={60} />
         </Link>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: "100px" }} navbarScroll>
+          <Nav className="ms-3" style={{ maxHeight: "100px" }} navbarScroll>
             <Link to="/">Home</Link>
-            <Nav.Link href="#action2">Link</Nav.Link>
-            <NavDropdown title="Link" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">Something else here</NavDropdown.Item>
-            </NavDropdown>
+          </Nav>
+          <Nav className="ms-3" style={{ maxHeight: "100px" }} navbarScroll>
+            <Link to="/">About Us</Link>
+          </Nav>
+          <Nav className="me-auto ms-3" style={{ maxHeight: "100px" }} navbarScroll>
+            <Link to="/">Contact</Link>
           </Nav>
           {user ? (
             <>
-              <span className="me-2">{user.name}</span>
+              <span className="me-2"></span>
+              <NavDropdown title={user.name} id="navbarScrollingDropdown">
+                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action5">Something else here</NavDropdown.Item>
+              </NavDropdown>
               {/* <img className="me-2" src={user.profile_img} alt="" style={{ height: "50px", width: "50px" }} /> */}
-              <Button variant="primary" onClick={logout}>
+              <button type="button" className="btn-log-navbar" onClick={logout}>
                 Logout
-              </Button>
+              </button>
             </>
           ) : (
             <>
-              <Link className="btn btn-succss me-2" to="/login">
+              <Link className="btn-log-navbar me-3" to="/login">
                 Login
               </Link>
-              <Link className="btn btn-warning" to="/signin">
-                Register
+              <Link className="btn-sign-navbar" to="/signin">
+                Sign In
               </Link>
             </>
           )}
