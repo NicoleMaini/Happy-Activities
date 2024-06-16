@@ -3,16 +3,17 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import axios from "axios";
 import { AuthActions, LOGOUT } from "../../redux/actions";
-import logo from "../../assets/img/logo.svg"; // Importa l'immagine SVG
+import logo from "../../assets/img/logo.png"; // Importa l'immagine SVG
 import { useState } from "react";
 
 function NavbarComponent() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const user = useAppSelector(state => state.user);
 
@@ -32,22 +33,31 @@ function NavbarComponent() {
   };
 
   return (
-    <Navbar expand="lg" className="bg-body-white container-navbar">
+    <Navbar expand="lg" className="bg-color-navbar container-navbar ">
       <Container fluid>
         <Link className="nav-brand" to="/">
-          <img src={logo} alt="" width={60} />
+          <img src={logo} alt="" width={200} />
         </Link>
+        <div className="vertical-line-navbar"></div>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav className="ms-3" style={{ maxHeight: "100px" }} navbarScroll>
+          <Nav
+            className={location.pathname === "/" ? "ms-3 pages-navbar-active" : "ms-3 pages-navbar"}
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          >
             <Link to="/">Home</Link>
           </Nav>
-          <Nav className="ms-3" style={{ maxHeight: "100px" }} navbarScroll>
-            <Link to="/">About Us</Link>
+          <Nav
+            className={
+              location.pathname === "/support-us" ? "ms-3 pages-navbar-active me-auto" : "ms-3 pages-navbar me-auto"
+            }
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          >
+            <Link to="/">Support Us</Link>
           </Nav>
-          <Nav className="me-auto ms-3" style={{ maxHeight: "100px" }} navbarScroll>
-            <Link to="/">Contact</Link>
-          </Nav>
+          <div className="vertical-line-navbar me-3"></div>
           {user ? (
             <>
               <span className="me-2"></span>
@@ -58,17 +68,17 @@ function NavbarComponent() {
                 <NavDropdown.Item href="#action5">Something else here</NavDropdown.Item>
               </NavDropdown>
               {/* <img className="me-2" src={user.profile_img} alt="" style={{ height: "50px", width: "50px" }} /> */}
-              <button type="button" className="btn-log-navbar" onClick={logout}>
+              <button type="button" className="to-click" onClick={logout}>
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link className="btn-log-navbar me-3" to="/login">
-                Login
+              <Link className="to-click log-navbar me-3" to="/login">
+                LOGIN
               </Link>
-              <Link className="btn-sign-navbar" to="/signin">
-                Sign In
+              <Link className="to-click sign-navbar me-1" to="/signin">
+                SIGN IN
               </Link>
             </>
           )}

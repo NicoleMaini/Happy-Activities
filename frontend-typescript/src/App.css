@@ -1,4 +1,6 @@
 /* Reset CSS */
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -6,8 +8,9 @@
 }
 
 body {
-  font-family: "Pt Sans", helvetica, sans-serif;
+  font-family: "League Spartan", sans-serif;
   line-height: 1.6;
+  counter-reset: section;
 }
 
 ul,
@@ -34,10 +37,19 @@ textarea {
 }
 
 :root {
+  --dark-blue: #445a66;
   --blue: #607c8a;
   --clear-blue: #bbdefb;
+  --light-blue: #eaf5ff;
+  --dark-orange: #c17028;
   --orange: #e38939;
+  --light-orange: #ffe3b7;
   --clear-orange: #fff3e0;
+  --pseudo-white: #fbf6f6;
+  --red: #ff906c;
+  --grey: #a2b1b9;
+  --violet: #c2a0ff;
+  --green: #77d37b;
 }
 
 /* Aggiungi ulteriori reset CSS specifici per il tuo progetto qui */
@@ -56,7 +68,6 @@ textarea {
   text-align: center;
 }
 
-.container-log h1,
 .container-log span {
   font-family: "Pt Sans", helvetica, sans-serif;
 }
@@ -64,7 +75,7 @@ textarea {
 .container-log h1 {
   text-align: center;
   color: var(--orange);
-  font-weight: 100;
+  font-weight: 400;
   font-size: 2em;
   margin-bottom: 10px;
 }
@@ -80,7 +91,8 @@ textarea {
 .container-log form span:before {
   /* counter-increment: section;
   content: counter(section); */
-  border: 2px solid var(--orange);
+  /* border: 2px solid var(--orange); */
+  box-shadow: 1px 1px 3px var(--orange);
   width: 40px;
   height: 40px;
   color: var(--blue);
@@ -94,12 +106,8 @@ textarea {
   background: var(--clear-orange);
 }
 
-.log span:before {
-  counter-increment: section;
-  content: counter(section);
-}
-
-.sign span:before {
+.container-log .log span:before,
+.container-log .sign span:before {
   counter-increment: section;
   content: counter(section);
 }
@@ -142,19 +150,37 @@ textarea {
   border-bottom: solid 2px var(--orange);
 }
 
-.button-log {
-  background: var(--clear-orange) !important;
+.sign-btn-page {
   color: var(--blue);
-  position: relative;
-  border-bottom: 1px solid var(--orange);
-  left: 9px;
-  top: 25px;
-  width: 100px;
-  cursor: pointer;
-  padding-block: 0.4rem;
+  background-color: var(--light-orange);
+  box-shadow: 1px 1px 2px var(--orange);
 }
 
-#profile-image-log {
+.sign-btn-page:hover {
+  background-color: var(--pseudo-white);
+  color: var(--orange);
+}
+
+.sign-btn-page:active {
+  box-shadow: -1px -1px 2px var(--orange);
+}
+
+.log-btn-page {
+  color: var(--orange);
+  background-color: var(--light-blue);
+  box-shadow: 1px 1px 2px var(--blue);
+}
+
+.log-btn-page:hover {
+  background-color: var(--pseudo-white);
+  color: var(--blue);
+}
+
+.log-btn-page:active {
+  box-shadow: -1px -1px 2px var(--blue);
+}
+
+/* #profile-image-log {
   position: relative;
   cursor: pointer;
 }
@@ -172,10 +198,10 @@ textarea {
   width: 20px;
   content: "";
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e38939'%3E%3Cpath d='M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5-5 5z'/%3E%3C/svg%3E");
-}
+} */
 
 /* file upload button */
-#profile-image-log::file-selector-button {
+/* #profile-image-log::file-selector-button {
   border-radius: 4px;
   padding: 0 0px;
   height: 40px;
@@ -188,60 +214,126 @@ textarea {
 }
 
 /* file upload button hover state */
-#profile-image-log::file-selector-button:hover {
+/* #profile-image-log::file-selector-button:hover {
   background-color: none;
 }
 
 /* file upload button active state */
-#profile-image-log::file-selector-button:active {
+/*.profile-image-log::file-selector-button:active {
   background-color: none;
-}
+} */
 
 /* NAVBAR */
 
+.bg-color-navbar {
+  background-color: var(--clear-orange);
+}
+
 .container-navbar {
-  border-bottom: 2px solid var(--orange);
-  box-shadow: 1px 1px 5px var(--clear-orange);
-}
-
-.btn-log-navbar {
-  padding: 0.5rem 1rem;
   border-bottom: 2px solid var(--blue);
-  color: var(--orange);
-  border-radius: 0;
-  text-transform: uppercase;
+  box-shadow: 1px 1px 3px var(--clear-blue);
 }
 
-.btn-log-navbar:hover {
-  border-bottom: 3px solid var(--orange);
-  color: var(--blue);
-  border-radius: 0;
-}
-.btn-log-navbar:active {
-  border-bottom: 3px solid var(--orange);
-  color: var(--blue);
-  border-radius: 0;
-  background-color: #f1f7fd;
+.vertical-line-navbar {
+  margin-inline-start: 1rem;
+  height: 3rem;
+  width: 1px;
+  background-color: var(--blue);
 }
 
-.btn-sign-navbar {
+.pages-navbar {
+  font-size: 1.2rem;
+  color: var(--dark-blue);
+}
+.pages-navbar-active {
+  font-size: 1.2rem;
+  color: var(--dark-orange);
+}
+
+.to-click {
   padding: 0.5rem 1rem;
-  border-bottom: 2px solid var(--orange);
-  background-color: var(--clear-orange);
-  border-radius: 0;
+  border-radius: 5px;
+  width: 6.2rem;
+  text-align: center;
+  padding-block: 0.6rem;
+  font-size: 1.2rem;
+}
+
+.log-navbar {
+  color: var(--orange);
+  background-color: var(--light-blue);
+  box-shadow: 1px 1px 3px var(--blue);
+}
+
+.log-navbar:hover {
+  background-color: var(--pseudo-white);
   color: var(--blue);
-  font-weight: 500;
-  text-transform: uppercase;
 }
-.btn-sign-navbar:hover {
-  border-bottom: 3px solid var(--blue);
-  background-color: white;
-  border-radius: 0;
+
+.log-navbar:active {
+  box-shadow: -1px -1px 3px var(--blue);
+}
+
+.sign-navbar {
+  color: var(--blue);
+  background-color: var(--light-orange);
+  box-shadow: 1px 1px 3px var(--orange);
+}
+
+.sign-navbar:hover {
+  background-color: var(--pseudo-white);
   color: var(--orange);
 }
-.btn-sign-navbar:active {
+
+.sign-navbar:active {
+  box-shadow: -1px -1px 3px var(--orange);
+}
+
+/* HomePage */
+
+.container-homepage {
+  position: relative;
+  margin: 5rem auto;
+  width: 60%;
   background-color: var(--clear-orange);
-  border-bottom: 2px solid var(--blue);
-  border-radius: 0;
-  color: var(--orange);
+  border-radius: 15px;
+}
+
+.welcome-homepage {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--light-blue);
+  border-radius: 10px;
+  padding: 0.5rem 3rem;
+  font-size: 1.6rem;
+  font-family: "droid serif";
+  font-style: italic;
+  color: var(--blue);
+}
+
+.logo-homepage {
+  display: block;
+  margin: auto;
+  width: 80%;
+  padding-block: 8rem;
+}
+
+.bg-card-work-homepage {
+  background-color: var(--red);
+  display: flex;
+  width: 10rem;
+}
+.bg-card-study-homepage {
+  background-color: var(--grey);
+}
+.bg-card-event-homepage {
+  background-color: var(--violet);
+}
+.bg-card-free-time-homepage {
+  background-color: var(--green);
+}
+
+.img-micro-card-homepage {
 }

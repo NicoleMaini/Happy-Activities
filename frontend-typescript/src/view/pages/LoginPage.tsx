@@ -76,7 +76,7 @@ function LoginPage() {
             />
           </span>
         </div>
-        <button type="submit" className="button-log">
+        <button type="submit" className="to-click log-btn-page p-1 mt-4">
           Login
         </button>
       </form>

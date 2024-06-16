@@ -64,75 +64,6 @@ function SignInPage() {
   };
 
   return (
-    // <form onSubmit={ev => submitRegister(ev)} noValidate>
-    //   <div className="mb-3">
-    //     <label htmlFor="name" className="form-label">
-    //       Name
-    //     </label>
-    //     <input
-    //       type="text"
-    //       className="form-control"
-    //       id="name"
-    //       name="name"
-    //       onChange={ev => updateInputValue(ev)}
-    //       value={formData.name}
-    //     />
-    //   </div>
-    //   <div className="mb-3">
-    //     <label htmlFor="email" className="form-label">
-    //       Email address
-    //     </label>
-    //     <input
-    //       type="email"
-    //       className="form-control"
-    //       id="email"
-    //       name="email"
-    //       onChange={ev => updateInputValue(ev)}
-    //       value={formData.email}
-    //     />
-    //   </div>
-    //   <div className="mb-3">
-    //     <label htmlFor="password" className="form-label">
-    //       Password
-    //     </label>
-    //     <input
-    //       type="password"
-    //       className="form-control"
-    //       id="password"
-    //       name="password"
-    //       onChange={ev => updateInputValue(ev)}
-    //       value={formData.password}
-    //     />
-    //   </div>
-    //   <div className="mb-3">
-    //     <label htmlFor="password_confirmation" className="form-label">
-    //       Conferma password
-    //     </label>
-    //     <input
-    //       type="password"
-    //       className="form-control"
-    //       id="password_confirmation"
-    //       name="password_confirmation"
-    //       onChange={ev => updateInputValue(ev)}
-    //       value={formData.password_confirmation}
-    //     />
-    //   </div>
-    //   <div className="mb-3">
-    //     <label htmlFor="profile_image" className="form-label">
-    //       Profile image
-    //     </label>
-    //     <input
-    //       className="form-control"
-    //       type="file"
-    //       id="profile_image"
-    //       name="profile_image"
-    //       onChange={ev => updateImageField(ev)}
-    //     />
-    //   </div>
-    //   <button type="submit" className="btn btn-primary">
-    //     Sign In
-    //   </button>
-    // </form>
     <div className="container-log">
       <h2>It's now or never</h2>
       <h1>Come on , Join us!</h1>
@@ -186,7 +117,7 @@ function SignInPage() {
               value={formData.password_confirmation}
             />
           </span>
-          <br />
+          {/* <br />
           <span className="">
             <input
               className="input-log "
@@ -195,10 +126,10 @@ function SignInPage() {
               name="profile_image"
               onChange={ev => updateImageField(ev)}
             />
-          </span>
+          </span>*/}
         </div>
-        <button type="submit" className="button-log">
-          Login
+        <button type="submit" className="to-click sign-btn-page p-1 mt-4">
+          Sign In
         </button>
       </form>
     </div>
