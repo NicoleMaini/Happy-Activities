@@ -33,10 +33,10 @@ function NavbarComponent() {
   };
 
   return (
-    <Navbar expand="lg" className="bg-color-navbar container-navbar ">
+    <Navbar expand="lg" className="bg-color-navbar container-navbar">
       <Container fluid>
         <Link className="nav-brand" to="/">
-          <img src={logo} alt="" width={200} />
+          <img src={logo} alt="" width={50} />
         </Link>
         <div className="vertical-line-navbar"></div>
         <Navbar.Toggle aria-controls="navbarScroll" />

@@ -1,12 +1,6 @@
-export interface MicroCardType {
+export interface CardType {
   type: string;
   image: string;
-  bg: string;
-}
-
-export interface MacroCardType {
-  type: string;
-  image: string;
-  bg: string;
+  style: string;
   description: string;
 }

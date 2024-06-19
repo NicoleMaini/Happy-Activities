@@ -15,6 +15,7 @@ import DashboardPage from "./view/pages/DashboardPage";
 import HomePage from "./view/pages/HomePage";
 import CreateProjectPage from "./view/pages/CreateProjectPage";
 import ProjectPage from "./view/pages/ProjectPage";
+import FooterComponent from "./view/components/FooterComponent";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -39,19 +40,24 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavbarComponent />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        {/* <Route element={<GuestRoutes />}> */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signin" element={<SignInPage />} />
-        {/* </Route> */}
-        {/* <Route path="" element={<UserRoutes />}> */}
-        <Route path="/dashboard/project/:projectId" element={<ProjectPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/dashboard/create-project" element={<CreateProjectPage />} />
-        {/* </Route> */}
-      </Routes>
+      <div className="page-container">
+        <div className="content-wrap">
+          <NavbarComponent />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route element={<GuestRoutes />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signin" element={<SignInPage />} />
+            </Route>
+            <Route path="" element={<UserRoutes />}>
+              <Route path="/dashboard/project/:projectId" element={<ProjectPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/dashboard/create-project" element={<CreateProjectPage />} />
+            </Route>
+          </Routes>
+        </div>
+        <FooterComponent />
+      </div>
     </BrowserRouter>
   );
 }
