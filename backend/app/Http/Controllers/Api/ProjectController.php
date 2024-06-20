@@ -152,18 +152,18 @@ class ProjectController extends Controller
 
     protected function moveProjectAuthorization($id)
     {
-        //da controllarne il funzionamento
         $userId = Auth::id();
-        $project = Project::findOrFail($id);
+        $projectSearch = Project::findOrFail($id);
 
-        // Esegui la query per verificare se l'utente è autorizzato a eliminare il progetto
-        $project = Project::where('id', $project->id)
+        $project = Project::where('id', $projectSearch->id)
             ->whereIn('type', ['work', 'study'])
             ->whereHas('users', function ($query) use ($userId) {
                 $query->where('user_id', $userId)->where('team', 'team-lead');
             })
             ->orWhere(function ($subQuery) use ($userId) {
-                $subQuery->whereIn('type', ['event', 'free-time'])->where('user_id', $userId); // Supponendo che user_id sia l'ID del creatore del progetto
+                $subQuery->whereIn('type', ['event', 'free-time'])->whereHas('users', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                });
             })
             ->first();
 
@@ -182,11 +182,9 @@ class ProjectController extends Controller
 
             $newValue = 'delete';
             $project->update(['progress' => $newValue]);
-
-            // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Delete updated successfully', 'project' => $project], 200);
+            return response()->json(['message' => 'Delete updated successfully', 'project' => $project]);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -208,9 +206,10 @@ class ProjectController extends Controller
     {
         try {
             $project = $this->moveProjectAuthorization($id);
-            $project->delete();
 
-            return response()->json(['message' => 'Project delete with success'], 200);
+            // $project->delete();
+
+            return response()->json(['message' => 'Project delete with success']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }

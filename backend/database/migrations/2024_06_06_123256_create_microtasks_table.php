@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('microtasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->constrained();
+            $table->foreignId('task_id')->references('id')->on('tasks')->onDelete('cascade');
             $table->string('title', 300);
             $table->string('description', 1000)->nullable();
             $table->string('assigned', 50)->nullable();

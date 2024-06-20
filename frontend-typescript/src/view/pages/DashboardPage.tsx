@@ -17,12 +17,19 @@ function DashboardPage() {
     document.title = "Dashboard";
     axios
       .get("/api/v1/projects")
-      .then(resp => setProjects(resp.data.data))
+      .then(resp => {
+        console.log("resp.data", resp.data.data);
+        const projs: Project[] = resp.data.data;
+        const projsActive = projs.filter(pro => {
+          return pro.progress === "active";
+        });
+        setProjects(projsActive);
+      })
       .catch(err => {
         navigate("/dashboard/create-project");
         setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
-  }, []);
+  }, [projects]);
 
   useEffect(() => {
     if (projects !== null) {
@@ -32,7 +39,7 @@ function DashboardPage() {
         });
       }
     }
-  }, [projects]);
+  }, []);
 
   return (
     <Container fluid className="p-0 d-flex">

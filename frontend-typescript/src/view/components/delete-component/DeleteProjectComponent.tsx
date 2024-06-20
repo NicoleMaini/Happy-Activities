@@ -1,0 +1,80 @@
+import { Project } from "../../../interfaces/Project";
+import work from "../../../assets/img/work.svg";
+import restore from "../../../assets/img/restore.svg";
+import trash from "../../../assets/img/trash.svg";
+import axios, { all } from "axios";
+import { useState } from "react";
+
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { title } from "process";
+import ModalComponent from "../ModalComponent";
+import { Alert } from "react-bootstrap";
+
+interface DeleteProjectProps {
+  project: Project;
+}
+
+function DeleteProjectComponent({ project }: DeleteProjectProps) {
+  const [errors, setErrors] = useState(null);
+
+  const [show, setShow] = useState(false);
+
+  const trashClick = () => {
+    console.log("siamo qui", project.id);
+    axios
+      .delete(`/api/v1/projects/${project.id}`)
+      .then(resp => {
+        <Alert variant="success" />;
+        setTimeout(() => {
+          setShow(false);
+        }, 1000);
+      })
+      .catch(err => {
+        setErrors(err.response?.data.errors || { general: "Unknown error" });
+      });
+  };
+
+  return (
+    <>
+      <div className="delete-card-project d-flex w-100 align-items-center">
+        <div className="delite-line"></div>
+        <div className="img-card-types-special ms-3">
+          <img
+            src={
+              project.cover_image !== "http://localhost:8000/storage" && project.cover_image !== null
+                ? project.cover_image
+                : work // renderlo dinamico
+            }
+            alt=""
+          />
+        </div>
+        <div className="ms-3">
+          <div>title: {project.name}</div>
+          <div>description: {project.description}</div>
+        </div>
+        <div className="ms-auto">{project.type}</div>
+        <div className="d-flex ms-auto delete-card-project-func">
+          <img src={restore} alt="" width={25} className="me-3" />
+          <img
+            src={trash}
+            alt=""
+            width={25}
+            onClick={() => {
+              setShow(true);
+            }}
+          />
+          {show && (
+            <ModalComponent
+              title="Delete Project"
+              question="Are you sure you want to permanently delete the project?"
+              onclick={trashClick}
+            />
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default DeleteProjectComponent;
