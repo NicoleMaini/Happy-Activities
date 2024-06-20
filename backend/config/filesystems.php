@@ -60,6 +60,12 @@ return [
             'url' => env('APP_URL') . '/storage/profiles', // URL pubblico per accedere ai file
             'visibility' => 'public', // Visibilità predefinita dei file
         ],
+        'projects' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/projects'), // Imposta il percorso della cartella di archiviazione
+            'url' => env('APP_URL') . '/storage/projects', // URL pubblico per accedere ai file
+            'visibility' => 'public', // Visibilità predefinita dei file
+        ],
     ],
 
     /*

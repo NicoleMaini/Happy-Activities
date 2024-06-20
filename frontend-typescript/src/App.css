@@ -27,7 +27,8 @@ button,
 input,
 select,
 textarea,
-p {
+p,
+h5 {
   font-family: inherit;
   font-size: inherit;
   margin: 0;
@@ -49,6 +50,7 @@ p {
   --pseudo-white: #fffcfc;
   --dark-red: #9d3a05;
   --red: #ff906c;
+  --light-red: #f6ccbe;
   --dark-grey: #37474f;
   --grey: #a2b1b9;
   --dark-violet: #5e35b1;
@@ -617,6 +619,11 @@ p {
   background-color: var(--pseudo-white);
 }
 
+.bg-card-pro:hover {
+  scale: 1.05;
+  transition: 0.2s;
+}
+
 .shadow-card {
   border-radius: 2px;
   position: absolute;
@@ -629,6 +636,14 @@ p {
 
 .work .bg-card {
   box-shadow: 1px 2px 5px var(--dark-red);
+}
+.work .bg-card-pro {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 1px 2px var(--dark-red);
+  padding: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
 }
 .study .bg-card {
   box-shadow: 1px 2px 5px var(--dark-grey);
@@ -750,26 +765,107 @@ p {
 .padding-container-form-project {
   padding-inline: 20%;
 }
-
-.container-form-project-create {
-  position: relative;
-  text-align: center;
-  box-shadow: -1px -1px 4px var(--red);
+.edit-create-project {
+  position: absolute;
+  z-index: 3;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 0.2rem;
+  overflow: hidden;
+  background-color: var(--pseudo-white);
+  top: 0;
+  right: 50%;
+  transform: translate(160%, 18%);
+  box-shadow: 0px 1px 1px var(--grey);
+}
+.work .edit-create-project:hover {
+  border: 1px solid var(--red);
+  transition: 0.2s;
+}
+.edit-create-project:active {
+  box-shadow: 1px 0px 1px var(--grey);
 }
 
-.work .form-project-create {
+.edit-create-project img {
+  width: 60%;
+  height: 60%;
+  object-fit: cover;
+}
+
+.work .container-form-project-create {
+  position: relative;
+  text-align: center;
+  box-shadow: 0px 1px 4px var(--red);
+}
+
+.form-project-create {
   width: 4rem;
   height: 4rem;
   position: absolute;
   top: -35px;
   left: 50%;
-  transform: translate(-40%);
+  transform: translate(-50%);
+}
+
+.label-create-project {
+  display: flex;
+  flex-direction: column;
 }
 
 .label-create-project input,
 .label-create-project textarea {
+  margin-bottom: 0.5rem;
   font-size: 1.2rem;
   height: 100%;
+  border-bottom: 1px solid black;
+}
+.work .label-create-project input:hover,
+.work .label-create-project textarea:hover,
+.work .label-create-project input:focus,
+.work .label-create-project textarea:focus {
+  border-bottom: 1px solid var(--red);
+}
+
+.img-card-types .img-prew-create-project {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* card project component */
+
+.img-card-types.card-project {
+  width: 6rem;
+  height: 6rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+.img-card-types.card-project img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.card-project-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.8rem;
+  border-top: 1px solid black;
+
+  padding-block: 0.5rem;
+}
+
+.bg-sidebar {
+  margin: 1rem 0.5rem;
+  margin-bottom: 1.4rem;
+  background-color: var(--clear-orange);
+  border-radius: 10px;
+  box-shadow: 0px 0px 3px var(--orange);
+  height: 82vh;
+  padding: 0.6rem;
 }
 
 /* Responsiveness */

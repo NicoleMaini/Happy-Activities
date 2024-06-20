@@ -1,10 +1,11 @@
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import SidebarComponent from "../components/SidebarComponent";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Project } from "../../interfaces/Project";
 import CreateProjectPage from "./CreateProjectPage";
 import { Link, useNavigate } from "react-router-dom";
+import CardProjectComponent from "../components/project-card/CardProjectComponent";
 
 function DashboardPage() {
   const [projects, setProjects] = useState<Project[] | null>(null);
@@ -38,11 +39,11 @@ function DashboardPage() {
       {projects && projects.length > 1 && (
         <>
           <SidebarComponent />
-          <div>
+          <Row className="mx-4 py-3 w-100">
             {projects.map((project, i) => (
-              <div key={i}>{project.name}</div>
+              <CardProjectComponent key={i} project={project} />
             ))}
-          </div>
+          </Row>
         </>
       )}
     </Container>

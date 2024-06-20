@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\Project;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreprojectsRequest;
@@ -60,26 +61,37 @@ class ProjectController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'cover_image' => 'nullable|string',
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'name' => 'required|string',
                 'description' => 'nullable|string',
                 'type' => 'required|in:work, study, event, free-time',
                 'progress' => 'required|in:active, delete',
             ]);
+            if ($request->hasFile('cover_image')) {
+                $imagePath = $request->file('cover_image')->store('projects', 'public');
+                $validatedData['cover_image'] = $imagePath;
+            }
 
-            // Creazione del nuovo prodotto
-            $newPoject = new Project();
-            $newPoject->fill($validatedData);
-            $newPoject->user_id = $request->user()->id; // Se l'autenticazione è richiesta
-            $newPoject->save();
+            $newProject = new Project();
 
-            // controllare se funziona
-            // Se il tipo di progetto è 'work' o 'study', assegna il ruolo 'team-lead' all'utente attuale
+            // Assegna i dati validati all'istanza del modello
+            $newProject->name = $validatedData['name'];
+            $newProject->description = $validatedData['description'];
+            $newProject->type = $validatedData['type'];
+            $newProject->progress = $validatedData['progress'];
+
+            if ($request->hasFile('cover_image')) {
+                // Salva l'immagine nel filesystem
+                $imagePath = $request->file('cover_image')->store('projects', 'public');
+                $newProject->cover_image = $imagePath;
+            }
+
+            // Salva il progetto nel database
+            $newProject->save();
 
             $newProject->users()->attach($request->user()->id, ['team' => 'team-lead']);
 
-            // Restituisci i dati del nuovo prodotto creato in formato JSON
-            return response()->json(['message' => 'Project created successfully', 'project' => $newPoject], 201);
+            return response()->json(['message' => 'Project created successfully', 'project' => $newProject], 201);
         } catch (\Exception $e) {
             // Gestisci l'eccezione e restituisci un messaggio di errore appropriato con codice di stato 500 (Internal Server Error)
             return response()->json(['error' => $e->getMessage()], 500);
@@ -90,7 +102,7 @@ class ProjectController extends Controller
     {
         try {
             $query = $this->checkAuthorization();
-            $project = $query->with('tasks', 'tasks.microtasks')->find($id);
+            $project = $query->with('tasks', 'tasks.microtasks')->get()->find($id);
 
             if (!$project) {
                 return response(['message' => 'Not found'], 404);

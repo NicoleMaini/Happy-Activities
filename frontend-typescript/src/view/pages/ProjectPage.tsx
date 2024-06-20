@@ -16,8 +16,9 @@ function ProjectPage() {
         setId(numericPart[0]);
       }
     }
-    console.log(id);
   }, []);
+
+  console.log(id);
 
   const [errors, setErrors] = useState(null);
   const [project, setProject] = useState<Project | null>(null);
@@ -25,7 +26,10 @@ function ProjectPage() {
   useEffect(() => {
     axios
       .get(`/api/v1/projects/${id}`)
-      .then(resp => setProject(resp.data.data))
+      .then(resp => {
+        console.log("resp", resp.data.data);
+        setProject(resp.data.data);
+      })
       .catch(err => {
         setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
@@ -34,7 +38,7 @@ function ProjectPage() {
   console.log(project);
 
   return (
-    <Container fluid className="d-flex">
+    <Container fluid className="d-flex p-0 h-100">
       <SidebarComponent />
       {project && <div>{project.name}</div>}
     </Container>

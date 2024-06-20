@@ -1,55 +1,59 @@
 import { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import { FcPortraitMode } from "react-icons/fc";
-import { FcOpenedFolder } from "react-icons/fc";
-import { FcAddDatabase } from "react-icons/fc";
-import { FcEmptyTrash } from "react-icons/fc";
-import { FcImport } from "react-icons/fc";
-import { FcSettings } from "react-icons/fc";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import folder from "../../assets/img/folder.svg";
+import openFolder from "../../assets/img/open-folder.svg";
+import newProject from "../../assets/img/new-project.svg";
+import trash from "../../assets/img/trash.svg";
+import user from "../../assets/img/user.svg";
+import setting from "../../assets/img/setting.svg";
+import exit from "../../assets/img/exit.svg";
+import { Button } from "react-bootstrap";
+import { AuthActions, LOGOUT } from "../../redux/actions";
+import { useAppDispatch } from "../../redux/store";
+import axios from "axios";
 
 function SidebarComponent() {
-  const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState(null);
 
-  const handleClose = () => setShow(false);
-  const toggleShow = () => setShow(s => !s);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const name: string = "Enable body scrolling";
-  const scroll: boolean = true;
-  const backdrop: boolean = false;
-
-  // Renderizza solo se scroll è true
-  if (!scroll) {
-    return null;
-  }
+  const logout = () => {
+    axios
+      .post("/logout")
+      .then(() => {
+        const logoutAction: AuthActions = { type: LOGOUT } as const;
+        dispatch(logoutAction);
+        navigate("/");
+      })
+      .catch(err => {
+        setErrors(err.response?.data.errors || { general: "Unknown error" });
+      });
+  };
 
   return (
     <>
-      <div className="d-flex flex-column bg-light h-100" style={{ width: "4rem" }}>
-        <Button variant="link" onClick={toggleShow} className="me-2">
-          <FcOpenedFolder />
-          {/* Your Projects */}
-        </Button>
-        <Button variant="link" onClick={toggleShow} className="me-2">
-          <FcAddDatabase />
-          {/* Create a new project */}
-        </Button>
-        <Button variant="link" onClick={toggleShow} className="me-2">
-          <FcEmptyTrash />
-          {/* Your Trash */}
-        </Button>
+      <div className="d-flex flex-column bg-sidebar">
+        <Link to={"/dashboard"}>
+          {location.pathname === "/dashboard" ? (
+            <img src={openFolder} alt="" width={30} />
+          ) : (
+            <img src={folder} alt="" width={30} />
+          )}
+        </Link>
+        <Link to={"/dashboard/create-project"} className="mt-3">
+          <img src={newProject} alt="" width={30} />
+        </Link>
+        <Link to={""} className="mt-3">
+          <img src={trash} alt="" width={30} />
+        </Link>
 
-        <Button variant="link" onClick={toggleShow} className="me-2">
-          <FcPortraitMode />
-          {/* Your Profile */}
-        </Button>
-        <Button variant="link" onClick={toggleShow} className="me-2">
-          <FcSettings />
-          {/* Settings */}
-        </Button>
-        <Button variant="link" onClick={toggleShow} className="me-2">
-          <FcImport />
-          {/* Logout */}
+        <Link to={""} className="mt-auto">
+          <img src={setting} alt="" width={30} />
+        </Link>
+        <Button variant="link" className="mt-3 p-0" onClick={logout}>
+          <img src={exit} alt="" width={30} />
         </Button>
       </div>
 

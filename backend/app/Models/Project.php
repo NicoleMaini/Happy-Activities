@@ -7,10 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 
 class Project extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'cover_image',
+        'name',
+        'type',
+        'progress',
+        'description', // Campo opzionale
+        // Altri campi che desideri includere
+    ];
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+        $data['cover_image'] = asset(Storage::url($this->cover_image));
+        return $data;
+    }
 
     public $timestamps = false;
 
