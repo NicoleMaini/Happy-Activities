@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CardProjectComponent from "../components/project-card/CardProjectComponent";
 
 function DashboardPage() {
-  const [projects, setProjects] = useState<Project[] | null>(null);
+  const [projects, setProjects] = useState<Project[] | []>([]);
   const [errors, setErrors] = useState(null);
 
   const navigate = useNavigate();
@@ -29,29 +29,25 @@ function DashboardPage() {
         navigate("/dashboard/create-project");
         setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
-  }, [projects]);
+  }, [projects.length]);
 
   useEffect(() => {
-    if (projects !== null) {
-      if (projects.length === 1) {
-        projects.forEach(project => {
-          navigate(`/dashboard/project/${project.id}-${project.name.replace(/\s+/g, "-").toLowerCase()}`);
-        });
-      }
+    if (projects.length === 1) {
+      projects.forEach(project => {
+        navigate(`/dashboard/project/${project.id}-${project.name.replace(/\s+/g, "-").toLowerCase()}`);
+      });
     }
-  }, []);
+  }, [projects.length]);
 
   return (
     <Container fluid className="p-0 d-flex">
-      {projects && projects.length > 1 && (
-        <>
-          <SidebarComponent />
-          <Row className="mx-4 py-3 w-100">
-            {projects.map((project, i) => (
-              <CardProjectComponent key={i} project={project} />
-            ))}
-          </Row>
-        </>
+      <SidebarComponent />
+      {projects.length > 1 && (
+        <Row className="mx-4 py-3 w-100">
+          {projects.map((project, i) => (
+            <CardProjectComponent key={i} project={project} />
+          ))}
+        </Row>
       )}
     </Container>
   );

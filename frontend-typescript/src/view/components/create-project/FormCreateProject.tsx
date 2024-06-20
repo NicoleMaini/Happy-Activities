@@ -3,7 +3,7 @@ import work from "../../../assets/img/work.svg";
 import study from "../../../assets/img/study.svg";
 import event from "../../../assets/img/event.svg";
 import freeTime from "../../../assets/img/freetime.svg";
-import edit from "../../../assets/img/edit.svg";
+import edit from "../../../assets/img/edit.png";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";

@@ -13,9 +13,12 @@ function ModalComponent({ title, question, onclick }: ModalProps) {
 
   const handleClose = () => setShow(false);
 
-  //   const handleCloseConfirm = () => {
-  //     onclick();
-  //   };
+  const handleCloseConfirm = () => {
+    onclick();
+    setTimeout(() => {
+      setShow(false);
+    }, 1000);
+  };
 
   return (
     <>
@@ -28,7 +31,7 @@ function ModalComponent({ title, question, onclick }: ModalProps) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={onclick}>
+          <Button variant="primary" onClick={handleCloseConfirm}>
             Confirm
           </Button>
         </Modal.Footer>

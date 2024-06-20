@@ -7,6 +7,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreprojectsRequest;
 use App\Http\Requests\UpdateprojectsRequest;
 
@@ -117,19 +118,29 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $userId = Auth::id();
             $project = Project::findOrFail($id);
 
-            if ($project->user_id !== Auth::user()->id) {
+            // Verifica se l'utente è associato al progetto tramite la tabella ponte
+            $isAuthorized = $project->users()->where('user_id', $userId)->exists();
+
+            if (!$isAuthorized) {
                 abort(403, 'Unauthorized');
             }
 
             $validator = Validator::make($request->all(), [
-                'cover_image' => 'nullable|string',
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'name' => 'required|string',
                 'description' => 'nullable|string',
                 'type' => 'required|in:work, study, event, free-time',
                 'progress' => 'required|in:active, delete',
             ]);
+
+            if ($request->hasFile('cover_image')) {
+                // Salva l'immagine nel filesystem
+                $imagePath = $request->file('cover_image')->store('projects', 'public');
+                $newProject->cover_image = $imagePath;
+            }
 
             if ($validator->fails()) {
                 return response()->json(['error' => $validator->errors()], 422);
@@ -207,7 +218,9 @@ class ProjectController extends Controller
         try {
             $project = $this->moveProjectAuthorization($id);
 
-            // $project->delete();
+            $project->tasks()->delete();
+            $project->users()->detach();
+            $project->delete();
 
             return response()->json(['message' => 'Project delete with success']);
         } catch (\Exception $e) {

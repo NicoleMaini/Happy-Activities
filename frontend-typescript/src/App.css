@@ -620,7 +620,7 @@ h5 {
 }
 
 .bg-card-pro img:hover {
-  scale: 1.5;
+  scale: 1.05;
   transition: 0.2s;
 }
 
@@ -676,7 +676,6 @@ h5 {
 .img-card-types {
   display: flex;
   justify-content: center;
-  align-items: center;
   margin-inline: auto;
   width: 8rem;
   height: 8rem;

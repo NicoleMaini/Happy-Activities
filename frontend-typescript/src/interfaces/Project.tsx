@@ -21,3 +21,7 @@ export interface ProjectDetailsParam {
   projectId: string;
   projectName: string;
 }
+
+export interface ProjectProps {
+  project: Project;
+}

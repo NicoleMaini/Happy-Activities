@@ -25,7 +25,11 @@ class Project extends Model
     public function toArray()
     {
         $data = parent::toArray();
-        $data['cover_image'] = asset(Storage::url($this->cover_image));
+        if ($this->cover_image) {
+            $data['cover_image'] = asset(Storage::url($this->cover_image));
+        } else {
+            $data['cover_image'] = null; // oppure '' a seconda delle tue esigenze
+        }
         return $data;
     }
 

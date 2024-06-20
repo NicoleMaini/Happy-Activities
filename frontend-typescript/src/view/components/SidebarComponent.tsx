@@ -15,8 +15,8 @@ import { Project } from "../../interfaces/Project";
 
 function SidebarComponent() {
   const [errors, setErrors] = useState(null);
-  const [projectsActive, setProjectsActive] = useState<Project[] | null>(null);
-  const [projectsDelete, setProjectsDelete] = useState<Project[] | null>(null);
+  const [projectsActive, setProjectsActive] = useState<Project[] | []>([]);
+  const [projectsDelete, setProjectsDelete] = useState<Project[] | []>([]);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function SidebarComponent() {
       .catch(err => {
         setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
-  }, []);
+  }, [projectsDelete.length]);
 
   console.log("delete", projectsDelete);
   console.log("active", projectsActive);
@@ -71,7 +71,7 @@ function SidebarComponent() {
           <img src={newProject} alt="" width={30} />
         </Link>
         <Link to={"/dashboard/project/trash"} className="mt-3">
-          {projectsDelete && projectsDelete.length > 1 ? (
+          {projectsDelete.length >= 1 ? (
             <img src={fullTrash} alt="" width={30} />
           ) : (
             <img src={trash} alt="" width={30} />

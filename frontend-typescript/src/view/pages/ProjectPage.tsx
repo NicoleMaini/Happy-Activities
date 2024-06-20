@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import SidebarComponent from "../components/SidebarComponent";
+
 import axios from "axios";
 import { Project } from "../../interfaces/Project";
 import { Container } from "react-bootstrap";
+import SidebarComponent from "../components/SidebarComponent";
 
 function ProjectPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -38,10 +39,17 @@ function ProjectPage() {
   console.log(project);
 
   return (
-    <Container fluid className="d-flex p-0 h-100">
-      <SidebarComponent />
-      {project && <div>{project.name}</div>}
-    </Container>
+    <>
+      <Container fluid className="d-flex p-0 h-100">
+        <SidebarComponent />
+        {project && (
+          <div>
+            {project.name}
+            {project.description}
+          </div>
+        )}
+      </Container>
+    </>
   );
 }
 

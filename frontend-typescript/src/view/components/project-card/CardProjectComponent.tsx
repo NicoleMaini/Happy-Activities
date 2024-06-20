@@ -1,5 +1,5 @@
 import { Alert, Col, Modal } from "react-bootstrap";
-import { Project } from "../../../interfaces/Project";
+import { ProjectProps } from "../../../interfaces/Project";
 import work from "../../../assets/img/work.svg";
 import trash from "../../../assets/img/trash.svg";
 import edit from "../../../assets/img/edit.png";
@@ -9,26 +9,22 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import ModalComponent from "../ModalComponent";
+import ModalEditProjectComponent from "../ModalEditProjectComponent";
 
-interface CardProjectProps {
-  project: Project;
-}
-
-function CardProjectComponent({ project }: CardProjectProps) {
+function CardProjectComponent({ project }: ProjectProps) {
   console.log("project", project);
 
   const [errors, setErrors] = useState(null);
-  const [show, setShow] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   const trashClick = () => {
+    axios.put(`/api/v1/projects/delete/${project.id}`);
+  };
+  const editClick = () => {
     axios
       .put(`/api/v1/projects/delete/${project.id}`)
-      .then(resp => {
-        <Alert variant="success" />;
-        setTimeout(() => {
-          setShow(false);
-        }, 1000);
-      })
+      .then(resp => {})
       .catch(err => {
         setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
@@ -81,17 +77,25 @@ function CardProjectComponent({ project }: CardProjectProps) {
             ))}
           </div>
           <div>
-            <img src={edit} alt="" width={14} />
+            <img
+              src={edit}
+              alt=""
+              width={14}
+              onClick={() => {
+                setShowEdit(true);
+              }}
+            />
             <img
               src={trash}
               alt=""
               width={20}
               className="ms-3"
               onClick={() => {
-                setShow(true);
+                setShowDelete(true);
               }}
             />
-            {show && <ModalComponent title="Move on trash" question={question} onclick={trashClick} />}
+            {showDelete && <ModalComponent title="Move on trash" question={question} onclick={trashClick} />}
+            {showEdit && <ModalEditProjectComponent title="Edit this project" project={project} />}
           </div>
         </div>
       </div>

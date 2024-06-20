@@ -15,24 +15,20 @@ interface DeleteProjectProps {
   project: Project;
 }
 
+// display none, display flex
+
 function DeleteProjectComponent({ project }: DeleteProjectProps) {
   const [errors, setErrors] = useState(null);
 
-  const [show, setShow] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [showRestore, setShowRestore] = useState(false);
 
   const trashClick = () => {
-    console.log("siamo qui", project.id);
-    axios
-      .delete(`/api/v1/projects/${project.id}`)
-      .then(resp => {
-        <Alert variant="success" />;
-        setTimeout(() => {
-          setShow(false);
-        }, 1000);
-      })
-      .catch(err => {
-        setErrors(err.response?.data.errors || { general: "Unknown error" });
-      });
+    axios.delete(`/api/v1/projects/${project.id}`);
+  };
+
+  const editClick = () => {
+    axios.put(`/api/v1/projects/restore/${project.id}`);
   };
 
   return (
@@ -55,21 +51,32 @@ function DeleteProjectComponent({ project }: DeleteProjectProps) {
         </div>
         <div className="ms-auto">{project.type}</div>
         <div className="d-flex ms-auto delete-card-project-func">
-          <img src={restore} alt="" width={25} className="me-3" />
+          <img
+            src={restore}
+            alt=""
+            width={25}
+            className="me-3"
+            onClick={() => {
+              setShowRestore(true);
+            }}
+          />
           <img
             src={trash}
             alt=""
             width={25}
             onClick={() => {
-              setShow(true);
+              setShowDelete(true);
             }}
           />
-          {show && (
+          {showDelete && (
             <ModalComponent
               title="Delete Project"
               question="Are you sure you want to permanently delete the project?"
               onclick={trashClick}
             />
+          )}
+          {showRestore && (
+            <ModalComponent title="Restore Project" question="Do you want restore project?" onclick={editClick} />
           )}
         </div>
       </div>
