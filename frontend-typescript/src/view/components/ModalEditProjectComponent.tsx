@@ -66,8 +66,20 @@ function ModalEditProjectComponent({ project, title }: ModalProps) {
   const editProject = (ev: FormEvent) => {
     ev.preventDefault();
 
+    const body = new FormData();
+
+    body.append("_method", "put");
+
+    if (coverImage !== null) {
+      body.append("cover_image", coverImage);
+    }
+    body.append("name", formData.name);
+    body.append("description", formData.description);
+    body.append("type", formData.type);
+    body.append("progress", formData.progress);
+
     axios
-      .put(`/api/v1/projects/${project.id}`, formData)
+      .post(`/api/v1/projects/${project.id}`, body)
       .then(res => {
         console.log("fetch andata", res.data.project);
       })

@@ -13,14 +13,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'cover_image',
-        'name',
-        'type',
-        'progress',
-        'description', // Campo opzionale
-        // Altri campi che desideri includere
-    ];
+    protected $fillable = ['cover_image', 'name', 'type', 'progress', 'description'];
 
     public function toArray()
     {

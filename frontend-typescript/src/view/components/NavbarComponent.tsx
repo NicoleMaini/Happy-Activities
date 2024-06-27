@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import axios from "axios";
 import { AuthActions, LOGOUT } from "../../redux/actions";
 import logo from "../../assets/img/logo.png"; // Importa l'immagine SVG
+import exit from "../../assets/img/exit.svg";
 import { useState } from "react";
 
 function NavbarComponent() {
@@ -62,15 +63,16 @@ function NavbarComponent() {
             <>
               <span className="me-2"></span>
               <NavDropdown title={user.name} id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
+                <Link to="/dashboard" className="dropdown-item">
+                  Dashboard
+                </Link>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">Something else here</NavDropdown.Item>
+                <button type="button" className="to-click " onClick={logout}>
+                  Logout
+                </button>{" "}
               </NavDropdown>
               {/* <img className="me-2" src={user.profile_img} alt="" style={{ height: "50px", width: "50px" }} /> */}
-              <button type="button" className="to-click" onClick={logout}>
-                Logout
-              </button>
+              <img src={exit} alt="logout" width={35} onClick={logout} className="ms-2 cursor-pointer" />
             </>
           ) : (
             <>

@@ -45,7 +45,7 @@ class TaskSeeder extends Seeder
         Task::factory()->create([
             'project_id' => '2',
             'image1' => '',
-            'title' => 'Development and OptimizationThe development phase transforms the design into a functional web page, while optimization ensures the page is fast and accessible on all devices. In this task, we will develop the page and optimize it.',
+            'title' => 'Development and Optimization',
             'description' => 'The development phase transforms the design into a functional web page, while optimization ensures the page is fast and accessible on all devices. In this task, we will develop the page and optimize it.',
             'progress' => 'to do',
         ]);

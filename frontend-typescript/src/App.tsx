@@ -17,6 +17,7 @@ import CreateProjectPage from "./view/pages/CreateProjectPage";
 import ProjectPage from "./view/pages/ProjectPage";
 import FooterComponent from "./view/components/FooterComponent";
 import DeletePlacePage from "./view/pages/DeletePlacePage";
+import NotFoundPage from "./view/pages/NotFoundPage";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -56,6 +57,7 @@ function App() {
               <Route path="/dashboard/project/trash" element={<DeletePlacePage />} />
               <Route path="/dashboard/create-project" element={<CreateProjectPage />} />
             </Route>
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
         <FooterComponent />

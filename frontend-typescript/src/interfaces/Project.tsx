@@ -1,3 +1,4 @@
+import { Task } from "./Task";
 import { User } from "./User";
 
 export interface Project {
@@ -8,6 +9,7 @@ export interface Project {
   description: string;
   progress: string;
   users: User[];
+  tasks: Task[];
 }
 export interface ProjectCreate {
   cover_image: string | null;

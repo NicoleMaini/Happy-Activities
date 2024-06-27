@@ -2,9 +2,6 @@ import { Container, Row } from "react-bootstrap";
 import CardTypeComponent from "./CardTypeComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { valuesTypesArray } from "../../../includes/valuesTipesArray";
-import { useState } from "react";
-import { useAppSelector } from "../../../redux/store";
-import FormCreateProject from "../create-project/FormCreateProject";
 
 function ShowTypesComponent() {
   const navigate = useNavigate();

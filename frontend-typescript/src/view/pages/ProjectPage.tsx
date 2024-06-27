@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import work from "../../assets/img/work.svg";
+import study from "../../assets/img/study.svg";
+import event from "../../assets/img/event.svg";
+import freeTime from "../../assets/img/freetime.svg";
 import axios from "axios";
 import { Project } from "../../interfaces/Project";
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import SidebarComponent from "../components/SidebarComponent";
+import TaskComponent from "../components/task/TaskComponent";
 
 function ProjectPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -18,8 +22,6 @@ function ProjectPage() {
       }
     }
   }, []);
-
-  console.log(id);
 
   const [errors, setErrors] = useState(null);
   const [project, setProject] = useState<Project | null>(null);
@@ -36,16 +38,48 @@ function ProjectPage() {
       });
   }, [id]);
 
-  console.log(project);
+  console.log("progetto", project && project.tasks);
 
   return (
     <>
       <Container fluid className="d-flex p-0 h-100">
         <SidebarComponent />
         {project && (
-          <div>
-            {project.name}
-            {project.description}
+          <div className="w-100 m-4 mt-3 container-project-page work">
+            <div className="img-card-types card-project project-page p-2">
+              <img
+                src={
+                  project.cover_image
+                    ? project.cover_image
+                    : project.type === "work"
+                    ? work
+                    : project.type === "study"
+                    ? study
+                    : project.type === "event"
+                    ? event
+                    : project.type === "free-time"
+                    ? freeTime
+                    : ""
+                }
+                alt={project.type}
+              />
+            </div>
+            <div className="text-left my-3 mx-3">
+              <h3>{project.name}</h3>
+              <p>{project.description}</p>
+            </div>
+            <div className="project-page-line"></div>
+            <div>
+              {project && project.tasks ? (
+                <Row>
+                  {project.tasks.map(task => (
+                    <TaskComponent task={task} />
+                  ))}
+                </Row>
+              ) : (
+                "create task"
+              )}
+            </div>
           </div>
         )}
       </Container>

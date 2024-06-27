@@ -1,6 +1,10 @@
-import { Alert, Col, Modal } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import { ProjectProps } from "../../../interfaces/Project";
 import work from "../../../assets/img/work.svg";
+import study from "../../../assets/img/study.svg";
+import event from "../../../assets/img/event.svg";
+import freeTime from "../../../assets/img/freetime.svg";
+
 import trash from "../../../assets/img/trash.svg";
 import edit from "../../../assets/img/edit.png";
 import heartGrey from "../../../assets/img/heart-grey.svg";
@@ -43,9 +47,17 @@ function CardProjectComponent({ project }: ProjectProps) {
           >
             <img
               src={
-                project.cover_image !== "http://localhost:8000/storage" && project.cover_image !== null
+                project.cover_image
                   ? project.cover_image
-                  : work
+                  : project.type === "work"
+                  ? work
+                  : project.type === "study"
+                  ? study
+                  : project.type === "event"
+                  ? event
+                  : project.type === "free-time"
+                  ? freeTime
+                  : ""
               }
               alt={project.type}
               width={50}

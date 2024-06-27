@@ -684,6 +684,9 @@ h5 {
   overflow: hidden;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
 .work .img-card-types {
   box-shadow: 1px 1px 3px var(--dark-red);
 }
@@ -901,6 +904,33 @@ h5 {
   background-color: var(--blue);
   height: 4rem;
   border-radius: 50px;
+}
+
+/* project page */
+
+.container-project-page {
+  border-radius: 10px;
+  box-shadow: 0px 0px 3px var(--orange);
+  position: relative;
+}
+
+.img-card-types.card-project.project-page {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.project-page {
+  position: absolute;
+  top: -10px;
+  right: -15px;
+}
+
+.project-page-line {
+  height: 2px;
+  width: 100%;
+  background-color: var(--orange);
 }
 
 /* Responsiveness */

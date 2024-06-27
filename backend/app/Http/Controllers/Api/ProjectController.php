@@ -128,7 +128,7 @@ class ProjectController extends Controller
                 abort(403, 'Unauthorized');
             }
 
-            $validator = Validator::make($request->all(), [
+            $validator = $request->validate([
                 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'name' => 'required|string',
                 'description' => 'nullable|string',
@@ -137,16 +137,17 @@ class ProjectController extends Controller
             ]);
 
             if ($request->hasFile('cover_image')) {
+                $imagePath = $request->file('cover_image')->store('projects', 'public');
+                $validator['cover_image'] = $imagePath;
+            }
+
+            if ($request->hasFile('cover_image')) {
                 // Salva l'immagine nel filesystem
                 $imagePath = $request->file('cover_image')->store('projects', 'public');
-                $newProject->cover_image = $imagePath;
+                $project->cover_image = $imagePath;
             }
 
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()], 422);
-            }
-
-            $project->update([
+            $project->save([
                 'cover_image' => $request->cover_image,
                 'name' => $request->name,
                 'description' => $request->description,

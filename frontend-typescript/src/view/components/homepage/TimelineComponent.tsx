@@ -1,5 +1,6 @@
 import { Container } from "react-bootstrap";
 import check from "../../../assets/img/check.svg";
+import { Link } from "react-router-dom";
 
 function TimelineComponent() {
   return (
@@ -14,11 +15,15 @@ function TimelineComponent() {
         <div className="timeline">
           <div className="event-timeline">
             <div className="ball"></div>
-            <div className="text up">Sign In or Login</div>
+            <Link to="/login" className="text up">
+              Sign In or Login
+            </Link>
           </div>
           <div className="event-timeline">
             <div className="ball"></div>
-            <div className="text down">Create your project</div>
+            <Link to="/dashboard/create-project" className="text down">
+              Create your project
+            </Link>
           </div>
           <div className="event-timeline">
             <div className="ball"></div>
