@@ -1,3 +1,5 @@
+import { MicroTask } from "./MicroTask";
+
 export interface Task {
   id: number;
   project_id: number;
@@ -10,7 +12,7 @@ export interface Task {
   appointment: string;
   progress: string;
   assigned: string;
-  microtasks: string;
+  microtasks: MicroTask[];
 }
 
 export interface TaskProp {

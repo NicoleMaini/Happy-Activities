@@ -45,7 +45,7 @@ function ProjectPage() {
       <Container fluid className="d-flex p-0 h-100">
         <SidebarComponent />
         {project && (
-          <div className="w-100 m-4 mt-3 container-project-page work">
+          <div className="m-4 mt-3 container-project-page work wv">
             <div className="img-card-types card-project project-page p-2">
               <img
                 src={
@@ -71,11 +71,11 @@ function ProjectPage() {
             <div className="project-page-line"></div>
             <div>
               {project && project.tasks ? (
-                <Row>
+                <div className="mt-4 scroll-container">
                   {project.tasks.map(task => (
-                    <TaskComponent task={task} />
+                    <TaskComponent task={task} key={task.id} />
                   ))}
-                </Row>
+                </div>
               ) : (
                 "create task"
               )}

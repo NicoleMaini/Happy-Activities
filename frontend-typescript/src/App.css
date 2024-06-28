@@ -908,10 +908,22 @@ h5 {
 
 /* project page */
 
+.wv {
+  width: 93.5vw;
+}
+
+.scroll-container {
+  height: 64vh;
+  width: 100%; /* Definisci la larghezza del contenitore */
+  overflow-x: auto; /* Abilita lo scorrimento orizzontale */
+  white-space: nowrap; /* Impedisce agli elementi interni di andare a capo */
+}
+
 .container-project-page {
   border-radius: 10px;
   box-shadow: 0px 0px 3px var(--orange);
   position: relative;
+  padding-bottom: 0px;
 }
 
 .img-card-types.card-project.project-page {
@@ -931,6 +943,42 @@ h5 {
   height: 2px;
   width: 100%;
   background-color: var(--orange);
+}
+
+/* task */
+
+.container-task {
+  width: 18rem;
+}
+.container-card-task {
+  border: solid 1px var(--orange);
+  margin-inline: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+  white-space: initial;
+}
+
+/* scroll bar */
+
+::-webkit-scrollbar {
+  width: 8px; /* Larghezza della scrollbar verticale */
+  height: 6px; /* Altezza della scrollbar orizzontale */
+}
+
+/* Parte interna della scrollbar */
+::-webkit-scrollbar-thumb {
+  background-color: var(--orange); /* Colore della parte interna */
+  border-radius: 10px; /* Arrotondamento degli angoli */
+  border: px solid transparent; /* Bordo trasparente */
+  background-clip: content-box; /* Ritaglia lo sfondo */
+}
+
+/* Parte della track (il binario su cui scorre la scrollbar) */
+::-webkit-scrollbar-track {
+  background: var(--clear-orange); /* Colore del binario */
+  border-radius: 10px; /* Arrotondamento degli angoli */
+  margin: 4px; /* Margine per evitare che tocchi i bordi */
 }
 
 /* Responsiveness */
