@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('title', 300);
             $table->string('description', 1000)->nullable();
             $table->string('assigned', 50)->nullable();
-            $table->enum('progress', ['to do', 'completed', 'delete']);
+            $table->enum('progress', ['to do', 'in progress', 'in review', 'completed', 'delete']);
             $table->dateTime('appointment')->nullable();
             $table->timestamps();
         });
