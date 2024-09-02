@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('assigned', 50)->nullable();
             $table->enum('progress', ['to do', 'in progress', 'in review', 'completed', 'delete']);
             $table->dateTime('appointment')->nullable();
+            $table->enum('pinnate', ['no', 'yes']);
             $table->timestamps();
         });
     }

@@ -41,6 +41,8 @@ class ProjectController extends Controller
     public function index()
     {
         try {
+            $user = Auth::user();
+
             $query = $this->checkAuthorization();
             $projects = $query->get();
 

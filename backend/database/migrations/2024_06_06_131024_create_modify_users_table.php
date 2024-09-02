@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('profile_image', 500)->nullable();
+            $table->unsignedBigInteger('favorite_project')->nullable();
         });
     }
 
@@ -22,6 +23,7 @@ return new class extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('profile_image');
+            $table->dropColumn('favorite_project');
         });
     }
 };

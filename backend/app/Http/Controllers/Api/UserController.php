@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+
 use App\Models\User;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -16,12 +17,12 @@ class UserController extends Controller
         return ['return' => 'success', 'data' => $users];
     }
 
-    protected function checkAutentication()
-    {
-        if (!Auth::check()) {
-            abort(401);
-        }
-    }
+    // protected function checkAutentication()
+    // {
+    //     if (!Auth::check()) {
+    //         abort(401);
+    //     }
+    // }
 
     protected function checkAuthorization($project_id)
     {
@@ -34,13 +35,56 @@ class UserController extends Controller
             return response()->json(['message' => 'Progetto non trovato'], 404);
         }
 
-        return $project;
+        return [
+            'user' => $user,
+            'project' => $project
+        ];
+    }
+
+    public function favorite($project_id)
+    {
+        try {
+            $check = $this->checkAuthorization($project_id);
+
+            $user = $check['user'];
+            $project = $check['project'];
+
+            if ($user) {
+                
+                $user->update(['favorite_project' => $project_id]);
+
+                return response()->json(['message' => 'Favorite project updated successfully', 'project' => $project]);
+            } else {
+                return response()->json(['message' => 'Utente non autenticato'], 401);
+            }
+
+            } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function notFavorite($project_id)
+    {
+        try {
+            $check = $this->checkAuthorization($project_id);
+
+            $user = $check['user'];
+            $project = $check['project'];
+
+            $user->update(['favorite_project' => null]);
+            return response()->json(['message' => 'Project updated successfully', 'project' => $project]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function acept($project_id)
     {
-        // $this->checkAutentication();
-        $this->checkAuthorization($project_id);
+        $check = $this->checkAuthorization($project_id);
+
+        $user = $check['user'];
+        $project = $check['project'];
+
         // Verifica se il tipo del progetto è "work" o "study"
         if ($project->type === 'work' || $project->type === 'study') {
             // Aggiorna lo stato del team a "pending" nella tabella pivot
@@ -55,8 +99,10 @@ class UserController extends Controller
     public function reject($project_id)
     {
         // $this->checkAutentication();
-        $this->checkAuthorization($project_id);
+        $check = $this->checkAuthorization($project_id);
 
+        $user = $check['user'];
+        $project = $check['project'];
         // Verifica se il tipo del progetto è "work" o "study"
         if ($project->type === 'work' || $project->type === 'study') {
             // Aggiorna lo stato del team a "pending" nella tabella pivot
@@ -68,7 +114,7 @@ class UserController extends Controller
         }
     }
 
-    protected function checkAuthorizationForPivot($projectId, $targetUser)
+    protected function checkAuthorizationForPivot($projectId, $targetUserId)
     {
         $currentUser = Auth::user();
         if (!$currentUser) {
@@ -107,7 +153,7 @@ class UserController extends Controller
     public function pending($projectId, $targetUserId)
     {
         // $this->checkAutentication();
-        $this->checkAuthorizationForPivot($projectId, $targetUser);
+        $$existingPivotRow = $this->checkAuthorizationForPivot($projectId, $targetUserId);
 
         if ($existingPivotRow) {
             // Se esiste, aggiorna lo stato del team a "pending"
@@ -135,7 +181,5 @@ class UserController extends Controller
         }
     }
 
-    public function taskForUser()
-    {
-    }
+    public function taskForUser() {}
 }

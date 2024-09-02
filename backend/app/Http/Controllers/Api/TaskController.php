@@ -6,8 +6,10 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\tasks;
 use App\Models\Project;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoretasksRequest;
 use App\Http\Requests\UpdatetasksRequest;
 
@@ -22,8 +24,7 @@ class TaskController extends Controller
 
     protected function checkAuthorization($project_id)
     {
-        // $user = Auth::user();
-        $user = User::find(2);
+        $user = Auth::user();
 
         // Verifica se l'utente è collegato al progetto
         $isAuthorized = Project::where('id', $project_id)
@@ -35,6 +36,7 @@ class TaskController extends Controller
         if (!$isAuthorized) {
             abort(403, 'Unauthorized');
         }
+        return $user;
     }
 
     public function index()
@@ -159,7 +161,7 @@ class TaskController extends Controller
                 'title' => 'required|string',
                 'description' => 'nullable|string',
                 'assigned' => 'nullable|string',
-                'progress' => 'required|in:to do, completed, delete',
+                'progress' => 'required|in:to do, in progress, in review, completed, delete',
                 'appointment' => 'nullable|date',
             ]);
 
@@ -167,7 +169,7 @@ class TaskController extends Controller
                 return response()->json(['error' => $validator->errors()], 422);
             }
 
-            $task->update([
+            $task->save([
                 'image1' => $request->image1,
                 'image2' => $request->image2,
                 'image3' => $request->image3,
@@ -186,7 +188,7 @@ class TaskController extends Controller
         }
     }
 
-    public function completed($id)
+    public function progress($id, $request) // ha bisogno dell'id del task e del valore della volonna 'to do', 'delite', 'in review', 'completed'
     {
         try {
             $this->checkAutentication();
@@ -196,8 +198,15 @@ class TaskController extends Controller
             // Verifica se l'utente è collegato al progetto
             $this->checkAuthorization($task->project_id);
 
-            $newValue = 'completed';
-            $task->update(['progress' => $newValue]);
+            $validator = Validator::make($request->all(), [
+                'progress' => 'required|in:to do, in progress, in review, completed, delete',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 422);
+            }
+
+            $task->update(['progress' => $request->progress]);
 
             // Restituisci una risposta JSON con il prodotto aggiornato
             return response()->json(['message' => 'Task updated successfully', 'task' => $task], 200);
@@ -206,43 +215,43 @@ class TaskController extends Controller
         }
     }
 
-    public function delete($id)
-    {
-        try {
-            $this->checkAutentication();
+    // public function delete($id)
+    // {
+    //     try {
+    //         $this->checkAutentication();
 
-            $task = Task::findOrFail($id);
+    //         $task = Task::findOrFail($id);
 
-            $this->checkAuthorization($task->project_id);
+    //         $this->checkAuthorization($task->project_id);
 
-            $newValue = 'delete';
-            $task->update(['progress' => $newValue]);
+    //         $newValue = 'delete';
+    //         $task->update(['progress' => $newValue]);
 
-            // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Task updated successfully', 'task' => $task], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
-        }
-    }
+    //         // Restituisci una risposta JSON con il prodotto aggiornato
+    //         return response()->json(['message' => 'Task updated successfully', 'task' => $task], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => $e->getMessage()], $e->getCode());
+    //     }
+    // }
 
-    public function restore($id)
-    {
-        try {
-            $this->checkAutentication();
+    // public function restore($id)
+    // {
+    //     try {
+    //         $this->checkAutentication();
 
-            $task = Task::findOrFail($id);
+    //         $task = Task::findOrFail($id);
 
-            $this->checkAuthorization($task->project_id);
+    //         $this->checkAuthorization($task->project_id);
 
-            $newValue = 'to do';
-            $task->update(['progress' => $newValue]);
+    //         $newValue = 'to do';
+    //         $task->update(['progress' => $newValue]);
 
-            // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Task updated successfully', 'task' => $task], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
-        }
-    }
+    //         // Restituisci una risposta JSON con il prodotto aggiornato
+    //         return response()->json(['message' => 'Task updated successfully', 'task' => $task], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => $e->getMessage()], $e->getCode());
+    //     }
+    // }
 
     public function destroy($id)
     {
