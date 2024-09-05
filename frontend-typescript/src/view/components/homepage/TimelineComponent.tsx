@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function TimelineComponent() {
   return (
     <>
-      <Container fluid className="my-3 timeline-container-homepage">
+      <Container fluid className="timeline-component">
         <h2>
           <span className="span-forget"> forget about pens, sheets and calendars.</span>
           <br />
@@ -13,30 +13,25 @@ function TimelineComponent() {
         </h2>
 
         <div className="timeline">
-          <div className="event-timeline">
+          <div className="event">
             <div className="ball"></div>
-            <Link to="/login" className="text up">
-              Sign In or Login
+            <Link to="/login" className="text left">
+              Login
             </Link>
           </div>
-          <div className="event-timeline">
+          <div className="event">
             <div className="ball"></div>
-            <Link to="/dashboard/create-project" className="text down">
+            <Link to="/dashboard/create-project" className="text right">
               Create your project
             </Link>
           </div>
-          <div className="event-timeline">
+          <div className="event">
             <div className="ball"></div>
-            <div className="text up">Check your task</div>
+            <div className="text left">Check your tasks</div>
           </div>
-          <div className="event-timeline">
+          <div className="event">
             <div className="ball"></div>
-            <div className="text down">Complete your goals!</div>
-          </div>
-          <div className="event-timeline-alone">
-            <div className="ball goal">
-              <img src={check} alt="" />
-            </div>
+            <div className="text right">Complete your goals!</div>
           </div>
         </div>
       </Container>

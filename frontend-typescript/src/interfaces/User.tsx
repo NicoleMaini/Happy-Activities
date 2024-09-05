@@ -1,3 +1,8 @@
+export interface LoginPageProps {
+  open: boolean;
+  click: () => void;
+}
+
 export interface User {
   id: number;
   name: string;

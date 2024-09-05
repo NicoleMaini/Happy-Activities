@@ -1,9 +1,9 @@
 import axios from "axios";
-import { FormDataRegister } from "../../interfaces/User";
+import { FormDataRegister, LoginPageProps } from "../../interfaces/User";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function SignInPage() {
+function SignInPage({open, click}: LoginPageProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function SignInPage() {
   const [errors, setErrors] = useState(null);
 
   const updateInputValue = (ev: ChangeEvent<HTMLInputElement>) => {
-    setFormData(oldFormData => ({
+    setFormData((oldFormData) => ({
       ...oldFormData,
       [ev.target.name]: ev.target.value,
     }));
@@ -57,18 +57,20 @@ function SignInPage() {
           },
         });
       })
-      .then(resp => navigate("/login"))
-      .catch(err => {
+      .then((resp) => navigate("/login"))
+      .catch((err) => {
         setErrors(err.response.data.errors || { general: "Unknown error" });
       });
   };
 
   return (
-    <div className="container-log">
-      <h2>It's now or never</h2>
-      <h1>Come on , Join us!</h1>
-
-      <form className="form-log sign" onSubmit={ev => submitRegister(ev)} noValidate>
+    <div className={open?"login-component signin-container":"login-component signin-container open"}>
+      <div className="signin-hat" onClick={click}>SIGN UP</div>
+      <form
+        className="body-signin"
+        onSubmit={(ev) => submitRegister(ev)}
+        noValidate
+      >
         <div className="fields">
           <span>
             <input
@@ -77,7 +79,7 @@ function SignInPage() {
               className="input-log"
               id="name"
               name="name"
-              onChange={ev => updateInputValue(ev)}
+              onChange={(ev) => updateInputValue(ev)}
               value={formData.name}
             />
           </span>
@@ -89,7 +91,7 @@ function SignInPage() {
               type="email"
               id="email"
               name="email"
-              onChange={ev => updateInputValue(ev)}
+              onChange={(ev) => updateInputValue(ev)}
               value={formData.email}
             />
           </span>
@@ -101,7 +103,7 @@ function SignInPage() {
               type="password"
               id="password"
               name="password"
-              onChange={ev => updateInputValue(ev)}
+              onChange={(ev) => updateInputValue(ev)}
               value={formData.password}
             />
           </span>
@@ -113,7 +115,7 @@ function SignInPage() {
               type="password"
               id="password_confirmation"
               name="password_confirmation"
-              onChange={ev => updateInputValue(ev)}
+              onChange={(ev) => updateInputValue(ev)}
               value={formData.password_confirmation}
             />
           </span>
@@ -129,7 +131,7 @@ function SignInPage() {
           </span>*/}
         </div>
         <button type="submit" className="to-click sign-btn-page p-1 mt-4">
-          Sign In
+          SIGN UP
         </button>
       </form>
     </div>

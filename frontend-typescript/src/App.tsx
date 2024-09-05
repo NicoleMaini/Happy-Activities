@@ -44,12 +44,12 @@ function App() {
     <BrowserRouter>
       <div className="page-container">
         <div className="content-wrap">
-          <NavbarComponent />
+          {/* <NavbarComponent /> */}
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route element={<GuestRoutes />}>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signin" element={<SignInPage />} />
+              <Route path="/login" element={<LoginPage open={true} click={()=>{}}/>} />
+              <Route path="/signin" element={<SignInPage open={false} click={()=>{}}/>} />
             </Route>
             <Route path="" element={<UserRoutes />}>
               <Route path="/dashboard/project/:projectId" element={<ProjectPage />} />
@@ -60,7 +60,7 @@ function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
-        <FooterComponent />
+        {/* <FooterComponent /> */}
       </div>
     </BrowserRouter>
   );

@@ -1,14 +1,15 @@
 import axios from "axios";
-import { FormDataLogin, LoginResponse, User } from "../../interfaces/User";
+import { FormDataLogin, LoginPageProps, LoginResponse, User } from "../../interfaces/User";
 import { LOGIN } from "../../redux/actions";
 import { useAppDispatch } from "../../redux/store";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
+function LoginPage({open, click}: LoginPageProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
+  
 
   useEffect(() => {
     document.title = "Login";
@@ -46,11 +47,11 @@ function LoginPage() {
   };
 
   return (
-    <div className="container-log">
-      <h2>It's now or never</h2>
-      <h1>Come on , Join us!</h1>
-
-      <form className="form-log log" onSubmit={ev => submitLogin(ev)} noValidate>
+    <div className={open ? "login-component login-container open" : "login-component login-container"}>
+      <div className="login-hat" onClick={click}>
+        LOGIN
+      </div>
+      {open && <form className="login-body" onSubmit={ev => submitLogin(ev)} noValidate>
         <div className="fields">
           <span>
             <input
@@ -76,10 +77,10 @@ function LoginPage() {
             />
           </span>
         </div>
-        <button type="submit" className="to-click log-btn-page p-1 mt-4">
-          Login
+        <button type="submit" className="login-button">
+         ENTER
         </button>
-      </form>
+      </form>}
     </div>
   );
 }

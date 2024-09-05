@@ -1,33 +1,20 @@
-import { Col, Container, Row } from "react-bootstrap";
-import logo from "../../../assets/img/logo.png";
-
 function HeaderComponent() {
   return (
-    <Container fluid="md" className="padding-container">
-      <Row className="my-5 d-flex align-items-center">
-        <Col className="">
-          <p className="welcome-homepage">welcome to</p>
-          <h1 className="mt-4">
-            <span className="happy-homepage">
-              Happy <span className="circle-homepage happy-circle"></span>
+    <div className="header-component">
+          <p className="welcome">welcome to</p>
+          <h1 className="mt-2 mb-0">
+            <span className="title happy">
+              Happy <span className="circle happy"></span>
             </span>
-            <span className="activities-homepage">
-              ACTIVITIES <span className="circle-homepage activities-circle"></span>
+            <span className="title activities">
+              ACTIVITIES <span className="circle activities"></span>
             </span>
           </h1>
-          <p className="task-management-homepage">
+          <p className="subtitle">
             your trusted tasks <span className="d-block">management application</span>
           </p>
-          <div className="line-homepage"></div>
-        </Col>
-        <Col className="position-relative">
-          <div className="shadow-logo-homepage"></div>
-          <div className="text-center container-logo-homepage">
-            <img src={logo} alt="logo" />
-          </div>
-        </Col>
-      </Row>
-    </Container>
+          <div className="subtitle-line"></div>
+    </div>
   );
 }
 export default HeaderComponent;

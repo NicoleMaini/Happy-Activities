@@ -1,5 +1,7 @@
 /* Reset CSS */
 @import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap");
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,400italic);
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif);
 
 * {
   margin: 0;
@@ -39,6 +41,7 @@ h5 {
 }
 
 :root {
+  --green-blue: #b8d1ce;
   --dark-blue: #445a66;
   --blue: #607c8a;
   --clear-blue: #bbdefb;
@@ -46,13 +49,15 @@ h5 {
   --dark-orange: #c17028;
   --orange: #e38939;
   --light-orange: #ffe3b7;
-  --clear-orange: #fff3e0;
+  --clear-orange: #f4d4ab;
   --pseudo-white: #fffcfc;
+  --brown: #652D30;
   --dark-red: #9d3a05;
   --red: #ff906c;
   --light-red: #f6ccbe;
   --dark-grey: #37474f;
   --grey: #a2b1b9;
+  --deep-violet: #353255;
   --dark-violet: #5e35b1;
   --violet: #c2a0ff;
   --dark-green: #2e7d32;
@@ -63,87 +68,139 @@ h5 {
 
 /* Fine reset CSS */
 
-/* Login component */
-/*fonts*/
-@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,400italic);
+/* HOMEPAGE ------------------------------------------------------------------------------------ */
 
-@import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+.homepage {
+  background-color: var(--green-blue);
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Nasconde l'eventuale overflow orizzontale */
+}
 
-.page-container {
+.homepage .left-side {
+  height: 100vh;
+  background-image: url(assets/img/background-home.png);
+  background-size: cover; /* Copre interamente l'elemento senza generare scroll */
+  background-position: right;
+  position: sticky;
+  overflow-x: hidden; /* Nasconde l'eventuale overflow orizzontale */
+}
+
+.homepage .right-side {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+/* LEFT SIDE ----------------------------------------------------------------------------------------------------------------------------------- */
+
+/* LOGIN COMPONENT -------------------------------------- */
+
+/* .page-container {
   position: relative;
   min-height: 100vh;
 }
 
 .content-wrap {
   padding-bottom: 15rem;
+} */
+
+.login-component {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.859);
+  width: 18rem;
+  height: 3rem;
+  overflow: hidden;
+  transition: height 0.6s ease; /* Transizione fluida per l'altezza */
 }
 
-.container-log {
-  position: relative;
-  top: 100px;
+.login-component.login-container {
+  left: 5rem;
+  bottom: 0;
+}
+
+.login-component,
+.login-component .login-hat,
+.login-component .signin-hat {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.login-component .login-hat {
+  height: 3rem;
+  padding: 0.8rem;
   text-align: center;
+  font-weight: 600;
+  color:white;
+  background-color: var(--deep-violet);
+  cursor: pointer;
 }
 
-.container-log span {
-  font-family: "Pt Sans", helvetica, sans-serif;
+.login-component .login-body {
+  padding: 2.5rem;
+  padding-top: 2.5rem;
 }
 
-.container-log h1 {
+.login-component.signin-container {
+  left: 15rem;
+  bottom: 0;
+}
+
+.login-component .signin-hat {
+  height: 3rem;
+  padding: 0.8rem;
+  font-weight: 600;
+  color:white;
   text-align: center;
-  color: var(--orange);
-  font-weight: 400;
-  font-size: 2em;
-  margin-bottom: 10px;
+  background-color: var(--dark-orange);
+  cursor: pointer;
 }
 
-.container-log h2 {
-  font-family: "droid serif";
-  font-style: italic;
-  color: var(--blue);
-  text-align: center;
-  font-size: 1.2em;
+.login-component.open {
+  height: 26rem;
 }
 
-.container-log form span:before {
-  box-shadow: 1px 1px 3px var(--orange);
-  width: 40px;
-  height: 40px;
-  color: var(--blue);
-  display: inline-block;
-  border-radius: 50%;
-  line-height: 1.6em;
-  font-size: 1.5em;
-  position: relative;
-  left: -22px;
-  top: -11px;
-  background: var(--clear-orange);
+.login-component input {
+  height: 3rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--light-blue);
+  border-bottom: solid 1px var(--blue);
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  transition: background-color, scale 0.3s ease
 }
 
-.container-log .log span:before,
-.container-log .sign span:before {
-  counter-increment: section;
-  content: counter(section);
+.login-component input:hover {
+  border-bottom: 1px solid var(--orange);
 }
 
-.form-log {
-  margin-top: 25px;
-  display: inline-block;
+.login-component input:focus {
+  scale:1.1;
+  background-color: var(--pseudo-white);
+  border-bottom: 1px solid var(--orange); 
 }
 
-.fields {
-  border-left: 2px solid var(--blue);
+.login-component .login-button{
+  margin-top: 3rem;
+  padding: 0.4rem;
+  border-radius: 0.5rem;
+  display: block;
+  width: 6rem;
+  margin-inline: auto; 
+  color: white;
+  background-color: #353255;
 }
 
-.container-log span {
-  margin-bottom: 22px;
-  display: inline-block;
+.login-component .login-button:hover{
+  background-color: var(--blue);
+  scale:1.05;
+  transition: background-color, scale 0.3s ease
+}
+.login-component .login-button:active {
+  scale:0.9;
 }
 
-.container-log span:last-child {
-  margin-bottom: -11px;
-}
-
-.input-log {
+/* .input-log {
   border: none;
   outline: none;
   display: inline-block;
@@ -152,18 +209,18 @@ h5 {
   position: relative;
   bottom: 14px;
   right: 9px;
-  border-bottom: solid 2px var(--blue);
+  border-bottom: solid 1px var(--blue);
   width: 220px;
   box-sizing: border-box;
   padding: 0 18px;
-}
+} */
 
-.input-log:hover,
-.input-log:focus {
+/* .input-log:hover,
+/* .input-log:focus {
   border-bottom: solid 2px var(--orange);
-}
+} */
 
-.sign-btn-page {
+/* .sign-btn-page {
   color: var(--blue);
   background-color: var(--light-orange);
   box-shadow: 1px 1px 2px var(--orange);
@@ -191,7 +248,7 @@ h5 {
 
 .log-btn-page:active {
   box-shadow: -1px -1px 2px var(--blue);
-}
+} */
 
 /* #profile-image-log {
   position: relative;
@@ -237,7 +294,7 @@ h5 {
 } */
 
 /* NAVBAR */
-
+/* 
 .bg-color-navbar {
   background-color: var(--clear-orange);
 }
@@ -299,62 +356,60 @@ h5 {
 
 .sign-navbar:active {
   box-shadow: -1px -1px 3px var(--orange);
+} 
+
+/* RIGHT SIDE------------------------------------------------------------------------------------------------------------------------ */
+
+/* HEADER-COMPONENT ---------------------------------- */
+
+.header-component,
+.timeline-component,
+.let-fun-begin {
+  max-width: 20rem;
+  margin-top: 2rem;
+  margin-inline: auto;
 }
 
-/* HomePage */
-
-/* header */
-
-.padding-container {
-  padding-inline: 7rem;
-  margin-bottom: 6rem;
-}
-
-.margin-container {
-  padding-inline: 7rem;
-  margin-top: 5rem;
-}
-
-.welcome-homepage {
+.header-component .welcome {
   font-family: "droid serif";
   font-style: italic;
-  font-size: 2rem;
+  font-size: 1.1rem;
   color: black;
 }
 
-.circle-homepage {
+.header-component .circle {
   border-radius: 50%;
-  width: 3.4rem;
 }
 
-.happy-circle {
+.header-component .circle.happy {
   position: absolute;
   background-color: var(--light-orange);
   top: -8px;
-  left: -62px;
-  padding: 3.4rem;
+  left: -50px;
+  padding: 2.5rem;
   z-index: -1;
 }
 
-.happy-homepage {
-  position: relative;
+.header-component .title {
+  font-size: 4rem;
   font-weight: 400;
-  font-size: 7rem;
+}
+
+.header-component .title.happy {
+  position: relative;
   color: var(--blue);
   display: block;
   z-index: 1;
 }
 
-.activities-homepage {
+.header-component .title.activities {
   position: relative;
   z-index: 1;
-  font-weight: 400;
-  font-size: 7rem;
   color: var(--orange);
 }
 
-.activities-circle {
-  padding: 4.5rem;
+.header-component .circle.activities {
+  padding: 3.2rem;
   position: absolute;
   bottom: -26px;
   right: -51px;
@@ -362,97 +417,72 @@ h5 {
   background-color: var(--clear-blue);
 }
 
-.task-management-homepage {
+.header-component .subtitle {
   font-weight: 400;
-  font-size: 2rem;
+  font-size: 1.3rem;
   font-style: italic;
 }
 
-.task-management-homepage span {
+.header-component .subtitle-homepage span {
   margin-top: -18px;
   font-style: normal;
 }
 
-.line-homepage {
-  width: 11rem;
+.header-component .subtitle-line {
+  width: 7.2rem;
   height: 2px;
   background-color: var(--blue);
 }
 
-.container-logo-homepage {
-  width: 20rem;
-  height: 20rem;
-  overflow: hidden;
-  margin-left: auto;
-  background-color: white;
-  box-shadow: 2px 2px 4px var(--orange);
+/* TIMELINE  ------------------------------------------- */
+
+.timeline-component {
+  background-color: var(--light-orange);
+  padding: 1.5rem;
+  border-radius: 15px;
+  height: 26rem;
 }
 
-.container-logo-homepage img {
-  object-fit: cover;
-  width: 90%;
-  height: 90%;
-  margin-top: 1rem;
-}
-
-.shadow-logo-homepage {
-  position: absolute;
-  width: 20rem;
-  height: 20rem;
-  background-color: var(--clear-blue);
-  bottom: -14px;
-  right: -2px;
-  border-radius: 2px;
-  z-index: -1;
-}
-
-/* Timeline */
-
-.timeline-container-homepage {
-  padding: 4rem 8rem;
-  padding-bottom: 10rem;
-  background-color: var(--clear-orange);
-  box-shadow: 1px 1px 6px var(--orange);
-}
-
-.timeline-container-homepage h2 {
+.timeline-component h2 {
   text-align: center;
-  margin-bottom: 6rem;
   font-weight: 400;
-  font-size: 2rem;
+  font-size: 1.2rem;
+  margin-bottom: -0.5rem;
 }
 
-.timeline-container-homepage h2 .span-forget {
-  font-size: 1.5rem;
+.timeline-component h2 .span-forget {
+  font-size: 1rem;
   font-weight: 400;
 }
 
-.timeline-container-homepage h2 .span-flow {
+.timeline-component h2 .span-flow {
   font-style: italic;
   font-weight: 500;
   color: var(--dark-orange);
 }
 
-.timeline {
+.timeline-component .timeline {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   position: relative;
-  margin: 0 auto;
+  margin: 2.5rem auto;
 }
 
-.timeline::before {
+.timeline-component .timeline::before {
   content: "";
   position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 2px;
+  top: -20px;
+  left: 50%; /* Centra la linea verticale */
+  transform: translateX(-50%); /* Corregge la posizione orizzontale */
+  width: 2px; /* Imposta la larghezza della linea */
+  height: 100%; /* Imposta l'altezza della linea in base al contenuto della timeline */
   background-color: var(--blue);
   z-index: 0;
 }
 
-.event-timeline {
+.timeline-component .event {
   display: flex;
   align-items: center;
   position: relative;
@@ -460,115 +490,59 @@ h5 {
   width: 100%;
 }
 
-.event-timeline-alone {
-  display: flex;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
-
-.ball {
-  width: 4.5rem;
-  height: 4.5rem;
+.timeline-component .ball {
+  padding: 0.5rem;
+  margin-bottom: 2rem;
   background-color: var(--clear-blue);
-  box-shadow: 1px 1px 2px var(--dark-blue);
   border-radius: 50%;
   z-index: 1;
+  margin-inline: auto;
 }
 
-.goal {
-  background-color: var(--pseudo-white);
-  box-shadow: 1px 1px 2px var(--dark-blue);
-  position: relative;
-}
-
-.goal img {
-  position: absolute;
-  top: -19px;
-  left: -15px;
-  width: 7rem;
-  height: 7rem;
-  object-fit: cover;
-}
-
-.ball::before {
-  counter-increment: section;
-  content: counter(section);
-  font-size: 2em;
-  position: relative;
-  left: 28px;
-  top: 12px;
-  color: var(--dark-blue);
-}
-
-.text {
+.timeline-component .text {
   position: absolute;
   width: 50%;
   margin-inline: auto;
-  text-align: center;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 400;
-  line-height: 1.3rem;
+  line-height: 1rem;
 }
 
-.event-timeline .up {
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-25%);
-  color: var(--orange);
-  box-shadow: 1px 1px 3px var(--orange);
-  border-radius: 2px;
-  background-color: var(--pseudo-white);
-  padding: 0.8rem 1.7rem;
+.timeline-component .text.left {
+  text-align: right;
+  top: 0px;
+  left: -20px;
 }
 
-.up::after {
-  content: "";
-  position: absolute;
-  bottom: -20px;
-  left: 20px;
-  width: 0;
-  height: 0;
-  border: 10px solid transparent;
-  border-top-color: var(--orange);
+.timeline-component .text.right {
+  text-align: left;
+  top: 0px;
+  right: -20px;
 }
 
-.up:hover,
-.down:hover {
-  cursor: pointer;
-  scale: 1.05;
-  transition: 0.2s;
+/* LET-FUN-BEGiN */
+
+.let-fun-begin h4 {
+  font-size: 1.2rem;
+  line-height: 2rem;
 }
 
-.up:active {
-  box-shadow: -1px -1px 3px var(--orange);
+.let-fun-begin span {
+  display: block;
+  width: 50%;
+  margin-inline: auto;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--dark-orange);
+  border-bottom: solid 1px var(--dark-orange);
 }
 
-.event-timeline .down {
-  top: 60px;
-  left: 50%;
-  transform: translateX(-25%);
-  color: var(--blue);
-  box-shadow: 1px 1px 3px var(--blue);
-  border-radius: 2px;
-  background-color: var(--pseudo-white);
-  padding: 0.8rem 1.7rem;
-}
+/* ------------------------------------------------- */
 
-.down::after {
-  content: "";
-  position: absolute;
-  top: -20px;
-  left: 20px;
-  width: 0;
-  height: 0;
-  border: 10px solid transparent;
-  border-bottom-color: var(--blue);
-}
+/* HomePage */
 
-.down:active {
-  box-shadow: -1px -1px 3px var(--blue);
-}
+/* header */
 
 /* show types */
 
@@ -982,26 +956,3 @@ h5 {
 }
 
 /* Responsiveness */
-@media (max-width: 600px) {
-  .timeline {
-    flex-direction: column;
-  }
-
-  .event-timeline {
-    flex-direction: row;
-    margin-bottom: 20px;
-  }
-
-  .text {
-    margin-top: 0;
-    margin-left: 10px;
-  }
-
-  .timeline::before {
-    height: 100%;
-    width: 2px;
-    top: 0;
-    left: 8%;
-    transform: translateX(-50%);
-  }
-}
