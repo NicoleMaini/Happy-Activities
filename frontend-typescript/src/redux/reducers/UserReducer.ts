@@ -1,5 +1,5 @@
 import { User } from "../../interfaces/User";
-import { AuthActions, LOGIN, LOGOUT } from "../actions";
+import { AuthActions, LOGIN, LOGOUT} from "../actions";
 
 interface UserState {
   isAuthenticated: boolean;
@@ -33,3 +33,6 @@ const userReducer = (state: UserState = initialState, action: AuthActions): User
 };
 
 export default userReducer;
+
+
+

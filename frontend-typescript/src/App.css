@@ -42,6 +42,7 @@ h5 {
 
 :root {
   --green-blue: #b8d1ce;
+  --light-green-blue: #eef3f3;
   --dark-blue: #445a66;
   --blue: #607c8a;
   --clear-blue: #bbdefb;
@@ -51,7 +52,7 @@ h5 {
   --light-orange: #ffe3b7;
   --clear-orange: #f4d4ab;
   --pseudo-white: #fffcfc;
-  --brown: #652D30;
+  --brown: #652d30;
   --dark-red: #9d3a05;
   --red: #ff906c;
   --light-red: #f6ccbe;
@@ -77,7 +78,7 @@ h5 {
   overflow-x: hidden; /* Nasconde l'eventuale overflow orizzontale */
 }
 
-.homepage .left-side {
+.left-side {
   height: 100vh;
   background-image: url(assets/img/background-home.png);
   background-size: cover; /* Copre interamente l'elemento senza generare scroll */
@@ -96,15 +97,6 @@ h5 {
 
 /* LOGIN COMPONENT -------------------------------------- */
 
-/* .page-container {
-  position: relative;
-  min-height: 100vh;
-}
-
-.content-wrap {
-  padding-bottom: 15rem;
-} */
-
 .login-component {
   position: absolute;
   background-color: rgba(255, 255, 255, 0.859);
@@ -119,6 +111,11 @@ h5 {
   bottom: 0;
 }
 
+.login-component.login-round {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
 .login-component,
 .login-component .login-hat,
 .login-component .signin-hat {
@@ -130,7 +127,7 @@ h5 {
   padding: 0.8rem;
   text-align: center;
   font-weight: 600;
-  color:white;
+  color: white;
   background-color: var(--deep-violet);
   cursor: pointer;
 }
@@ -149,14 +146,22 @@ h5 {
   height: 3rem;
   padding: 0.8rem;
   font-weight: 600;
-  color:white;
+  color: white;
   text-align: center;
   background-color: var(--dark-orange);
   cursor: pointer;
 }
 
+.login-component .signin-body {
+  padding: 2.5rem;
+  padding-top: 1.5rem;
+}
+
 .login-component.open {
   height: 26rem;
+}
+.login-component.open2 {
+  height: 30rem;
 }
 
 .login-component input {
@@ -167,7 +172,7 @@ h5 {
   border-bottom: solid 1px var(--blue);
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
-  transition: background-color, scale 0.3s ease
+  transition: background-color, scale 0.3s ease;
 }
 
 .login-component input:hover {
@@ -175,188 +180,105 @@ h5 {
 }
 
 .login-component input:focus {
-  scale:1.1;
+  scale: 1.1;
   background-color: var(--pseudo-white);
-  border-bottom: 1px solid var(--orange); 
+  border-bottom: 1px solid var(--orange);
 }
 
-.login-component .login-button{
+.login-component button {
   margin-top: 3rem;
   padding: 0.4rem;
   border-radius: 0.5rem;
   display: block;
   width: 6rem;
-  margin-inline: auto; 
+  margin-inline: auto;
+}
+
+.login-component button:hover {
+  scale: 1.05;
+  transition: background-color, scale 0.3s ease;
+}
+
+.login-component button:active {
+  scale: 0.9;
+}
+
+.login-component .login-button {
   color: white;
-  background-color: #353255;
+  background-color: var(--deep-violet);
 }
 
-.login-component .login-button:hover{
+.login-component .login-button:hover {
   background-color: var(--blue);
-  scale:1.05;
-  transition: background-color, scale 0.3s ease
 }
-.login-component .login-button:active {
-  scale:0.9;
-}
-
-/* .input-log {
-  border: none;
-  outline: none;
-  display: inline-block;
-  height: 34px;
-  vertical-align: middle;
-  position: relative;
-  bottom: 14px;
-  right: 9px;
-  border-bottom: solid 1px var(--blue);
-  width: 220px;
-  box-sizing: border-box;
-  padding: 0 18px;
-} */
-
-/* .input-log:hover,
-/* .input-log:focus {
-  border-bottom: solid 2px var(--orange);
-} */
-
-/* .sign-btn-page {
-  color: var(--blue);
-  background-color: var(--light-orange);
-  box-shadow: 1px 1px 2px var(--orange);
+.login-component .signin-button {
+  color: white;
+  background-color: var(--dark-orange);
 }
 
-.sign-btn-page:hover {
-  background-color: var(--pseudo-white);
+.login-component .signin-button:hover {
+  background-color: var(--orange);
+}
+
+/* LOGIN-PAGE and SIGNIN-PAGE -------------------------------------------------- */
+
+.login-pathname {
+  display: flex;
+  justify-content: center; /* Centra orizzontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* 100% dell'altezza della viewport */
+  opacity: 0; /* Inizia invisibile */
+  transform: scale(0.5); /* Inizia ridotta */
+  animation: openWindow 0.7s ease-out forwards; /* Animazione di apertura */
+}
+
+@keyframes openWindow {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.login-pathname .open3 {
+  height: 31.5rem;
+}
+.login-pathname .open4 {
+  height: 39.5rem;
+}
+
+.login-pathname .login-shoes {
+  padding: 0.8rem;
+  background-color: var(--deep-violet);
+}
+.login-pathname .login-shoes.orange {
+  background-color: var(--dark-orange);
+}
+.login-pathname .login-shoes .link {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: underline;
+}
+.login-pathname .login-shoes .link:hover{
+  color:var(--light-orange);
+}
+
+.login-component .login-register {
+  display: block;
+  color: var(--deep-violet);
+  text-decoration: underline;
+}
+
+.login-component .login-register:hover {
   color: var(--orange);
 }
 
-.sign-btn-page:active {
-  box-shadow: -1px -1px 2px var(--orange);
-}
-
-.log-btn-page {
-  color: var(--orange);
-  background-color: var(--light-blue);
-  box-shadow: 1px 1px 2px var(--blue);
-}
-
-.log-btn-page:hover {
-  background-color: var(--pseudo-white);
-  color: var(--blue);
-}
-
-.log-btn-page:active {
-  box-shadow: -1px -1px 2px var(--blue);
-} */
-
-/* #profile-image-log {
-  position: relative;
-  cursor: pointer;
-}
-#profile-image-log::file-selector-button {
-  width: 8px;
-  color: transparent;
-}
-
-#profile-image-log::before {
-  position: absolute;
-  pointer-events: none;
-  top: 10px;
-  left: 16px;
-  height: 20px;
-  width: 20px;
-  content: "";
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e38939'%3E%3Cpath d='M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5-5 5z'/%3E%3C/svg%3E");
-} */
-
-/* file upload button */
-/* #profile-image-log::file-selector-button {
-  border-radius: 4px;
-  padding: 0 0px;
-  height: 40px;
-  cursor: pointer;
-  background-color: white;
-  border: none;
-  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
-  margin-right: 16px;
-  transition: background-color 200ms;
-}
-
-/* file upload button hover state */
-/* #profile-image-log::file-selector-button:hover {
-  background-color: none;
-}
-
-/* file upload button active state */
-/*.profile-image-log::file-selector-button:active {
-  background-color: none;
-} */
-
-/* NAVBAR */
-/* 
-.bg-color-navbar {
-  background-color: var(--clear-orange);
-}
-
-.container-navbar {
-  box-shadow: -1px -1px 6px var(--orange);
-}
-
-.vertical-line-navbar {
-  margin-inline-start: 1rem;
-  height: 3rem;
-  width: 1px;
-  background-color: var(--blue);
-}
-
-.pages-navbar {
-  font-size: 1.2rem;
-  color: var(--dark-blue);
-}
-.pages-navbar-active {
-  font-size: 1.2rem;
+.login-component .login-register.orange {
   color: var(--dark-orange);
 }
-
-.to-click {
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  width: 6.2rem;
-  text-align: center;
-  padding-block: 0.6rem;
-  font-size: 1.2rem;
+.login-component .login-register.orange:hover {
+  color: var(--deep-violet);
 }
-
-.log-navbar {
-  color: var(--orange);
-  background-color: var(--light-blue);
-  box-shadow: 1px 1px 3px var(--blue);
-}
-
-.log-navbar:hover {
-  background-color: var(--pseudo-white);
-  color: var(--blue);
-}
-
-.log-navbar:active {
-  box-shadow: -1px -1px 3px var(--blue);
-}
-
-.sign-navbar {
-  color: var(--blue);
-  background-color: var(--light-orange);
-  box-shadow: 1px 1px 3px var(--orange);
-}
-
-.sign-navbar:hover {
-  background-color: var(--pseudo-white);
-  color: var(--orange);
-}
-
-.sign-navbar:active {
-  box-shadow: -1px -1px 3px var(--orange);
-} 
 
 /* RIGHT SIDE------------------------------------------------------------------------------------------------------------------------ */
 
@@ -520,27 +442,72 @@ h5 {
   right: -20px;
 }
 
-/* LET-FUN-BEGiN */
+/* LET-FUN-BEGiN ------------------------------------------*/
 
 .let-fun-begin h4 {
   font-size: 1.2rem;
-  line-height: 2rem;
+  line-height: 1rem;
 }
 
-.let-fun-begin span {
+.let-fun-begin .subscribe {
   display: block;
-  width: 50%;
-  margin-inline: auto;
-  margin-bottom: 0.5rem;
+  width: 15rem;
+  margin: 1.5rem auto;
+  padding-bottom: 0.5rem;
   font-style: italic;
   font-weight: 500;
   color: var(--dark-orange);
   border-bottom: solid 1px var(--dark-orange);
 }
 
-/* ------------------------------------------------- */
+.let-fun-begin .orange {
+  color: var(--dark-orange);
+}
+.let-fun-begin .btn-go-project {
+  display: block;
+  width: 15rem;
+  margin-inline: auto;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--orange);
+  color: white;
+}
 
-/* HomePage */
+.let-fun-begin .btn-go-project:hover {
+  background-color: var(--blue);
+  scale: 1.05;
+  transition: background-color, scale 0.3s ease;
+}
+
+.let-fun-begin .btn-go-project:active {
+  scale: 0.95;
+}
+
+/* DASHBOARD ------------------------------------------------------------------- */
+
+.dashboard-color {
+  background-color: var(--light-green-blue);
+  box-shadow: 0px 1px 2px var(--green-blue);
+}
+
+/* NAVBAR PROJECT ------------------------------- */
+
+.nav-dashboard-component {
+  position: sticky;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.nav-dashboard-component .dividing-line {
+  display: inline-block;
+  height: 1.1rem;
+  width: 1px;
+  background-color: black;
+  margin-inline: 0.5rem;
+}
 
 /* header */
 
@@ -701,7 +668,7 @@ h5 {
   transform: translate(-50%, -50%);
 }
 
-/* footer */
+/* footer
 
 .container-footer {
   position: absolute;
@@ -731,7 +698,7 @@ h5 {
   width: 100%;
   height: 2px;
   background-color: var(--blue);
-}
+} */
 
 /* create project */
 .container-create-project {

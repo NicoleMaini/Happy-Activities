@@ -6,6 +6,7 @@ import { Project } from "../../interfaces/Project";
 import CreateProjectPage from "./CreateProjectPage";
 import { Link, useNavigate } from "react-router-dom";
 import CardProjectComponent from "../components/project-card/CardProjectComponent";
+import NavbarComponent from "../components/NavbarComponent";
 
 function DashboardPage() {
   const [projects, setProjects] = useState<Project[] | []>([]);
@@ -17,15 +18,15 @@ function DashboardPage() {
     document.title = "Dashboard";
     axios
       .get("/api/v1/projects")
-      .then(resp => {
+      .then((resp) => {
         console.log("resp.data", resp.data.data);
         const projs: Project[] = resp.data.data;
-        const projsActive = projs.filter(pro => {
+        const projsActive = projs.filter((pro) => {
           return pro.progress === "active";
         });
         setProjects(projsActive);
       })
-      .catch(err => {
+      .catch((err) => {
         navigate("/dashboard/create-project");
         setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
@@ -33,21 +34,28 @@ function DashboardPage() {
 
   useEffect(() => {
     if (projects.length === 1) {
-      projects.forEach(project => {
-        navigate(`/dashboard/project/${project.id}-${project.name.replace(/\s+/g, "-").toLowerCase()}`);
+      projects.forEach((project) => {
+        navigate(
+          `/dashboard/project/${project.id}-${project.name
+            .replace(/\s+/g, "-")
+            .toLowerCase()}`
+        );
       });
     }
   }, [projects.length]);
 
   return (
-    <Container fluid className="p-0 d-flex">
-      <SidebarComponent />
+    <Container fluid className="p-0">
+      <NavbarComponent project={null}/>
       {projects.length > 1 && (
-        <Row className="mx-4 py-3 w-100">
-          {projects.map((project, i) => (
-            <CardProjectComponent key={i} project={project} />
-          ))}
-        </Row>
+        <div className="d-flex">
+          <SidebarComponent />
+          <Row className="mx-4 py-3 w-100">
+            {projects.map((project, i) => (
+              <CardProjectComponent key={i} project={project} />
+            ))}
+          </Row>
+        </div>
       )}
     </Container>
   );

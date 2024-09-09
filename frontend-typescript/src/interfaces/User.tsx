@@ -11,6 +11,7 @@ export interface User {
   created_at: string;
   updated_at: string;
   profile_image: string | null;
+  favorite_project: number | null;
 }
 
 export interface FormDataLogin {

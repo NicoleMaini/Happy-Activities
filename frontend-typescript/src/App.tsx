@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { AuthActions, LOGIN } from "./redux/actions";
 import { User } from "./interfaces/User";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NavbarComponent from "./view/components/NavbarComponent";
+// import NavbarComponent from "./view/components/NavbarComponent";
 import LoginPage from "./view/pages/LoginPage";
 import SignInPage from "./view/pages/SignInPage";
 import GuestRoutes from "./view/routes/GuestRoutes";
@@ -24,20 +24,19 @@ function App() {
   axios.defaults.withXSRFToken = true;
 
   const dispatch = useAppDispatch();
-  const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     axios
       .get<User>("/api/user")
-      .then(res => {
+      .then((res) => {
         const action: AuthActions = {
           type: LOGIN,
           payload: { user: res.data },
         };
         dispatch(action);
+        console.log('action apptxs',action);
       })
-      .catch(err => console.log(err))
-      .finally(() => setLoaded(true));
+      .catch((err) => console.log(err));
   }, [dispatch]);
 
   return (
@@ -48,14 +47,29 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route element={<GuestRoutes />}>
-              <Route path="/login" element={<LoginPage open={true} click={()=>{}}/>} />
-              <Route path="/signin" element={<SignInPage open={false} click={()=>{}}/>} />
+              <Route
+                path="/login"
+                element={<LoginPage open={true} click={() => {}} />}
+              />
+              <Route
+                path="/signin"
+                element={<SignInPage open={false} click={() => {}} />}
+              />
             </Route>
             <Route path="" element={<UserRoutes />}>
-              <Route path="/dashboard/project/:projectId" element={<ProjectPage />} />
+              <Route
+                path="/dashboard/project/:projectId"
+                element={<ProjectPage />}
+              />
               <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/dashboard/project/trash" element={<DeletePlacePage />} />
-              <Route path="/dashboard/create-project" element={<CreateProjectPage />} />
+              <Route
+                path="/dashboard/project/trash"
+                element={<DeletePlacePage />}
+              />
+              <Route
+                path="/dashboard/create-project"
+                element={<CreateProjectPage />}
+              />
             </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

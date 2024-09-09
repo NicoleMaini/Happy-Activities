@@ -1,22 +1,25 @@
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import axios from "axios";
 import { AuthActions, LOGOUT } from "../../redux/actions";
 import logo from "../../assets/img/logo.png"; // Importa l'immagine SVG
 import exit from "../../assets/img/exit.svg";
+import userImg from "../../assets/img/user.svg";
 import { useState } from "react";
+import { Project } from "../../interfaces/Project";
 
-function NavbarComponent() {
+interface NavbarComponentProps {
+  project: Project | null;
+}
+
+function NavbarComponent({project}: NavbarComponentProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+  const proj = useAppSelector((state) => state.project.project);
+  console.log('proj', proj);
 
-  const user = useAppSelector(state => state.user);
+  const user = useAppSelector((state) => state.user.user);
+  console.log("user", user);
 
   const [errors, setErrors] = useState(null);
 
@@ -28,65 +31,37 @@ function NavbarComponent() {
         dispatch(logoutAction);
         navigate("/");
       })
-      .catch(err => {
+      .catch((err) => {
         setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
   };
 
   return (
-    <Navbar expand="lg" className="bg-color-navbar container-navbar">
-      <Container fluid>
-        <Link className="nav-brand" to="/">
-          <img src={logo} alt="" width={50} />
-        </Link>
-        <div className="vertical-line-navbar"></div>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className={location.pathname === "/" ? "ms-3 pages-navbar-active" : "ms-3 pages-navbar"}
-            style={{ maxHeight: "100px" }}
-            navbarScroll
-          >
-            <Link to="/">Home</Link>
-          </Nav>
-          <Nav
-            className={
-              location.pathname === "/support-us" ? "ms-3 pages-navbar-active me-auto" : "ms-3 pages-navbar me-auto"
-            }
-            style={{ maxHeight: "100px" }}
-            navbarScroll
-          >
-            <Link to="/">Support Us</Link>
-          </Nav>
-          <div className="vertical-line-navbar me-3"></div>
-          {user ? (
-            <>
-              <span className="me-2"></span>
-              <NavDropdown title={user.name} id="navbarScrollingDropdown">
-                <Link to="/dashboard" className="dropdown-item">
-                  Dashboard
-                </Link>
-                <NavDropdown.Divider />
-                <button type="button" className="to-click " onClick={logout}>
-                  Logout
-                </button>{" "}
-              </NavDropdown>
-              {/* <img className="me-2" src={user.profile_img} alt="" style={{ height: "50px", width: "50px" }} /> */}
-              <img src={exit} alt="logout" width={35} onClick={logout} className="ms-2 cursor-pointer" />
-            </>
-          ) : (
-            <>
-              <Link className="to-click log-navbar me-3" to="/login">
-                LOGIN
-              </Link>
-              <Link className="to-click sign-navbar me-1" to="/signin">
-                SIGN IN
-              </Link>
-            </>
-          )}
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <div className="nav-dashboard-component dashboard-color">
+      <img src={logo} alt="logo" width={26} className="me-3" />
+      <div>Dashboard</div>
+      <div className="dividing-line"></div>
+      <div>{project? project.name : 'Choise your projects'}</div>
+      {user ? (
+        <div className="ms-auto d-flex align-items-center">
+          <img src={user.profile_image ? user.profile_image : userImg} alt="" width={30} className="rounded-circle object-fit-cover me-2"/>
+          <div>{user.name ? user.name : "unknow"}</div>
+        </div>
+      ) : (
+        <div className="ms-auto d-flex">
+          <img src={userImg} alt="profile-img" width={30} className="rounded-circle object-fit-cover"/>
+          <div>unknow</div>
+        </div>
+      )}
+      <div className="dividing-line"></div>
+      <img
+        src={exit}
+        alt="Logout"
+        onClick={logout}
+        width={26}
+        className="cursor-pointer"
+      />
+    </div>
   );
 }
 

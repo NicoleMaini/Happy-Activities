@@ -9,6 +9,7 @@ import { Project } from "../../interfaces/Project";
 import { Container, Row } from "react-bootstrap";
 import SidebarComponent from "../components/SidebarComponent";
 import TaskComponent from "../components/task/TaskComponent";
+import NavbarComponent from "../components/NavbarComponent";
 
 function ProjectPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -42,6 +43,7 @@ function ProjectPage() {
 
   return (
     <>
+      <NavbarComponent project={project}/>
       <Container fluid className="d-flex p-0 h-100">
         <SidebarComponent />
         {project && (

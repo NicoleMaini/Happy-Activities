@@ -1,13 +1,14 @@
 import axios from "axios";
 import { FormDataRegister, LoginPageProps } from "../../interfaces/User";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-function SignInPage({open, click}: LoginPageProps) {
+function SignInPage({ open, click }: LoginPageProps) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    document.title = "Sign In";
+    document.title = "Sign Up";
   }, []);
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -63,77 +64,104 @@ function SignInPage({open, click}: LoginPageProps) {
       });
   };
 
+  const openSignin =
+    location.pathname === "/signin"
+      ? "login-component position-relative login-round open4"
+      : "login-component signin-container open2";
+  const closeSignin =
+    location.pathname === "/signin"
+      ? "login-component position-relative "
+      : "login-component signin-container";
+
   return (
-    <div className={open?"login-component signin-container":"login-component signin-container open"}>
-      <div className="signin-hat" onClick={click}>SIGN UP</div>
-      <form
-        className="body-signin"
-        onSubmit={(ev) => submitRegister(ev)}
-        noValidate
-      >
-        <div className="fields">
-          <span>
-            <input
-              placeholder="Username"
-              type="text"
-              className="input-log"
-              id="name"
-              name="name"
-              onChange={(ev) => updateInputValue(ev)}
-              value={formData.name}
-            />
-          </span>
-          <br />
-          <span>
-            <input
-              className="input-log"
-              placeholder="Email address"
-              type="email"
-              id="email"
-              name="email"
-              onChange={(ev) => updateInputValue(ev)}
-              value={formData.email}
-            />
-          </span>
-          <br />
-          <span>
-            <input
-              className="input-log"
-              placeholder="Password"
-              type="password"
-              id="password"
-              name="password"
-              onChange={(ev) => updateInputValue(ev)}
-              value={formData.password}
-            />
-          </span>
-          <br />
-          <span>
-            <input
-              className="input-log"
-              placeholder="Password Confirmed"
-              type="password"
-              id="password_confirmation"
-              name="password_confirmation"
-              onChange={(ev) => updateInputValue(ev)}
-              value={formData.password_confirmation}
-            />
-          </span>
-          {/* <br />
-          <span className="">
-            <input
-              className="input-log "
-              type="file"
-              id="profile-image-log"
-              name="profile_image"
-              onChange={ev => updateImageField(ev)}
-            />
-          </span>*/}
+    <div className={location.pathname === "/signin" ? "left-side" : ""}>
+     <div className={location.pathname === "/signin" ? "login-pathname" : ""}>
+        <div className={open ? closeSignin : openSignin}>
+          <div className="signin-hat" onClick={click}>
+            SIGN UP
+          </div>
+          <form
+            className="signin-body"
+            onSubmit={(ev) => submitRegister(ev)}
+            noValidate
+          >
+            <div>
+              <span>
+                <input
+                  placeholder="Username"
+                  type="text"
+                  id="name"
+                  name="name"
+                  onChange={(ev) => updateInputValue(ev)}
+                  value={formData.name}
+                />
+              </span>
+              <br />
+              <span>
+                <input
+                  placeholder="Email address"
+                  type="email"
+                  id="email"
+                  name="email"
+                  onChange={(ev) => updateInputValue(ev)}
+                  value={formData.email}
+                />
+              </span>
+              <br />
+              <span>
+                <input
+                  placeholder="Password"
+                  type="password"
+                  id="password"
+                  name="password"
+                  onChange={(ev) => updateInputValue(ev)}
+                  value={formData.password}
+                />
+              </span>
+              <br />
+              <span>
+                <input
+                  placeholder="Password Confirmed"
+                  type="password"
+                  id="password_confirmation"
+                  name="password_confirmation"
+                  onChange={(ev) => updateInputValue(ev)}
+                  value={formData.password_confirmation}
+                />
+              </span>
+              {/* <br />
+            <span className="">
+              <input
+                type="file"
+                id="profile-image-log"
+                name="profile_image"
+                onChange={ev => updateImageField(ev)}
+              />
+            </span>*/}
+            </div>
+            <button type="submit" className="signin-button">
+              SIGN UP
+            </button>
+            {location.pathname === "/signin" && (
+              <>
+                <div className="mt-5 text-center">
+                You are not registered?
+                  <Link to="/login" className="login-register orange">
+                    LOGIN HERE
+                  </Link>
+                </div>
+              </>
+            )}
+          </form>
+          {location.pathname === "/signin" && (
+            <div className="login-shoes orange">
+              <Link to={"/"} className="link">
+                return to the homepage
+              </Link>
+            </div>
+          )}
         </div>
-        <button type="submit" className="to-click sign-btn-page p-1 mt-4">
-          SIGN UP
-        </button>
-      </form>
+     </div>
     </div>
   );
 }
