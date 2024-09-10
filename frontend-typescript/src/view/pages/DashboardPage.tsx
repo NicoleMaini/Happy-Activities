@@ -44,9 +44,11 @@ function DashboardPage() {
     }
   }, [projects.length]);
 
+  console.log("step 1", projects);
+
   return (
     <Container fluid className="p-0">
-      <NavbarComponent project={null}/>
+      <NavbarComponent />
       {projects.length > 1 && (
         <div className="d-flex">
           <SidebarComponent />

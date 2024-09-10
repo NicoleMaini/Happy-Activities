@@ -41,8 +41,8 @@ function SidebarComponent() {
       });
   }, [projectsDelete.length]);
 
-  console.log("delete", projectsDelete);
-  console.log("active", projectsActive);
+  // console.log("delete", projectsDelete);
+  // console.log("active", projectsActive);
 
   const logout = () => {
     axios

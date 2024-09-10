@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import axios from "axios";
 import { useAppDispatch } from "./redux/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AuthActions, LOGIN } from "./redux/actions";
 import { User } from "./interfaces/User";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -15,7 +15,7 @@ import DashboardPage from "./view/pages/DashboardPage";
 import HomePage from "./view/pages/HomePage";
 import CreateProjectPage from "./view/pages/CreateProjectPage";
 import ProjectPage from "./view/pages/ProjectPage";
-import FooterComponent from "./view/components/FooterComponent";
+// import FooterComponent from "./view/components/FooterComponent";
 import DeletePlacePage from "./view/pages/DeletePlacePage";
 import NotFoundPage from "./view/pages/NotFoundPage";
 
@@ -34,7 +34,6 @@ function App() {
           payload: { user: res.data },
         };
         dispatch(action);
-        console.log('action apptxs',action);
       })
       .catch((err) => console.log(err));
   }, [dispatch]);

@@ -105,7 +105,7 @@ class ProjectController extends Controller
     {
         try {
             $query = $this->checkAuthorization();
-            $project = $query->with('tasks', 'tasks.microtasks')->get()->find($id);
+            $project = $query->with('tasks', 'tasks.microtasks', 'users')->get()->find($id);
 
             if (!$project) {
                 return response(['message' => 'Not found'], 404);

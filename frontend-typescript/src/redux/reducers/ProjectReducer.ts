@@ -1,5 +1,5 @@
 import { Project } from "../../interfaces/Project";
-import { CurrentProject, PROJECT } from "../actions";
+import { RESET_PROJECT, PROJECT, ProjectActions } from "../actions";
 
 interface ProjectState {
     project: Project | null;
@@ -9,12 +9,17 @@ interface ProjectState {
     project: null,
   };
   
-  const ProjectReducer = (state: ProjectState = initialState, action: CurrentProject): ProjectState => {
+  const ProjectReducer = (state: ProjectState = initialState, action: ProjectActions): ProjectState => {
     switch (action.type) {
       case PROJECT:
         return {
           ...state,
           project: action.payload.project,
+        };
+      case RESET_PROJECT:
+        return {
+          ...state,
+          project: null,
         };
   
       default:

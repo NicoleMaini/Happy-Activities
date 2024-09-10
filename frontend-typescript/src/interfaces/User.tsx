@@ -3,6 +3,12 @@ export interface LoginPageProps {
   click: () => void;
 }
 
+interface Pivot{
+  project_id: number;
+  team: string;
+  user_id: number;
+}
+
 export interface User {
   id: number;
   name: string;
@@ -12,6 +18,7 @@ export interface User {
   updated_at: string;
   profile_image: string | null;
   favorite_project: number | null;
+  pivot: Pivot
 }
 
 export interface FormDataLogin {

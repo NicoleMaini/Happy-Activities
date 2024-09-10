@@ -1,26 +1,32 @@
 import { Col } from "react-bootstrap";
-import { ProjectProps } from "../../../interfaces/Project";
+import {ProjectProps } from "../../../interfaces/Project";
 import work from "../../../assets/img/work.svg";
 import study from "../../../assets/img/study.svg";
 import event from "../../../assets/img/event.svg";
 import freeTime from "../../../assets/img/freetime.svg";
-
 import trash from "../../../assets/img/trash.svg";
 import edit from "../../../assets/img/edit.png";
 import heartGrey from "../../../assets/img/heart-grey.svg";
 import userImg from "../../../assets/img/user.png";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import ModalComponent from "../ModalComponent";
 import ModalEditProjectComponent from "../ModalEditProjectComponent";
+import { goProject } from "../../../includes/functions";
+import { useAppDispatch } from "../../../redux/store";
+
 
 function CardProjectComponent({ project }: ProjectProps) {
-  console.log("project", project);
+  console.log("step 3", project);
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState(null);
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+
 
   const trashClick = () => {
     axios.put(`/api/v1/projects/delete/${project.id}`);
@@ -28,8 +34,8 @@ function CardProjectComponent({ project }: ProjectProps) {
   const editClick = () => {
     axios
       .put(`/api/v1/projects/delete/${project.id}`)
-      .then(resp => {})
-      .catch(err => {
+      .then((resp) => {})
+      .catch((err) => {
         setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
   };
@@ -41,10 +47,7 @@ function CardProjectComponent({ project }: ProjectProps) {
     <Col md={4} lg={3} xl={2} className={classStyle}>
       <div className="bg-card-pro" style={{ height: "18rem" }}>
         <div className="img-card-types card-project p-2">
-          <Link
-            to={`/dashboard/project/${project.id}-${project.name.replace(/\s+/g, "-").toLowerCase()}`}
-            className="text-start"
-          >
+          <div className="text-start" onClick={()=>goProject(project, dispatch, navigate)}>
             <img
               src={
                 project.cover_image
@@ -62,23 +65,18 @@ function CardProjectComponent({ project }: ProjectProps) {
               alt={project.type}
               width={50}
             />
-          </Link>
+          </div>
         </div>
         <div className="d-flex justify-content-between align-items-center">
-          <Link
-            to={`/dashboard/project/${project.id}-${project.name.replace(/\s+/g, "-").toLowerCase()}`}
-            className="text-start"
-          >
-            {project.name}
-          </Link>
+          <div className="text-start" onClick={()=>goProject(project, dispatch, navigate)}>{project.name}</div>
           <div>
             <img src={heartGrey} alt="" width={18} />
           </div>
         </div>
-        <p className="mt-3">{project.description.substring(0, 50) + "..."}</p>
+        <p className="mt-3" onClick={()=>goProject(project, dispatch, navigate)}>{project.description.substring(0, 50) + "..."}</p>
         <div className="card-project-bottom mt-auto pb-0">
           <div>
-            {project.users.map(user => (
+            {project.users.map((user) => (
               <img
                 key={user.id}
                 src={user.profile_image ? user.profile_image : userImg}
@@ -106,8 +104,19 @@ function CardProjectComponent({ project }: ProjectProps) {
                 setShowDelete(true);
               }}
             />
-            {showDelete && <ModalComponent title="Move on trash" question={question} onclick={trashClick} />}
-            {showEdit && <ModalEditProjectComponent title="Edit this project" project={project} />}
+            {showDelete && (
+              <ModalComponent
+                title="Move on trash"
+                question={question}
+                onclick={trashClick}
+              />
+            )}
+            {showEdit && (
+              <ModalEditProjectComponent
+                title="Edit this project"
+                project={project}
+              />
+            )}
           </div>
         </div>
       </div>

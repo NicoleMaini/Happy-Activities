@@ -19,7 +19,7 @@ class Project extends Model
     {
         $data = parent::toArray();
         if ($this->cover_image) {
-            $data['cover_image'] = asset(Storage::url($this->cover_image));
+            $data['cover_image'] = Storage::url($this->cover_image);
         } else {
             $data['cover_image'] = null; // oppure '' a seconda delle tue esigenze
         }

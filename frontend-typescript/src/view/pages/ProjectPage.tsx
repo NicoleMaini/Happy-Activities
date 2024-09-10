@@ -6,14 +6,18 @@ import event from "../../assets/img/event.svg";
 import freeTime from "../../assets/img/freetime.svg";
 import axios from "axios";
 import { Project } from "../../interfaces/Project";
-import { Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import SidebarComponent from "../components/SidebarComponent";
 import TaskComponent from "../components/task/TaskComponent";
 import NavbarComponent from "../components/NavbarComponent";
+import { goProject } from "../../includes/functions";
+import { useAppDispatch } from "../../redux/store";
 
 function ProjectPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const [id, setId] = useState<string>();
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (projectId) {
@@ -26,30 +30,32 @@ function ProjectPage() {
 
   const [errors, setErrors] = useState(null);
   const [project, setProject] = useState<Project | null>(null);
-
+  
   useEffect(() => {
-    axios
+    if (id) {
+      axios
       .get(`/api/v1/projects/${id}`)
-      .then(resp => {
-        console.log("resp", resp.data.data);
+      .then((resp) => {
+        goProject(resp.data.data, dispatch);
         setProject(resp.data.data);
-      })
-      .catch(err => {
-        setErrors(err.response?.data.errors || { general: "Unknown error" });
-      });
+        document.title = resp.data.data.name;
+        })
+        .catch((err) => {
+          setErrors(err.response?.data.errors || { general: "Unknown error" });
+        });
+    }
   }, [id]);
-
-  console.log("progetto", project && project.tasks);
 
   return (
     <>
-      <NavbarComponent project={project}/>
+      <NavbarComponent />
       <Container fluid className="d-flex p-0 h-100">
         <SidebarComponent />
         {project && (
           <div className="m-4 mt-3 container-project-page work wv">
-            <div className="img-card-types card-project project-page p-2">
-              <img
+            {/* className="img-card-types card-project project-page p-2" */}
+            <div>
+              {/* <img
                 src={
                   project.cover_image
                     ? project.cover_image
@@ -64,7 +70,7 @@ function ProjectPage() {
                     : ""
                 }
                 alt={project.type}
-              />
+              /> */}
             </div>
             <div className="text-left my-3 mx-3">
               <h3>{project.name}</h3>
@@ -74,7 +80,7 @@ function ProjectPage() {
             <div>
               {project && project.tasks ? (
                 <div className="mt-4 scroll-container">
-                  {project.tasks.map(task => (
+                  {project.tasks.map((task) => (
                     <TaskComponent task={task} key={task.id} />
                   ))}
                 </div>
