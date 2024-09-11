@@ -68,7 +68,8 @@ function NavbarComponent() {
               alt="project-img"
             />
           </div>
-          <div className="text-uppercase name">{project.name} &raquo;</div>
+          <div className="text-uppercase name text-nowarp">{project.name.length >= 22? project.name.substring(0, 22) + '...': project.name}</div>
+          <div>&raquo;</div>
           <div
             className="position-relative w-50"
             onClick={() => setOpen(!open)}

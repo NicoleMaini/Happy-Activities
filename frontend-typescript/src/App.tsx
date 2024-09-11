@@ -62,7 +62,7 @@ function App() {
               />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route
-                path="/dashboard/project/trash"
+                path="/dashboard/projects/trash"
                 element={<DeletePlacePage />}
               />
               <Route
