@@ -13,6 +13,7 @@ body {
   font-family: "League Spartan", sans-serif;
   line-height: 1.6;
   counter-reset: section;
+  /* background-color: var(--light-blue); */
 }
 
 ul,
@@ -610,7 +611,8 @@ h5 {
 
 .sidebar-component h5,
 .sidebar-component p,
-.sidebar-component img {
+.sidebar-component img,
+.sidebar-component .folder {
   cursor: pointer;
 }
 .sidebar-component h5:hover,
@@ -628,18 +630,23 @@ h5 {
   width: 13rem;
 }
 
+/* da capire perché non transita in ballo */
 .sidebar-component .open-project {
   padding-left: 2rem;
   padding-top: 0.5rem;
   font-size: 0.8rem;
-  height: auto;
-  transition: height 1s ease; /* Transizione fluida per l'altezza */
+  overflow: hidden; /* Nasconde il contenuto mentre si riduce */
+  max-height: 0;
+  transition: max-height 0.4s ease; /* Applica una transizione sull'altezza */
 }
+
+/* .sidebar-component .open-project.open {
+  max-height: 1000px; /* Un valore massimo sufficiente per contenere il contenuto }*/
+
 
 .sidebar-component .selected {
   background-color: white;
   border-radius: 5px;
-  
 }
 
 .sidebar-component .open-project .project {

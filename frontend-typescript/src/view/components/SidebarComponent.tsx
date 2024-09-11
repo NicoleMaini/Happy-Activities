@@ -8,7 +8,8 @@ import trash from "../../assets/img/trash.svg";
 import fullTrash from "../../assets/img/full-trash.svg";
 import setting from "../../assets/img/setting.svg";
 import exit from "../../assets/img/exit.svg";
-import { Button } from "react-bootstrap";
+import arrowDown from "../../assets/img/arrow-down.svg";
+import arrowUp from "../../assets/img/arrow-up.svg";
 import { AuthActions, LOGOUT } from "../../redux/actions";
 import { useAppDispatch } from "../../redux/store";
 import axios from "axios";
@@ -94,14 +95,16 @@ function SidebarComponent() {
               onClick={() => setOpenProject(!openProject)}
               >
                 your projects
+                <img src={openProject? arrowUp :arrowDown} alt="" width={20} className="opacity-25 ms-4"/>
               </h5>
             )}
           </div>
+          {/* trovare un modo per fargli fare un transizione pulita verso il basso */}
           {open && openProject && (
-            <div className="open-project text-nowarp">
+            <div className="open-project open text-nowarp">
               {projectsActive.length > 1
                 ? projectsActive.map((proj) => (
-                    <div className={location.pathname === projectPageLink(proj)? 'd-flex align-items-center project selected': 'd-flex align-items-center project-padding'}>
+                    <div key={proj.id} className={location.pathname === projectPageLink(proj)? 'd-flex align-items-center project selected': 'd-flex align-items-center project-padding'}>
                       <img className='me-1' src={projectImg} alt="document"/>
                       <p onClick={()=>goProject(proj, dispatch, navigate)}>
                         {proj.name.length >= 16? proj.name.substring(0, 16) + '...': proj.name}
