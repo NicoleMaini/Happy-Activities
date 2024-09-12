@@ -102,7 +102,7 @@ function SidebarComponent() {
           {/* trovare un modo per fargli fare un transizione pulita verso il basso */}
           {open && openProject && (
             <div className="open-project open text-nowarp">
-              {projectsActive.length > 1
+              {projectsActive.length >= 1
                 ? projectsActive.map((proj) => (
                     <div key={proj.id} className={location.pathname === projectPageLink(proj)? 'd-flex align-items-center project selected': 'd-flex align-items-center project-padding'}>
                       <img className='me-1' src={projectImg} alt="document"/>

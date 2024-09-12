@@ -18,8 +18,6 @@ function NavbarComponent() {
   const user = useAppSelector((state) => state.user.user);
   const project = useAppSelector((state) => state.project.project);
 
-  console.log("step 4", project);
-
   const [errors, setErrors] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -52,8 +50,6 @@ function NavbarComponent() {
       return roleUser[0].pivot.team;
     }
   };
-
-  console.log(teamComponentFunction());
 
   return (
     <div className="nav-dashboard-component dashboard-color">
@@ -89,7 +85,7 @@ function NavbarComponent() {
           </div>
         </>
       ) : (
-        <div>Choose your projects</div>
+        <div>{location.pathname === '/dashboard/create-project'?'Create your project':'Choose your projects'}</div>
       )}
 
       {user ? (

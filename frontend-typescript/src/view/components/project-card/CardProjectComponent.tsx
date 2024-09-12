@@ -18,8 +18,7 @@ import { useAppDispatch } from "../../../redux/store";
 
 
 function CardProjectComponent({ project }: ProjectProps) {
-  console.log("step 3", project);
-
+ 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

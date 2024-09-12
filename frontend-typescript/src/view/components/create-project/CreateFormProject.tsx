@@ -1,8 +1,7 @@
 import { Container } from "react-bootstrap";
-import work from "../../../assets/img/work.svg";
-import study from "../../../assets/img/study.svg";
-import event from "../../../assets/img/event.svg";
-import freeTime from "../../../assets/img/freetime.svg";
+import collaborationImg from "../../../assets/img/collaboration.png";
+import aloneImg from "../../../assets/img/working-alone.jpg";
+import refreshIcons from "../../../assets/img/refresh-icon.svg";
 import edit from "../../../assets/img/edit.png";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,8 +9,13 @@ import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import axios from "axios";
 import { ProjectCreate } from "../../../interfaces/Project";
 
-function FormCreateProject({ type }: { type: string }) {
-  const user = useAppSelector(state => state.user);
+interface CreateFormProjectProps {
+  type: string;
+  onclick: () => void;
+}
+
+function CreateFormProject(props: CreateFormProjectProps) {
+  const user = useAppSelector((state) => state.user.user);
 
   const navigate = useNavigate();
 
@@ -34,8 +38,10 @@ function FormCreateProject({ type }: { type: string }) {
     progress: "",
   });
 
-  const updateInputValue = (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(oldFormData => ({
+  const updateInputValue = (
+    ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((oldFormData) => ({
       ...oldFormData,
       [ev.target.name]: ev.target.value,
     }));
@@ -67,68 +73,80 @@ function FormCreateProject({ type }: { type: string }) {
     }
     body.append("name", formData.name);
     body.append("description", formData.description);
-    body.append("type", type);
+    body.append("type", props.type);
     body.append("progress", "active");
 
     axios
       .post("/api/v1/projects", body)
-      .then(res => {
+      .then((res) => {
         const project = res.data.project;
-        navigate(`/dashboard/project/${project.id}-${project.name.replace(/\s+/g, "-").toLowerCase()}`);
+        console.log("ok, fetch riuscita");
+        // navigate(
+        //   `/dashboard/project/${project.id}-${project.name
+        //     .replace(/\s+/g, "-")
+        //     .toLowerCase()}`
+        // );
       })
-      .catch(err => {
+      .catch((err) => {
         setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
   };
 
-  const classString: string = type + " padding-container-form-project";
-
   return (
-    <Container className={classString}>
-      <div className="container-form-project-create">
-        <div className="img-card-types form-project-create">
+    <Container className={`create-form-project-component ${props.type}`}>
+      <div className="position-relative">
+        <div className={`img-project-container ${props.type}`}>
           {!previewSrc ? (
             <>
-              {" "}
-              {type === "work" && <img src={work} alt="" />}
-              {type === "study" && <img src={study} alt="" />}
-              {type === "event" && <img src={event} alt="" />}
-              {type === "free-time" && <img src={freeTime} alt="" />}
+              {props.type === "together" && (
+                <img src={collaborationImg} alt="alone-png" />
+              )}
+              {props.type === "alone" && <img src={aloneImg} alt="" />}
             </>
           ) : (
             <img src={previewSrc} alt="" className="img-prew-create-project" />
           )}
         </div>
+
+        {/* per aggiungere l'immagine */}
         <div className="edit-create-project" onClick={handleImageClick}>
           <img src={edit} alt="edit" />
         </div>
-        <h4 className="pt-5">{type}</h4>
+      </div>
 
-        <form onSubmit={ev => createProject(ev)} noValidate>
-          <input type="file" ref={fileInputRef} className="d-none" onChange={updateImageField} />
-          <div className="label-create-project">
-            <label className="mb-2">Name:</label>
-            <input
-              className="mb-5"
-              type="text"
-              name="name"
-              onChange={ev => updateInputValue(ev)}
-              value={formData.name}
-            />
-            <label>Description:</label>
-            <textarea
-              className=""
-              name="description"
-              onChange={ev => updateInputValue(ev)}
-              value={formData.description}
-            ></textarea>
-          </div>
-          <button type="submit" className="">
+      <h4 className="pt-3 text-center">type of project: {props.type}</h4>
+
+      <form onSubmit={(ev) => createProject(ev)} noValidate>
+        <input
+          type="file"
+          ref={fileInputRef}
+          className="d-none"
+          onChange={updateImageField}
+        />
+        <div className="label">
+          <label className="mb-2">Name of your project:</label>
+          <input
+            type="text"
+            name="name"
+            onChange={(ev) => updateInputValue(ev)}
+            value={formData.name}
+          />
+          <label>Brief description of your project:</label>
+          <textarea
+            rows={3}
+            name="description"
+            onChange={(ev) => updateInputValue(ev)}
+            value={formData.description}
+          ></textarea>
+        </div>
+        <div className="d-flex">
+          <img src={refreshIcons} alt="" width={24} className="opacity-75" />
+          <button type="submit" className="" onClick={props.onclick}>
             Login
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </Container>
   );
 }
-export default FormCreateProject;
+export default CreateFormProject;

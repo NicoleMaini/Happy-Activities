@@ -1,0 +1,85 @@
+/* NAVBAR PROJECT ------------------------------- */
+
+.nav-dashboard-component {
+    position: sticky;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.7rem 0.5rem;
+  }
+  
+  .nav-dashboard-component .dividing-line {
+    display: inline-block;
+    height: 1.1rem;
+    width: 1px;
+    background-color: black;
+    margin-inline: 0.5rem;
+  }
+  
+  .nav-dashboard-component .project-img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    padding: 0.2rem;
+    background-color: white;
+    margin-right: 0.5rem;
+    overflow: hidden;
+  }
+  .nav-dashboard-component .project-img img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .nav-dashboard-component .description {
+    width: 10rem;
+    margin-left: 0.3rem;
+    cursor: pointer;
+  }
+  
+  .nav-dashboard-component .description:hover {
+    color: var(--blue);
+    text-decoration: underline;
+  }
+  .nav-dashboard-component .name {
+    color: var(--blue);
+    font-weight: 600;
+  }
+  
+  .text-nowarp {
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .nav-dashboard-component .total-description {
+    position: absolute;
+    top: 35px;
+    left: 0px;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid var(--grey);
+    box-shadow: 1px 1px 2px var(--grey);
+    padding: 0.5rem;
+    z-index: 1;
+  }
+  
+  .nav-dashboard-component .total-description-span {
+    display: block;
+    width: 13px;
+    height: 13px;
+    transform: rotate(45deg);
+    background-color: var(--grey);
+    position: absolute;
+    top: 29px;
+    left: 15px;
+    z-index: -1;
+  }
+  
+  .nav-dashboard-component .user-role {
+    font-size: 0.8rem;
+    line-height: 0.4rem;
+    text-align: center;
+  }

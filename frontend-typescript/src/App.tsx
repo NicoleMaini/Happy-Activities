@@ -1,5 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import './assets/css/homepage-style.css';
+import './assets/css/navbar-style.css';
+import './assets/css/sidebar-style.css';
+import './assets/css/dashboard-style.css';
+
 import axios from "axios";
 import { useAppDispatch } from "./redux/store";
 import { useEffect } from "react";

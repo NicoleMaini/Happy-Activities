@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('cover_image', 500)->nullable();
             $table->string('name', 200);
-            $table->enum('type', ['work', 'study', 'event', 'free-time']);
+            $table->enum('type', ['together', 'alone']);
             $table->string('description', 1000)->nullable();
             $table->enum('progress', ['active', 'delete']);
         });

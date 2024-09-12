@@ -1,0 +1,98 @@
+/* SIDEBAR --------------------------------------------------- */
+
+.icons-circle img {
+    border-radius: 50%;
+    padding: 0.2rem;
+    background-color: white;
+    overflow: hidden;
+  }
+  .icons-circle img:hover {
+    scale: 1.008;
+  }
+  
+  .sidebar-component {
+    display: flex;
+    flex-direction: column;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+    font-size: 0.9rem;
+    position: relative;
+    align-items: baseline;
+    padding: 0.6rem;
+    margin: 1rem 0.5rem;
+    margin-bottom: 1.4rem;
+    border-radius: 2px;
+    width: 3rem;
+    height: 90vh;
+    padding-block: 0.8rem;
+    box-shadow: 1px 1px 2px var(--green-blue);
+    transition: width 0.3s ease; /* Transizione fluida per l'altezza */
+  }
+  
+  .sidebar-component h5,
+  .sidebar-component p,
+  .sidebar-component img,
+  .sidebar-component .folder {
+    cursor: pointer;
+  }
+  .sidebar-component h5:hover,
+  .sidebar-component p:hover {
+    scale: 1.007;
+  }
+  
+  .sidebar-component .folder:hover {
+    background-color: var(--pseudo-white);
+    width: 100%;
+    border-radius: 5px;
+  }
+  
+  .sidebar-component.open {
+    width: 13rem;
+  }
+  
+  /* da capire perché non transita in ballo */
+  .sidebar-component .open-project {
+    padding-left: 2rem;
+    padding-top: 0.5rem;
+    font-size: 0.8rem;
+    overflow: hidden; /* Nasconde il contenuto mentre si riduce */
+    transition: max-height 0.4s ease; /* Applica una transizione sull'altezza */
+  }
+  
+  /* .sidebar-component .open-project.open {
+    max-height: 1000px; /* Un valore massimo sufficiente per contenere il contenuto }*/
+  
+  
+  .sidebar-component .selected {
+    background-color: white;
+    border-radius: 5px;
+  }
+  
+  .sidebar-component .open-project .project {
+    height: auto;
+    padding: 0.1rem 0.5rem;
+    margin-bottom: 0.2rem;
+  }
+  .sidebar-component .open-project .project-padding:hover {
+    background-color: var(--pseudo-white);
+  }
+  
+  .sidebar-component .open-project .project-padding {
+    padding: 0.1rem 0.5rem;
+    margin-bottom: 0.2rem;
+    border-radius: 5px;
+  }
+  
+  .sidebar-component .open-project p {
+    cursor: pointer;
+  }
+  
+  .sidebar-component .open-project img {
+    background-color: transparent;
+    display: block;
+    width: 15px;
+    height: 15px;
+    background-image: url("../img/project.svg");
+    background-size: cover;
+  }
+  

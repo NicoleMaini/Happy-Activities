@@ -63,778 +63,115 @@ h5 {
   --dark-violet: #5e35b1;
   --violet: #c2a0ff;
   --dark-green: #2e7d32;
-  --green: #77d37b;
+  --green: #6fc183;
 }
-
-/* Aggiungi ulteriori reset CSS specifici per il tuo progetto qui */
 
 /* Fine reset CSS */
 
-/* HOMEPAGE ------------------------------------------------------------------------------------ */
+/* CREATE PAGE PROJECT ------------------------------*/
 
-.homepage {
-  background-color: var(--green-blue);
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden; /* Nasconde l'eventuale overflow orizzontale */
-}
-
-.left-side {
-  height: 100vh;
-  background-image: url(assets/img/background-home.png);
-  background-size: cover; /* Copre interamente l'elemento senza generare scroll */
-  background-position: right;
-  position: sticky;
-  overflow-x: hidden; /* Nasconde l'eventuale overflow orizzontale */
-}
-
-.homepage .right-side {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 100vh;
-}
-
-/* LEFT SIDE ----------------------------------------------------------------------------------------------------------------------------------- */
-
-/* LOGIN COMPONENT -------------------------------------- */
-
-.login-component {
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.859);
-  width: 18rem;
-  height: 3rem;
-  overflow: hidden;
-  transition: height 0.6s ease; /* Transizione fluida per l'altezza */
-}
-
-.login-component.login-container {
-  left: 5rem;
-  bottom: 0;
-}
-
-.login-component.login-round {
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
-
-.login-component,
-.login-component .login-hat,
-.login-component .signin-hat {
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-}
-.login-component .login-hat {
-  height: 3rem;
-  padding: 0.8rem;
-  text-align: center;
-  font-weight: 600;
-  color: white;
-  background-color: var(--deep-violet);
-  cursor: pointer;
-}
-
-.login-component .login-body {
-  padding: 2.5rem;
-  padding-top: 2.5rem;
-}
-
-.login-component.signin-container {
-  left: 15rem;
-  bottom: 0;
-}
-
-.login-component .signin-hat {
-  height: 3rem;
-  padding: 0.8rem;
-  font-weight: 600;
-  color: white;
-  text-align: center;
-  background-color: var(--dark-orange);
-  cursor: pointer;
-}
-
-.login-component .signin-body {
-  padding: 2.5rem;
-  padding-top: 1.5rem;
-}
-
-.login-component.open {
-  height: 26rem;
-}
-.login-component.open2 {
-  height: 30rem;
-}
-
-.login-component input {
-  height: 3rem;
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background-color: var(--light-blue);
-  border-bottom: solid 1px var(--blue);
-  border-top-left-radius: 7px;
-  border-top-right-radius: 7px;
-  transition: background-color, scale 0.3s ease;
-}
-
-.login-component input:hover {
-  border-bottom: 1px solid var(--orange);
-}
-
-.login-component input:focus {
-  scale: 1.1;
-  background-color: var(--pseudo-white);
-  border-bottom: 1px solid var(--orange);
-}
-
-.login-component button {
-  margin-top: 3rem;
-  padding: 0.4rem;
-  border-radius: 0.5rem;
-  display: block;
-  width: 6rem;
-  margin-inline: auto;
-}
-
-.login-component button:hover {
-  scale: 1.05;
-  transition: background-color, scale 0.3s ease;
-}
-
-.login-component button:active {
-  scale: 0.9;
-}
-
-.login-component .login-button {
-  color: white;
-  background-color: var(--deep-violet);
-}
-
-.login-component .login-button:hover {
-  background-color: var(--blue);
-}
-.login-component .signin-button {
-  color: white;
-  background-color: var(--dark-orange);
-}
-
-.login-component .signin-button:hover {
-  background-color: var(--orange);
-}
-
-/* LOGIN-PAGE and SIGNIN-PAGE -------------------------------------------------- */
-
-.login-pathname {
-  display: flex;
-  justify-content: center; /* Centra orizzontalmente */
-  align-items: center; /* Centra verticalmente */
-  height: 100vh; /* 100% dell'altezza della viewport */
-  opacity: 0; /* Inizia invisibile */
-  transform: scale(0.5); /* Inizia ridotta */
-  animation: openWindow 0.7s ease-out forwards; /* Animazione di apertura */
-}
-
-@keyframes openWindow {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.login-pathname .open3 {
-  height: 31.5rem;
-}
-.login-pathname .open4 {
-  height: 39.5rem;
-}
-
-.login-pathname .login-shoes {
-  padding: 0.8rem;
-  background-color: var(--deep-violet);
-}
-.login-pathname .login-shoes.orange {
-  background-color: var(--dark-orange);
-}
-.login-pathname .login-shoes .link {
-  display: block;
-  color: white;
-  text-align: center;
-  text-decoration: underline;
-}
-.login-pathname .login-shoes .link:hover {
-  color: var(--light-orange);
-}
-
-.login-component .login-register {
-  display: block;
-  color: var(--deep-violet);
-  text-decoration: underline;
-}
-
-.login-component .login-register:hover {
-  color: var(--orange);
-}
-
-.login-component .login-register.orange {
-  color: var(--dark-orange);
-}
-.login-component .login-register.orange:hover {
-  color: var(--deep-violet);
-}
-
-/* RIGHT SIDE------------------------------------------------------------------------------------------------------------------------ */
-
-/* HEADER-COMPONENT ---------------------------------- */
-
-.header-component,
-.timeline-component,
-.let-fun-begin {
-  max-width: 20rem;
-  margin-top: 2rem;
-  margin-inline: auto;
-}
-
-.header-component .welcome {
-  font-family: "droid serif";
-  font-style: italic;
-  font-size: 1.1rem;
-  color: black;
-}
-
-.header-component .circle {
-  border-radius: 50%;
-}
-
-.header-component .circle.happy {
-  position: absolute;
-  background-color: var(--light-orange);
-  top: -8px;
-  left: -50px;
-  padding: 2.5rem;
-  z-index: -1;
-}
-
-.header-component .title {
-  font-size: 4rem;
-  font-weight: 400;
-}
-
-.header-component .title.happy {
-  position: relative;
-  color: var(--blue);
-  display: block;
-  z-index: 1;
-}
-
-.header-component .title.activities {
-  position: relative;
-  z-index: 1;
-  color: var(--orange);
-}
-
-.header-component .circle.activities {
-  padding: 3.2rem;
-  position: absolute;
-  bottom: -26px;
-  right: -51px;
-  z-index: -1;
-  background-color: var(--clear-blue);
-}
-
-.header-component .subtitle {
-  font-weight: 400;
-  font-size: 1.3rem;
-  font-style: italic;
-}
-
-.header-component .subtitle-homepage span {
-  margin-top: -18px;
-  font-style: normal;
-}
-
-.header-component .subtitle-line {
-  width: 7.2rem;
-  height: 2px;
-  background-color: var(--blue);
-}
-
-/* TIMELINE  ------------------------------------------- */
-
-.timeline-component {
-  background-color: var(--light-orange);
-  padding: 1.5rem;
-  border-radius: 15px;
-  height: 26rem;
-}
-
-.timeline-component h2 {
-  text-align: center;
-  font-weight: 400;
-  font-size: 1.2rem;
-  margin-bottom: -0.5rem;
-}
-
-.timeline-component h2 .span-forget {
-  font-size: 1rem;
-  font-weight: 400;
-}
-
-.timeline-component h2 .span-flow {
-  font-style: italic;
-  font-weight: 500;
-  color: var(--dark-orange);
-}
-
-.timeline-component .timeline {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  margin: 2.5rem auto;
-}
-
-.timeline-component .timeline::before {
-  content: "";
-  position: absolute;
-  top: -20px;
-  left: 50%; /* Centra la linea verticale */
-  transform: translateX(-50%); /* Corregge la posizione orizzontale */
-  width: 2px; /* Imposta la larghezza della linea */
-  height: 100%; /* Imposta l'altezza della linea in base al contenuto della timeline */
-  background-color: var(--blue);
-  z-index: 0;
-}
-
-.timeline-component .event {
+.create-project-first-component {
   display: flex;
   align-items: center;
-  position: relative;
-  z-index: 1;
-  width: 100%;
-}
-
-.timeline-component .ball {
-  padding: 0.5rem;
-  margin-bottom: 2rem;
-  background-color: var(--clear-blue);
-  border-radius: 50%;
-  z-index: 1;
-  margin-inline: auto;
-}
-
-.timeline-component .text {
-  position: absolute;
-  width: 50%;
-  margin-inline: auto;
-  font-size: 1.1rem;
-  font-weight: 400;
-  line-height: 1rem;
-}
-
-.timeline-component .text.left {
-  text-align: right;
-  top: 0px;
-  left: -20px;
-}
-
-.timeline-component .text.right {
-  text-align: left;
-  top: 0px;
-  right: -20px;
-}
-
-/* LET-FUN-BEGiN ------------------------------------------*/
-
-.let-fun-begin h4 {
-  font-size: 1.2rem;
-  line-height: 1rem;
-}
-
-.let-fun-begin .subscribe {
-  display: block;
-  width: 15rem;
-  margin: 1.5rem auto;
-  padding-bottom: 0.5rem;
-  font-style: italic;
-  font-weight: 500;
-  color: var(--dark-orange);
-  border-bottom: solid 1px var(--dark-orange);
-}
-
-.let-fun-begin .orange {
-  color: var(--dark-orange);
-}
-.let-fun-begin .btn-go-project {
-  display: block;
-  width: 15rem;
-  margin-inline: auto;
-  margin-top: 1rem;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  background-color: var(--orange);
-  color: white;
-}
-
-.let-fun-begin .btn-go-project:hover {
-  background-color: var(--blue);
-  scale: 1.05;
-  transition: background-color, scale 0.3s ease;
-}
-
-.let-fun-begin .btn-go-project:active {
-  scale: 0.95;
-}
-
-/* DASHBOARD ------------------------------------------------------------------- */
-
-.dashboard-color {
-  background-color: var(--light-green-blue);
-  box-shadow: 0px 1px 2px var(--green-blue);
-}
-
-/* NAVBAR PROJECT ------------------------------- */
-
-.nav-dashboard-component {
-  position: sticky;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 0.7rem 0.5rem;
-}
-
-.nav-dashboard-component .dividing-line {
-  display: inline-block;
-  height: 1.1rem;
-  width: 1px;
-  background-color: black;
-  margin-inline: 0.5rem;
-}
-
-.nav-dashboard-component .project-img {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  padding: 0.2rem;
-  background-color: white;
-  margin-right: 0.5rem;
-  overflow: hidden;
-}
-.nav-dashboard-component .project-img img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.nav-dashboard-component .description {
-  width: 10rem;
-  margin-left: 0.3rem;
-  cursor: pointer;
-}
-
-.nav-dashboard-component .description:hover {
-  color: var(--blue);
-  text-decoration: underline;
-}
-.nav-dashboard-component .name {
-  color: var(--blue);
-  font-weight: 600;
-}
-
-.text-nowarp {
-  text-wrap: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.nav-dashboard-component .total-description {
-  position: absolute;
-  top: 35px;
-  left: 0px;
-  background-color: white;
-  border-radius: 10px;
-  border: 1px solid var(--grey);
-  box-shadow: 1px 1px 2px var(--grey);
-  padding: 0.5rem;
-  z-index: 1;
-}
-
-.nav-dashboard-component .total-description-span {
-  display: block;
-  width: 13px;
-  height: 13px;
-  transform: rotate(45deg);
-  background-color: var(--grey);
-  position: absolute;
-  top: 29px;
-  left: 15px;
-  z-index: -1;
-}
-
-.nav-dashboard-component .user-role {
-  font-size: 0.8rem;
-  line-height: 0.4rem;
-  text-align: center;
-}
-
-/* SIDEBAR --------------------------------------------------- */
-
-.icons-circle img {
-  border-radius: 50%;
-  padding: 0.2rem;
-  background-color: white;
-  overflow: hidden;
-}
-.icons-circle img:hover {
-  scale: 1.008;
-}
-
-.sidebar-component {
-  display: flex;
-  flex-direction: column;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  font-size: 0.9rem;
-  position: relative;
-  align-items: baseline;
-  padding: 0.6rem;
-  margin: 1rem 0.5rem;
-  margin-bottom: 1.4rem;
-  border-radius: 2px;
-  width: 3rem;
-  height: 90vh;
-  padding-block: 0.8rem;
-  box-shadow: 1px 1px 2px var(--green-blue);
-  transition: width 0.3s ease; /* Transizione fluida per l'altezza */
-}
-
-.sidebar-component h5,
-.sidebar-component p,
-.sidebar-component img,
-.sidebar-component .folder {
-  cursor: pointer;
-}
-.sidebar-component h5:hover,
-.sidebar-component p:hover {
-  scale: 1.007;
-}
-
-.sidebar-component .folder:hover {
-  background-color: var(--pseudo-white);
-  width: 100%;
-  border-radius: 5px;
-}
-
-.sidebar-component.open {
-  width: 13rem;
-}
-
-/* da capire perché non transita in ballo */
-.sidebar-component .open-project {
-  padding-left: 2rem;
-  padding-top: 0.5rem;
-  font-size: 0.8rem;
-  overflow: hidden; /* Nasconde il contenuto mentre si riduce */
-  max-height: 0;
-  transition: max-height 0.4s ease; /* Applica una transizione sull'altezza */
-}
-
-/* .sidebar-component .open-project.open {
-  max-height: 1000px; /* Un valore massimo sufficiente per contenere il contenuto }*/
-
-
-.sidebar-component .selected {
-  background-color: white;
-  border-radius: 5px;
-}
-
-.sidebar-component .open-project .project {
-  height: auto;
-  padding: 0.1rem 0.5rem;
-  margin-bottom: 0.2rem;
-}
-.sidebar-component .open-project .project-padding:hover {
-  background-color: var(--pseudo-white);
-}
-
-.sidebar-component .open-project .project-padding {
-  padding: 0.1rem 0.5rem;
-  margin-bottom: 0.2rem;
-  border-radius: 5px;
-}
-
-.sidebar-component .open-project p {
-  cursor: pointer;
-}
-
-.sidebar-component .open-project img {
-  background-color: transparent;
-  display: block;
-  width: 15px;
-  height: 15px;
-  background-image: url("assets/img/project.svg");
-  background-size: cover;
-}
-
-/* header */
-
-/* show types */
-
-.text-title-types-homepage {
-  text-align: right;
-  margin-bottom: 5rem;
-  font-style: italic;
-  margin-bottom: 5rem;
-}
-
-.text-title-types-homepage .span-types {
-  display: block;
-  font-style: normal;
-  color: var(--dark-blue);
-  position: relative;
-}
-
-.text-title-types-homepage .span-types span {
-  width: 8.4rem;
-  height: 3px;
-  background-color: var(--blue);
-  position: absolute;
-  bottom: -5px;
-  right: 0px;
-}
-
-.work {
-  padding: 1.5rem;
-  padding-top: 0;
-}
-.study {
-  padding: 1.5rem;
-  padding-top: 0;
-}
-.event {
-  padding: 1.5rem;
-  padding-top: 0;
-}
-.free-time {
-  padding: 1.5rem;
-  padding-top: 0;
-}
-
-.bg-card {
-  position: relative;
-  padding: 2rem;
-  border-radius: 2px;
-  background-color: var(--pseudo-white);
-}
-
-.bg-card-pro img:hover {
-  scale: 1.05;
-  transition: 0.2s;
-}
-
-.shadow-card {
-  border-radius: 2px;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 10px;
-  right: -10px;
-  z-index: -1;
-}
-
-.work .bg-card {
-  box-shadow: 1px 2px 5px var(--dark-red);
-}
-.work .bg-card-pro {
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0px 1px 2px var(--dark-red);
-  padding: 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-}
-.study .bg-card {
-  box-shadow: 1px 2px 5px var(--dark-grey);
-}
-.event .bg-card {
-  box-shadow: 1px 2px 5px var(--dark-violet);
-}
-.free-time .bg-card {
-  box-shadow: 1px 2px 5px var(--dark-green);
-}
-.work .shadow-card {
-  background-color: var(--red);
-}
-.study .shadow-card {
-  background-color: var(--grey);
-}
-.event .shadow-card {
-  background-color: var(--violet);
-}
-.free-time .shadow-card {
-  background-color: var(--green);
-}
-
-.bg-card:hover {
-  cursor: pointer;
-  scale: 1.05;
-  transition: 0.5s;
-}
-
-.img-card-types {
-  display: flex;
   justify-content: center;
-  margin-inline: auto;
-  width: 8rem;
-  height: 8rem;
-  border-radius: 50%;
-  background-color: white;
+  flex-direction: column;
+  height: 90vh;
+  position: relative;
+  width: 100%;
   overflow: hidden;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-.work .img-card-types {
-  box-shadow: 1px 1px 3px var(--dark-red);
-}
-.study .img-card-types {
-  box-shadow: 1px 1px 3px var(--dark-grey);
-}
-.event .img-card-types {
-  box-shadow: 1px 1px 3px var(--dark-violet);
-}
-.free-time .img-card-types {
-  box-shadow: 1px 1px 3px var(--dark-green);
-}
-
-.img-card-types img {
-  width: 70%;
-  height: 70%;
-  object-fit: cover;
-}
-
-.bg-card h3 {
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
-.subscribe {
-  font-weight: 500;
-  color: var(--orange);
-  font-size: 2.4rem;
-}
-
-.subscribe-line {
+.create-project-first-component .my-card {
   position: absolute;
-  width: 20rem;
-  height: 2px;
-  background-color: var(--blue);
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  /* Assicurati che l'elemento sia inizialmente visibile */
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
 }
+
+.create-project-first-component .my-card.slide-in {
+  transform: translateX(100%); /* Torna visibile */
+  opacity: 0;
+}
+
+.create-project-first-component .my-card.slide-out {
+  transform: translateX(-100%); /* Nasconde a sinistra */
+  opacity: 0;
+}
+
+.create-project-first-component .step-title {
+  padding-bottom: 3rem;
+  text-align: center;
+}
+
+.create-project-first-component .container-cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40rem;
+}
+
+/* Animazione per l'elemento-up (spostamento verso l'alto) */
+
+.together {
+  border: 1px solid var(--green);
+  box-shadow: 1px 1px 1px var(--green);
+}
+.together:focus {
+  box-shadow: -1px -1px 1px var(--green);
+}
+
+.container-cards .together,
+.container-cards .alone {
+  scale: 1;
+  transition: scale 0.3s ease;
+}
+.together:hover,
+.alone:hover {
+  scale: 1.02;
+}
+
+.alone {
+  border: 1px solid var(--red);
+  box-shadow: 1px 1px 1px var(--red);
+}
+.alone:focus {
+  box-shadow: -1px -1px 1px var(--red);
+}
+
+.choose-type-project .card-container {
+  position: relative;
+  padding: 1.5rem 2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  height: 26rem;
+  width: 18rem;
+  margin-inline: 1rem;
+}
+
+.choose-type-project .card-container h3 {
+  text-align: center;
+}
+.choose-type-project .card-container p {
+  text-wrap: pretty;
+}
+
+.choose-type-project .img-container {
+  margin-inline: auto;
+  width: 11rem;
+  height: 11rem;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.choose-type-project .img-container img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* --------------------------------------------------------------------- */
 
 /* footer
 
@@ -869,8 +206,52 @@ h5 {
 } */
 
 /* create project */
-.container-create-project {
-  padding: 5rem;
+
+.create-form-project-component {
+  width: 24rem;
+  padding: 1.5rem;
+  border-radius: 50px;
+}
+.create-form-project-component .img-project-container{
+  width: 12rem;
+  height: 12rem;
+  margin-inline: auto;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.create-form-project-component .img-project-container:hover{
+ box-shadow: 1px 1px 1px var(--red);
+ scale: 1;
+}
+
+.create-form-project-component .img-project-container img{
+  width: 100%;
+  height: 100%;
+  margin-inline: auto;
+  object-fit: cover;
+}
+
+.create-form-project-component.together:focus,
+.create-form-project-component.together:hover,
+.create-form-project-component.alone:focus,
+.create-form-project-component.alone:hover {
+  box-shadow: none;
+  scale: 1;
+}
+
+.create-form-project-component .label {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-form-project-component .label input,
+.create-form-project-component .label textarea {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  padding: 0.3rem 0.5rem;
+
+  border-left: 3px solid var(--red);
+  background-color: var(--clear-orange);
 }
 
 .padding-container-form-project {
@@ -919,18 +300,6 @@ h5 {
   transform: translate(-50%);
 }
 
-.label-create-project {
-  display: flex;
-  flex-direction: column;
-}
-
-.label-create-project input,
-.label-create-project textarea {
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-  height: 100%;
-  border-bottom: 1px solid black;
-}
 .work .label-create-project input:hover,
 .work .label-create-project textarea:hover,
 .work .label-create-project input:focus,

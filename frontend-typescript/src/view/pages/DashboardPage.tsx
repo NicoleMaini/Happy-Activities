@@ -7,6 +7,7 @@ import CreateProjectPage from "./CreateProjectPage";
 import { Link, useNavigate } from "react-router-dom";
 import CardProjectComponent from "../components/project-card/CardProjectComponent";
 import NavbarComponent from "../components/NavbarComponent";
+import { projectPageLink } from "../../includes/functions";
 
 function DashboardPage() {
   const [projects, setProjects] = useState<Project[] | []>([]);
@@ -19,7 +20,6 @@ function DashboardPage() {
     axios
       .get("/api/v1/projects")
       .then((resp) => {
-        console.log("resp.data", resp.data.data);
         const projs: Project[] = resp.data.data;
         const projsActive = projs.filter((pro) => {
           return pro.progress === "active";
@@ -36,15 +36,13 @@ function DashboardPage() {
     if (projects.length === 1) {
       projects.forEach((project) => {
         navigate(
-          `/dashboard/project/${project.id}-${project.name
-            .replace(/\s+/g, "-")
-            .toLowerCase()}`
+          projectPageLink(project)
         );
       });
     }
   }, [projects.length]);
 
-  console.log("step 1", projects);
+  // console.log("Dashboard projects", projects);
 
   return (
     <Container fluid className="p-0">

@@ -67,7 +67,7 @@ class ProjectController extends Controller
                 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'name' => 'required|string',
                 'description' => 'nullable|string',
-                'type' => 'required|in:work, study, event, free-time',
+                'type' => 'required|in:together, alone',
                 'progress' => 'required|in:active, delete',
             ]);
             if ($request->hasFile('cover_image')) {
@@ -134,7 +134,7 @@ class ProjectController extends Controller
                 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'name' => 'required|string',
                 'description' => 'nullable|string',
-                'type' => 'required|in:work, study, event, free-time',
+                'type' => 'required|in:together, alone',
                 'progress' => 'required|in:active, delete',
             ]);
 
@@ -170,12 +170,12 @@ class ProjectController extends Controller
         $projectSearch = Project::findOrFail($id);
 
         $project = Project::where('id', $projectSearch->id)
-            ->whereIn('type', ['work', 'study'])
+            ->whereIn('type', 'together')
             ->whereHas('users', function ($query) use ($userId) {
                 $query->where('user_id', $userId)->where('team', 'team-lead');
             })
             ->orWhere(function ($subQuery) use ($userId) {
-                $subQuery->whereIn('type', ['event', 'free-time'])->whereHas('users', function ($query) use ($userId) {
+                $subQuery->whereIn('type', 'alone')->whereHas('users', function ($query) use ($userId) {
                     $query->where('user_id', $userId);
                 });
             })
