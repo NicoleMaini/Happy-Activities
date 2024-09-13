@@ -116,7 +116,7 @@ class MicrotaskController extends Controller
                 'title' => 'required|string',
                 'description' => 'nullable|string',
                 'assigned' => 'nullable|string',
-                'progress' => 'required|in:to do, completed, delete',
+                'progress' => 'required|in:to do,completed,delete',
                 'appointment' => 'nullable|date',
             ]);
 
@@ -173,7 +173,7 @@ class MicrotaskController extends Controller
                 'title' => 'required|string',
                 'description' => 'nullable|string',
                 'assigned' => 'nullable|string',
-                'progress' => 'required|in:to do, completed, delete',
+                'progress' => 'required|in:to do,completed,delete',
                 'appointment' => 'nullable|date',
             ]);
 

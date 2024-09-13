@@ -43,7 +43,7 @@ function NavbarComponent() {
 
   // per mostrare se si è collaboratori o team leader
   const teamComponentFunction = () => {
-    if (project && user) {
+    if (project && project.users && user) {
       const roleUser = project.users.filter((userRole) => {
         return userRole.id === user.id;
       });
@@ -64,7 +64,7 @@ function NavbarComponent() {
               alt="project-img"
             />
           </div>
-          <div className="text-uppercase name text-nowarp">{project.name.length >= 22? project.name.substring(0, 22) + '...': project.name}</div>
+          <div className="text-uppercase name text-nowarp me-1">{project.name.length >= 22? project.name.substring(0, 22) + '...': project.name}</div>
           <div>&raquo;</div>
           <div
             className="position-relative w-50"

@@ -67,8 +67,8 @@ class ProjectController extends Controller
                 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'name' => 'required|string',
                 'description' => 'nullable|string',
-                'type' => 'required|in:together, alone',
-                'progress' => 'required|in:active, delete',
+                'type' => 'required|in:together,alone',
+                'progress' => 'required|in:active,delete',
             ]);
             if ($request->hasFile('cover_image')) {
                 $imagePath = $request->file('cover_image')->store('projects', 'public');
@@ -134,8 +134,8 @@ class ProjectController extends Controller
                 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'name' => 'required|string',
                 'description' => 'nullable|string',
-                'type' => 'required|in:together, alone',
-                'progress' => 'required|in:active, delete',
+                'type' => 'required|in:together,alone',
+                'progress' => 'required|in:active,delete',
             ]);
 
             if ($request->hasFile('cover_image')) {

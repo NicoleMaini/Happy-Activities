@@ -4,10 +4,10 @@ import aloneImg from "../../../assets/img/working-alone.jpg";
 import refreshIcons from "../../../assets/img/refresh-icon.svg";
 import edit from "../../../assets/img/edit.png";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import axios from "axios";
 import { ProjectCreate } from "../../../interfaces/Project";
+import { useAppDispatch } from "../../../redux/store";
+import { goProject } from "../../../includes/functions";
 
 interface CreateFormProjectProps {
   type: string;
@@ -15,9 +15,8 @@ interface CreateFormProjectProps {
 }
 
 function CreateFormProject(props: CreateFormProjectProps) {
-  const user = useAppSelector((state) => state.user.user);
-
-  const navigate = useNavigate();
+ 
+const dispatch = useAppDispatch();
 
   const [errors, setErrors] = useState(null);
 
@@ -27,16 +26,20 @@ function CreateFormProject(props: CreateFormProjectProps) {
     fileInputRef.current?.click();
   };
 
+  console.log(props.type);
+
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState<ProjectCreate>({
+  const initialFormData: ProjectCreate = {
     cover_image: "",
     name: "",
     description: "",
     type: "",
     progress: "",
-  });
+  };
+
+  const [formData, setFormData] = useState<ProjectCreate>(initialFormData);
 
   const updateInputValue = (
     ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -76,20 +79,23 @@ function CreateFormProject(props: CreateFormProjectProps) {
     body.append("type", props.type);
     body.append("progress", "active");
 
+    console.log(formData);
+
     axios
       .post("/api/v1/projects", body)
-      .then((res) => {
-        const project = res.data.project;
-        console.log("ok, fetch riuscita");
-        // navigate(
-        //   `/dashboard/project/${project.id}-${project.name
-        //     .replace(/\s+/g, "-")
-        //     .toLowerCase()}`
-        // );
+      .then((res) => { 
+        goProject(res.data.project, dispatch)
       })
       .catch((err) => {
         setErrors(err.response?.data.errors || { general: "Unknown error" });
       });
+  };
+
+  const resetForm = () => {
+    setFormData(initialFormData);  // Resetta i dati del form
+    setCoverImage(null);           // Resetta l'immagine selezionata
+    setPreviewSrc(null);           // Resetta l'anteprima dell'immagine
+    fileInputRef.current!.value = '';  // Resetta il campo file input
   };
 
   return (
@@ -104,13 +110,13 @@ function CreateFormProject(props: CreateFormProjectProps) {
               {props.type === "alone" && <img src={aloneImg} alt="" />}
             </>
           ) : (
-            <img src={previewSrc} alt="" className="img-prew-create-project" />
+            <img src={previewSrc} alt="preview-img"/>
           )}
         </div>
 
         {/* per aggiungere l'immagine */}
-        <div className="edit-create-project" onClick={handleImageClick}>
-          <img src={edit} alt="edit" />
+        <div className={`edit-container ${props.type}`} onClick={handleImageClick}>
+          <img src={edit} alt="edit" width={15}/>
         </div>
       </div>
 
@@ -123,26 +129,27 @@ function CreateFormProject(props: CreateFormProjectProps) {
           className="d-none"
           onChange={updateImageField}
         />
-        <div className="label">
+        <div className={`label color-${props.type}`}>
           <label className="mb-2">Name of your project:</label>
           <input
             type="text"
             name="name"
             onChange={(ev) => updateInputValue(ev)}
             value={formData.name}
+            required
           />
           <label>Brief description of your project:</label>
           <textarea
-            rows={3}
+            rows={2}
             name="description"
             onChange={(ev) => updateInputValue(ev)}
             value={formData.description}
           ></textarea>
         </div>
-        <div className="d-flex">
-          <img src={refreshIcons} alt="" width={24} className="opacity-75" />
-          <button type="submit" className="" onClick={props.onclick}>
-            Login
+        <div className="d-flex align-items-center justify-content-between mt-3 mb-1">
+          <img src={refreshIcons} alt="" width={24} className="opacity-75" onClick={resetForm}/>
+          <button type="submit" className={`${props.type} ${!formData.name.trim() && 'disable'}`} onClick={props.onclick} disabled={!formData.name.trim()} >
+            save
           </button>
         </div>
       </form>

@@ -1,15 +1,24 @@
 import CardTypeProjectComponent from "../components/create-project/CardTypeProjectComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateFormProject from "../components/create-project/CreateFormProject";
 import { typesCardProject } from "../../includes/type-card-project";
 import { ProjectCardType } from "../../interfaces/Project";
 import NavbarComponent from "../components/NavbarComponent";
+import { Link } from "react-router-dom";
+import { useAppSelector } from "../../redux/store";
+import { projectPageLink } from "../../includes/functions";
 
 function CreateProjectPage() {
+  const project = useAppSelector((state) => state.project.project);
+
   const [type, setType] = useState<string | null>();
 
   const [slideIn, setSlideIn] = useState(false); // Stato per tracciare quale animazione eseguire
   const [slideOut, setSlideOut] = useState(false); // Stato per tracciare quale animazione eseguire
+
+  useEffect(() => {
+    document.title = "Create project";
+  }, []);
 
   const handleClick = (type: string, fun: () => void) => {
     setType(type);
@@ -30,9 +39,9 @@ function CreateProjectPage() {
             slideIn && slideOut && "slide-out"
           }`}
         >
-          <h3 className="step-title">
+          <h4>
             <span>STEP 1 - </span> Choose your type of project
-          </h3>
+          </h4>
           <div className="container-cards">
             {typesCardProject.map((type: ProjectCardType, i) => (
               <CardTypeProjectComponent
@@ -56,7 +65,7 @@ function CreateProjectPage() {
             slideIn && !slideOut && ""
           } ${slideIn && slideOut && "slide-out"}`}
         >
-          <h3 className="step-title"> STEP 2 - Create Project Details</h3>
+          <h4> STEP 2 - Create Project Details</h4>
           {type && (
             <CreateFormProject
               type={type}
@@ -69,9 +78,14 @@ function CreateProjectPage() {
         <div
           className={`my-card  ${!slideIn && !slideOut && "slide-in"} ${
             slideIn && !slideOut && "slide-in"
-          } ${slideIn && slideOut && ""}`}
+          } ${slideIn && slideOut && ""} ${type} p-4 third-slide`}
         >
-          <h3 className="step-title">STEP 3 - Finalize Project</h3>
+          <h4 className="p-0">STEP 3 - Well done!</h4>
+          <h4 className={`py-2 color-${type}`}>PROJECT CREATES SUCCESSFULLY</h4>
+            {project && (
+              <Link to={projectPageLink(project)} className={`link-go-to ${type} mb-3`}>go to the project</Link>
+            )}
+            <Link to={"/dashboard"} className={`link-go-to ${type}`}>back to the dashborad</Link>
         </div>
       </div>
     </>
@@ -79,36 +93,3 @@ function CreateProjectPage() {
 }
 
 export default CreateProjectPage;
-
-// import React, { useRef } from 'react';
-// import './App.css';  // Assicurati che i tuoi stili CSS siano importati
-
-// const App: React.FC = () => {
-//   // Usa useRef per ottenere riferimenti agli elementi che vuoi animare
-//   const elementUpRef = useRef<HTMLDivElement>(null);
-//   const elementDownRef = useRef<HTMLDivElement>(null);
-
-//   // Funzione per avviare l'animazione
-//   const startAnimation = () => {
-//     if (elementUpRef.current) {
-//       elementUpRef.current.style.animation = 'moveUp 1.5s ease forwards';
-//     }
-//     if (elementDownRef.current) {
-//       elementDownRef.current.style.animation = 'moveUpFromBottom 1.5s ease forwards';
-//     }
-//   };
-
-//   return (
-//     <div className="container">
-//       <div ref={elementUpRef} className="element-up">
-//         Sposta verso l'alto
-//       </div>
-//       <div ref={elementDownRef} className="element-down">
-//         Entra dal basso
-//       </div>
-//       <button onClick={startAnimation}>Inizia Animazione</button>
-//     </div>
-//   );
-// };
-
-// export default App;

@@ -4,6 +4,7 @@ import './assets/css/homepage-style.css';
 import './assets/css/navbar-style.css';
 import './assets/css/sidebar-style.css';
 import './assets/css/dashboard-style.css';
+import './assets/css/create-page-project-style.css';
 
 import axios from "axios";
 import { useAppDispatch } from "./redux/store";

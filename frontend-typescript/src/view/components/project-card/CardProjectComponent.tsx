@@ -72,7 +72,7 @@ function CardProjectComponent({ project }: ProjectProps) {
             <img src={heartGrey} alt="" width={18} />
           </div>
         </div>
-        <p className="mt-3" onClick={()=>goProject(project, dispatch, navigate)}>{project.description.substring(0, 50) + "..."}</p>
+        <p className="mt-3" onClick={()=>goProject(project, dispatch, navigate)}>{project.description}</p>
         <div className="card-project-bottom mt-auto pb-0">
           <div>
             {project.users.map((user) => (

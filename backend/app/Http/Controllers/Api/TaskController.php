@@ -98,7 +98,7 @@ class TaskController extends Controller
                 'title' => 'required|string',
                 'description' => 'nullable|string',
                 'assigned' => 'nullable|string',
-                'progress' => 'required|in:to do, in progress, in review, completed, delete',
+                'progress' => 'required|in:to do,in progress,in review,completed,delete',
                 'appointment' => 'nullable|date',
             ]);
 
@@ -161,7 +161,7 @@ class TaskController extends Controller
                 'title' => 'required|string',
                 'description' => 'nullable|string',
                 'assigned' => 'nullable|string',
-                'progress' => 'required|in:to do, in progress, in review, completed, delete',
+                'progress' => 'required|in:to do,in progress,in review,completed,delete',
                 'appointment' => 'nullable|date',
             ]);
 
