@@ -52,7 +52,7 @@ function NavbarComponent() {
   };
 
   return (
-    <div className="nav-dashboard-component dashboard-color">
+    <div className={!project ? `nav-dashboard-component dashboard-color` : `nav-dashboard-component dashboard-color-${project.type}`}>
       <img src={logo} alt="logo" width={26} className="me-3" />
       <Link to="/dashboard">Dashboard</Link>
       <div className="dividing-line"></div>
@@ -116,17 +116,18 @@ function NavbarComponent() {
       )}
       <div className="dividing-line"></div>
       {project && (
-        <div className="project-img">
-          <img src={calendar} alt="project-img" />
+        <div className="icons-circle press me-2">
+          <img src={calendar} alt="" width={26}/>
         </div>
       )}
-      <img
-        src={exit}
-        alt="Logout"
-        onClick={logout}
-        width={24}
-        className="cursor-pointer"
-      />
+     <div className="icons-circle press">
+        <img
+          src={exit}
+          alt="Logout"
+          onClick={logout}
+          width={26}
+        />
+     </div>
     </div>
   );
 }

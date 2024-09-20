@@ -61,6 +61,7 @@ h5 {
   --dark-grey: #37474f;
   --grey: #a2b1b9;
   --light-grey: #d5d5d5;
+  --lighter-grey: #edecec;
   --deep-violet: #353255;
   --dark-violet: #5e35b1;
   --violet: #c2a0ff;
@@ -72,6 +73,18 @@ h5 {
 
 /* Fine reset CSS */
 
+.press{
+  cursor: pointer;
+  scale:1;
+  transition: scale 0.2s ease-in-out;
+}
+.press:hover{
+  scale: 1.07;
+}
+
+.press:active{
+  scale:0.9
+}
 
 /* --------------------------------------------------------------------- */
 
@@ -109,43 +122,6 @@ h5 {
 
 
 
-/* card project component */
-
-.img-card-types.card-project {
-  width: 6rem;
-  height: 6rem;
-  margin-bottom: 1rem;
-  overflow: hidden;
-}
-.img-card-types.card-project img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.card-project-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.8rem;
-  border-top: 1px solid black;
-
-  padding-block: 0.5rem;
-}
-
-.delete-card-project-func img:hover {
-  scale: 1.1;
-  cursor: pointer;
-}
-
-.delete-card-project {
-  border-radius: 10px;
-  box-shadow: 0px 0px 3px var(--orange);
-  background-color: var(--clear-orange);
-  padding: 0.5rem 1rem;
-  margin-top: 1.1rem;
-}
 
 /* delete */
 

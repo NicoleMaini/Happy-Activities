@@ -44,7 +44,7 @@ class ProjectController extends Controller
             $user = Auth::user();
 
             $query = $this->checkAuthorization();
-            $projects = $query->get();
+            $projects = $query->with('tasks', 'users')->get();
 
             foreach ($projects as $project) {
                 $project->load('users');
