@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\StoreprojectsRequest;
-use App\Http\Requests\UpdateprojectsRequest;
+
 
 class ProjectController extends Controller
 {
@@ -138,24 +135,20 @@ class ProjectController extends Controller
                 'progress' => 'required|in:active,delete',
             ]);
 
+            // Se c'è un file per l'immagine di copertura, caricalo e salva il percorso
             if ($request->hasFile('cover_image')) {
                 $imagePath = $request->file('cover_image')->store('projects', 'public');
-                $validator['cover_image'] = $imagePath;
+                $project->cover_image = $imagePath; // Salva il percorso nel modello
             }
 
-            if ($request->hasFile('cover_image')) {
-                // Salva l'immagine nel filesystem
-                $imagePath = $request->file('cover_image')->store('projects', 'public');
-                $project->cover_image = $imagePath;
-            }
+            // Aggiorna gli altri campi del progetto
+            $project->name = $request->name;
+            $project->description = $request->description;
+            $project->type = $request->type;
+            $project->progress = $request->progress;
 
-            $project->save([
-                'cover_image' => $request->cover_image,
-                'name' => $request->name,
-                'description' => $request->description,
-                'type' => $request->type,
-                'progress' => $request->progress,
-            ]);
+            // Salva le modifiche al progetto
+            $project->save();
 
             // Restituisci una risposta JSON con il prodotto aggiornato
             return response()->json(['message' => 'Project updated successfully', 'project' => $project], 200);
@@ -167,17 +160,21 @@ class ProjectController extends Controller
     protected function moveProjectAuthorization($id)
     {
         $userId = Auth::id();
-        $projectSearch = Project::findOrFail($id);
 
-        $project = Project::where('id', $projectSearch->id)
-            ->whereIn('type', 'together')
-            ->whereHas('users', function ($query) use ($userId) {
-                $query->where('user_id', $userId)->where('team', 'team-lead');
-            })
-            ->orWhere(function ($subQuery) use ($userId) {
-                $subQuery->whereIn('type', 'alone')->whereHas('users', function ($query) use ($userId) {
-                    $query->where('user_id', $userId);
+        $project = Project::where(function ($query) use ($id, $userId) {
+            $query->where('id', $id)
+                ->where('type', 'together')
+                ->whereHas('users', function ($query) use ($userId) {
+                    $query->where('user_id', $userId)
+                        ->where('team', 'team-lead');
                 });
+        })
+            ->orWhere(function ($subQuery) use ($id, $userId) {
+                $subQuery->where('id', $id)
+                    ->where('type', 'alone')
+                    ->whereHas('users', function ($query) use ($userId) {
+                        $query->where('user_id', $userId);
+                    });
             })
             ->first();
 
@@ -189,32 +186,28 @@ class ProjectController extends Controller
         return $project;
     }
 
-    public function delete($id)
+    public function updateStatusProject(Request $request)
     {
+        $id = $request->input('id');
+        $action = $request->input('action');
+
         try {
             $project = $this->moveProjectAuthorization($id);
+            $project->update(['progress' => $action]);
 
-            $newValue = 'delete';
-            $project->update(['progress' => $newValue]);
-            return response()->json(['message' => 'Delete updated successfully', 'project' => $project]);
+            if ($action === 'delete') {
+                return response()->json(['message' => 'Delete updated successfully', 'id' => $id, 'project' => $project], 200);
+            } elseif ($action === 'active') {
+                return response()->json(['message' => 'Active updated successfully', 'project' => $project], 200);
+            } else {
+                return response()->json(['message' => 'Complete updated successfully', 'project' => $project], 200);
+            }
         } catch (\Exception $e) {
+            // Log dell'errore
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    public function restore($id)
-    {
-        try {
-            $project = $this->moveProjectAuthorization($id);
-
-            $newValue = 'active';
-            $project->update(['progress' => $newValue]);
-
-            return response()->json(['message' => 'Restore updated successfully', 'project' => $project], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
-        }
-    }
 
     public function destroy($id)
     {

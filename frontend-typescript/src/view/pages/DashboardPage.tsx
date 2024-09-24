@@ -3,24 +3,37 @@ import SidebarComponent from "../components/SidebarComponent";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Project } from "../../interfaces/Project";
-import CreateProjectPage from "./CreateProjectPage";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CardProjectComponent from "../components/project-card/CardProjectComponent";
 import NavbarComponent from "../components/NavbarComponent";
 import { getProjects, projectPageLink } from "../../includes/functions";
-import { useAppSelector } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { ReloadProjects, STOP_LOAD_PROJECTS } from "../../redux/actions";
 
 function DashboardPage() {
   const navigate = useNavigate();
-  const user = useAppSelector(state=>state.user.user)
+  const dispatch = useAppDispatch();
+
+  const user = useAppSelector((state) => state.user.user);
+  const reload = useAppSelector((state) => state.reload.reload);
 
   const [projects, setProjects] = useState<Project[] | []>([]);
-  const [errors, setErrors] = useState<{ [key: string]: any } | { general: string } | null>(null);
-  
+  const [errors, setErrors] = useState<
+    { [key: string]: any } | { general: string } | null
+  >(null);
+
+  console.log('proj',projects);
+
   useEffect(() => {
     document.title = "Dashboard";
     getProjects(setProjects, setErrors, navigate);
   }, [projects.length]);
+
+  useEffect(() => {
+    getProjects(setProjects, setErrors, navigate);
+    const action: ReloadProjects = { type: STOP_LOAD_PROJECTS } as const;
+    dispatch(action);
+  }, [reload]);
 
   useEffect(() => {
     if (projects.length === 1) {
@@ -29,10 +42,10 @@ function DashboardPage() {
       });
     }
   }, [projects.length]);
-  
+
   // favorite project ------------------------------------------------------
-  
-  const favoriteProject = user && user.favorite_project
+
+  const favoriteProject = user && user.favorite_project;
 
   const [favorite, setFavorite] = useState<number | null>(favoriteProject);
 

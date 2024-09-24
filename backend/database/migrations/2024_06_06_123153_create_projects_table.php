@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('name', 200);
             $table->enum('type', ['together', 'alone']);
             $table->string('description', 1000)->nullable();
-            $table->enum('progress', ['active', 'delete']);
+            $table->enum('progress', ['active', 'delete', 'complete']);
         });
     }
 

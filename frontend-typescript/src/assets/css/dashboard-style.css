@@ -28,9 +28,26 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: 10px;
   padding: 1rem;
-  box-shadow: 0px 1px 1px var(--light-grey);
+  transform: scale(1); /* Usa transform invece di scale */
+  transition: transform 0.3s ease-in-out; /* Specifica la proprietà corretta */
+}
+
+.card-project-component .card-container:hover {
+  transform: scale(1.03); /* Usa transform invece di scale */
+}
+
+.card-project-component .card-together{
+  border-bottom: 2px solid var(--green);
+  border-left: 1px solid var(--light-green);
+  border-right: 1px solid var(--light-green);
+  border-top: 2px solid var(--green);
+}
+.card-project-component .card-alone{
+  border-bottom: 2px solid var(--red);
+  border-top: 2px solid var(--red);
+  border-left: 1px solid var(--light-red);
+  border-right: 1px solid var(--light-red);
 }
 
 .icons-rotate {
@@ -42,11 +59,12 @@
 }
 
 .card-project-component h5,
-.card-project-component p{
+.card-project-component p {
   cursor: pointer;
 }
 
-.card-project-component .img-container {
+.card-project-component .img-container,
+.delete-card-project-component .img-container {
   width: 3.3rem;
   height: 3.3rem;
   overflow: hidden;
@@ -54,7 +72,8 @@
   box-shadow: none;
   cursor: pointer;
 }
-.card-project-component .img-container img {
+.card-project-component .img-container img,
+.delete-card-project-component .img-container img  {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -83,43 +102,42 @@
   margin-left: auto;
 }
 
-.card-project-component .favorite{
+.card-project-component .favorite {
   cursor: pointer;
-  scale:1;
+  scale: 1;
   transition: scale 0.15s ease;
 }
-.card-project-component .favorite:hover{
-  scale:1.08
+.card-project-component .favorite:hover {
+  scale: 1.08;
 }
-.card-project-component .favorite:active{
-  scale:0.9
+.card-project-component .favorite:active {
+  scale: 0.9;
 }
 
 /* Menù card project */
 
-.menu-card-component{
+.menu-card-component {
   position: absolute;
   right: 28px;
-  top:0px;
+  top: 0px;
   border: 1px solid var(--light-grey);
   padding: 0.6rem 0.5rem;
   border-radius: 5px;
-  width: 6rem;
+  width: 9rem;
   z-index: 1;
   background-color: white;
 }
 
-
-.visible{
+.visible {
   opacity: 1;
   transform: scale(0.5);
-  animation: openWindow 0.4s ease-out forwards; 
+  animation: openWindow 0.4s ease-out forwards;
 }
 
 .hidden {
   opacity: 0; /* Inizia invisibile */
   transform: scale(0.5); /* Inizia ridotto */
-  animation: closeWindow 0.4s ease-out forwards; 
+  animation: closeWindow 0.4s ease-out forwards;
 }
 
 @keyframes closeWindow {
@@ -132,15 +150,15 @@
     transform: scale(0.5); /* Si riduce */
   }
 }
-.menu-card-component .selected{
+.menu-card-component .selected {
   padding: 0.2rem 0.5rem;
 }
-.menu-card-component .selected:hover{
+.menu-card-component .selected:hover {
   background-color: var(--lighter-grey);
   border-radius: 3px;
 }
 
-.menu-card-component .selected img{
+.menu-card-component .selected img {
   opacity: 0.45;
 }
 
@@ -154,15 +172,45 @@
   padding-block: 0.5rem;
 }
 
-.delete-card-project-func img:hover {
-  scale: 1.1;
-  cursor: pointer;
+/* EDIT MODAL */
+
+.modal-header {
+  border-bottom: none !important;
 }
 
-.delete-card-project {
-  border-radius: 10px;
-  box-shadow: 0px 0px 3px var(--orange);
-  background-color: var(--clear-orange);
-  padding: 0.5rem 1rem;
-  margin-top: 1.1rem;
+.modal-edit-project .modal-body {
+  padding: 0;
+}
+
+.btn-modal {
+  box-shadow: 0px 0px 3px var(--light-grey);
+  border-radius: 6px;
+  padding: 0.2rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.modal-question .line {
+  background-color: var(--light-grey);
+  height: 1px;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-modal.color-yes {
+  border: 1px solid var(--green);
+  box-shadow: 0px 0px 2px var(--green);
+}
+.btn-modal.color-yes:hover {
+  background-color: var(--light-green);
+  /* box-shadow: 0px 1px 2px var(--green); */
+}
+
+.btn-modal.color-no {
+  border: 1px solid var(--red);
+  box-shadow: 0px 0px 2px var(--red);
+}
+.btn-modal.color-no:hover {
+  background-color: var(--clear-red);
+  box-shadow: 0px 1px 2px var(--red);
 }

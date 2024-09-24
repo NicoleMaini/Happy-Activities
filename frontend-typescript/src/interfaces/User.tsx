@@ -3,7 +3,7 @@ export interface LoginPageProps {
   click: () => void;
 }
 
-interface Pivot{
+interface Pivot {
   project_id: number;
   team: string;
   user_id: number;
@@ -18,7 +18,7 @@ export interface User {
   updated_at: string;
   profile_image: string | null;
   favorite_project: number | null;
-  pivot: Pivot
+  pivot: Pivot;
 }
 
 export interface FormDataLogin {
@@ -36,4 +36,9 @@ export interface FormDataRegister {
   password: string;
   password_confirmation: string;
   profile_image: File | null;
+}
+
+export interface SendData {
+  id: number;
+  action: string;
 }

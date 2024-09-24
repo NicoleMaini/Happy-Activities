@@ -2,6 +2,7 @@ import { Project } from "./../interfaces/Project";
 import { NavigateFunction, Location } from "react-router-dom";
 import { PROJECT, ProjectActions, RESET_PROJECT } from "../redux/actions";
 import axios from "axios";
+import { SendData } from "../interfaces/User";
 
 // FUNZIONI PER LA GESTIONE DEL PROGETTO -------------------------------------------------
 
@@ -12,7 +13,6 @@ export const projectPageLink = (project: Project) => {
     .toLowerCase()}`;
 };
 // ----------------------------------------------------------------------------------------
-
 
 // funzione salvataggio progetto nello stateRedux -----------------------------------------
 export const goProject = (
@@ -33,7 +33,6 @@ export const goProject = (
 };
 // ----------------------------------------------------------------------------------------
 
-
 // funzione che resetta a null lo stateRedux ----------------------------------------------
 export const resetProject = (
   project: Project,
@@ -47,7 +46,6 @@ export const resetProject = (
 };
 // ----------------------------------------------------------------------------------------
 
-
 // FUNZIONI PER LE FETCH DEI PROGETTI -----------------------------------------------------
 
 // fetch per recuperare i progetti e dividerli in active e delete -------------------------
@@ -55,7 +53,7 @@ export const getProjects = (
   setProjectsActive: (projects: Project[]) => void,
   setErrors: (errors: { [key: string]: any } | { general: string }) => void,
   navigate?: NavigateFunction,
-  setProjectsDelete?: (projects: Project[]) => void,
+  setProjectsDelete?: (projects: Project[]) => void
 ) => {
   axios
     .get("/api/v1/projects")
@@ -80,3 +78,21 @@ export const getProjects = (
     });
 };
 // ----------------------------------------------------------------------------------------
+
+// CHANGE STATUS FUNCTION -----------------------------------------------------------------
+
+export const changeStatus = (
+  url: string,
+  sendData: SendData,
+  setErrors: (errors: { [key: string]: any } | { general: string }) => void
+) => {
+  axios
+    .put(url, sendData)
+    .then((resp) => {
+      console.log("tutto ok", resp.data);
+    })
+    .catch((err) => {
+      setErrors(err.response?.data.errors || { general: "Unknown error" });
+      // Gestisci l'errore, ad esempio mostrando un messaggio all'utente
+    });
+};

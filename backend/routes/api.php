@@ -15,9 +15,8 @@ Route::name('api.v1')
     ->prefix('v1')
     ->middleware(['auth:sanctum'])
     ->group(function () {
+        Route::put('/projects/update-status', [ProjectController::class, 'updateStatusProject']);
         Route::resource('/projects', ProjectController::class);
-        Route::put('/projects/delete/{id}', [ProjectController::class, 'delete']);
-        Route::put('/projects/restore/{id}', [ProjectController::class, 'restore']);
         Route::resource('/tasks', TaskController::class);
         Route::put('/tasks/completed/{id}', [TaskController::class, 'completed']);
         Route::put('/tasks/delete/{id}', [TaskController::class, 'delete']);

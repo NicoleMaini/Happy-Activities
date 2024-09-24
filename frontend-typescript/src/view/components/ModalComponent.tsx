@@ -3,38 +3,41 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 interface ModalProps {
-  title: string;
   question: string;
-  onclick: () => void;
+  click: () => void;
+  action: () => void;
 }
 
-function ModalComponent({ title, question, onclick }: ModalProps) {
-  const [show, setShow] = useState(true);
-
-  const handleClose = () => setShow(false);
-
+function ModalComponent({ question, action, click }: ModalProps) {
   const handleCloseConfirm = () => {
-    onclick();
+    action();
     setTimeout(() => {
-      setShow(false);
+      click();
     }, 1000);
   };
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} animation={false}>
+      <Modal
+        show={true}
+        onHide={click}
+        animation={false}
+        className="modal-question"
+      >
         <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{question}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleCloseConfirm}>
-            Confirm
-          </Button>
-        </Modal.Footer>
+        <Modal.Body className="p-4 pt-0">
+          <p className="fs-5">{question}</p>
+          <div className="line"></div>
+          <div className="d-flex ms-auto">
+            <button className="ms-auto btn-modal press color-no" onClick={click}>
+              No
+            </button>
+            <button className="ms-3 btn-modal press color-yes" onClick={handleCloseConfirm}>
+             Yes
+            </button>
+          </div>
+        </Modal.Body>
       </Modal>
     </>
   );

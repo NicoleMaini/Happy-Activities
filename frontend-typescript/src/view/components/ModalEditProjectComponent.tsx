@@ -4,22 +4,22 @@ import Modal from "react-bootstrap/Modal";
 import { Project, ProjectCreate } from "../../interfaces/Project";
 import axios from "axios";
 import { Container } from "react-bootstrap";
-
-import work from "../../assets/img/work.svg";
-import study from "../../assets/img/study.svg";
-import event from "../../assets/img/event.svg";
-import freeTime from "../../assets/img/freetime.svg";
+import collaborationImg from "../../assets/img/collaboration.png";
+import aloneImg from "../../assets/img/working-alone.jpg";
+import refreshIcons from "../../assets/img/refresh-icon.svg";
 import edit from "../../assets/img/edit.png";
+import { ReloadProjects, START_LOAD_PROJECTS } from "../../redux/actions";
+import { useAppDispatch } from "../../redux/store";
 
 interface ModalProps {
   project: Project;
   title: string;
+  click: () => void;
 }
 
-function ModalEditProjectComponent({ project, title }: ModalProps) {
+function ModalEditProjectComponent({ project, title, click }: ModalProps) {
+  const dispatch = useAppDispatch();
   const [show, setShow] = useState(true);
-
-  const handleClose = () => setShow(false);
 
   const [errors, setErrors] = useState(null);
 
@@ -32,16 +32,20 @@ function ModalEditProjectComponent({ project, title }: ModalProps) {
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState<ProjectCreate>({
+  const initialFormData: ProjectCreate = {
     cover_image: project.cover_image,
     name: project.name,
     description: project.description,
     type: project.type,
     progress: "active",
-  });
+  };
 
-  const updateInputValue = (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(oldFormData => ({
+  const [formData, setFormData] = useState<ProjectCreate>(initialFormData);
+
+  const updateInputValue = (
+    ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((oldFormData) => ({
       ...oldFormData,
       [ev.target.name]: ev.target.value,
     }));
@@ -73,83 +77,123 @@ function ModalEditProjectComponent({ project, title }: ModalProps) {
     if (coverImage !== null) {
       body.append("cover_image", coverImage);
     }
+    // Log ogni append
     body.append("name", formData.name);
     body.append("description", formData.description);
     body.append("type", formData.type);
     body.append("progress", formData.progress);
 
-    axios
-      .post(`/api/v1/projects/${project.id}`, body)
-      .then(res => {
-        console.log("fetch andata", res.data.project);
-      })
-      .catch(err => {
-        setErrors(err.response?.data.errors || { general: "Unknown error" });
-      });
+    if (body) {
+      axios
+        .post(`/api/v1/projects/${project.id}`, body)
+        .then((res) => {
+          console.log("fetch andata", res.data.project);
+          const action: ReloadProjects = { type: START_LOAD_PROJECTS } as const;
+          dispatch(action)
+          click();
+        })
+        .catch((err) => {
+          setErrors(err.response?.data.errors || { general: "Unknown error" });
+        });
+    }
   };
 
-  const classString: string = project.type + " padding-container-form-project mt-5";
+  const resetForm = () => {
+    setFormData(initialFormData); // Resetta i dati del form
+    setCoverImage(null); // Resetta l'immagine selezionata
+    setPreviewSrc(project.cover_image); // Resetta l'anteprima dell'immagine
+    fileInputRef.current!.value = ""; // Resetta il campo file input
+  };
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
-        </Modal.Header>
+      <Modal show={show} onHide={click} className="modal-edit-project">
+        <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
-          <Container className={classString}>
-            <div className="container-form-project-create">
-              <div className="img-card-types form-project-create">
-                {!previewSrc ? (
-                  <>
-                    {" "}
-                    {project.type === "work" && <img src={work} alt="" />}
-                    {project.type === "study" && <img src={study} alt="" />}
-                    {project.type === "event" && <img src={event} alt="" />}
-                    {project.type === "free-time" && <img src={freeTime} alt="" />}
-                  </>
-                ) : (
-                  <img src={previewSrc} alt="" className="img-prew-create-project" />
-                )}
-              </div>
-              <div className="edit-create-project" onClick={handleImageClick}>
-                <img src={edit} alt="edit" />
+          <Container className="create-form-project-component">
+            <div className="position-relative">
+              <h4 className="border-bottom mb-4 pb-2">{title}</h4>
+              <div className={`img-project-container ${project.type}`}>
+                <img
+                  src={
+                    previewSrc
+                      ? previewSrc
+                      : project.cover_image
+                      ? project.cover_image
+                      : project.type === "together"
+                      ? collaborationImg
+                      : aloneImg
+                  }
+                  alt="preview-img"
+                />
               </div>
 
-              <form onSubmit={ev => editProject(ev)} noValidate>
-                <input type="file" ref={fileInputRef} className="d-none" onChange={updateImageField} />
-                <div className="label-create-project">
-                  <label className="mb-2 mt-5">Name:</label>
-                  <input
-                    className="mb-5"
-                    type="text"
-                    name="name"
-                    onChange={ev => updateInputValue(ev)}
-                    value={formData.name}
-                  />
-                  <label>Description:</label>
-                  <textarea
-                    className=""
-                    name="description"
-                    onChange={ev => updateInputValue(ev)}
-                    value={formData.description}
-                  ></textarea>
-                </div>
-                <button type="submit" className="">
-                  Login
-                </button>
-              </form>
+              {/* per aggiungere l'immagine */}
+              <div
+                className={`edit-container ${project.type}`}
+                onClick={handleImageClick}
+              >
+                <img src={edit} alt="edit" width={15} />
+              </div>
             </div>
+
+            <h4 className="pt-3 text-center">
+              type of project: {project.type}
+            </h4>
+
+            <form onSubmit={(ev) => editProject(ev)} noValidate>
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="d-none"
+                onChange={updateImageField}
+              />
+              <div className={`label color-${project.type}`}>
+                <label className="mb-2">Name of your project:</label>
+                <input
+                  type="text"
+                  name="name"
+                  onChange={(ev) => updateInputValue(ev)}
+                  value={formData.name}
+                  required
+                />
+                <label>Brief description of your project:</label>
+                <textarea
+                  rows={2}
+                  name="description"
+                  onChange={(ev) => updateInputValue(ev)}
+                  value={formData.description}
+                ></textarea>
+              </div>
+              <div className="d-flex align-items-center justify-content-between mt-3 mb-1 modal-footer">
+                <img
+                  src={refreshIcons}
+                  alt=""
+                  width={24}
+                  className="opacity-75"
+                  onClick={resetForm}
+                />
+                <button
+                  type="submit"
+                  className={`${project.type} ${
+                    !formData.name.trim() && "disable"
+                  }`}
+                  disabled={!formData.name.trim()}
+                >
+                  save
+                </button>
+              </div>
+            </form>
           </Container>
         </Modal.Body>
-        <Modal.Footer>
+        {/* <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
           <Button variant="primary" onClick={handleClose}>
             Save Changes
           </Button>
-        </Modal.Footer>
+        </Modal.Footer> */}
       </Modal>
     </>
   );

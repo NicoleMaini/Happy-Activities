@@ -14,8 +14,8 @@ import MenuCardProjectComponent from "./MenuCardProjectComponent";
 
 interface cardProjectComponentProps {
   project: Project;
-  click: (id: number, isFavorite: boolean) => void;
-  favorite: number | null;
+  click?: (id: number, isFavorite: boolean) => void;
+  favorite?: number | null;
 }
 
 function CardProjectComponent({
@@ -45,7 +45,7 @@ function CardProjectComponent({
   return (
     <Col sm={6} md={6} lg={4} xl={3} className="card-project-component">
       {
-        <div className={`card-container ${project.type}`}>
+        <div className={`card-container card-${project.type}`}>
           <div className="d-flex justify-content-between align-items-center">
             <div
               className={`img-container ${project.type}`}
@@ -81,7 +81,7 @@ function CardProjectComponent({
                   SetOpenMenu(!openMenu);
                 }}
               />
-              <MenuCardProjectComponent project={project} open={openMenu} leave={()=>SetOpenMenu(false)}/> 
+              <MenuCardProjectComponent type='edit' project={project} open={openMenu} leave={()=>SetOpenMenu(false)}/> 
            </div>
 
           </div>
@@ -102,7 +102,7 @@ function CardProjectComponent({
                   alt=""
                   width={18}
                   className="favorite"
-                  onClick={() => click(project.id, false)}
+                  onClick={() => click ? click(project.id, false) : undefined}
                 />
               ) : (
                 <img
@@ -110,7 +110,7 @@ function CardProjectComponent({
                   alt=""
                   width={18}
                   className="favorite"
-                  onClick={() => click(project.id, true)}
+                  onClick={() => click ? click(project.id, true) : undefined}
                 />
               )}
             </div>
