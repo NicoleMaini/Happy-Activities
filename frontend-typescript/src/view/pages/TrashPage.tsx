@@ -6,7 +6,7 @@ import DeleteCardProjectComponent from "../components/delete-component/DeleteCar
 import NavbarComponent from "../components/NavbarComponent";
 import { getProjects } from "../../includes/functions";
 
-function DeletePlacePage() {
+function TrashPage() {
   const [projects, setProjects] = useState<Project[] | null>(null);
   const [projectsActive, setProjectsActive] = useState<Project[] | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: any } | { general: string } | null>(null);
@@ -30,4 +30,4 @@ function DeletePlacePage() {
     </>
   );
 }
-export default DeletePlacePage;
+export default TrashPage;

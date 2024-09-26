@@ -72,7 +72,7 @@ function DashboardPage() {
     <Container fluid className="p-0">
       <NavbarComponent />
       {projects.length > 1 && (
-        <div className="d-flex">
+        <div className="d-flex page-component">
           <SidebarComponent />
           <Row className="mx-4 py-3 w-100 h-100">
             {projects.map((project, i) => (
@@ -80,7 +80,7 @@ function DashboardPage() {
                 key={i}
                 project={project}
                 click={favoriteClick}
-                favorite={favorite}
+                favorite={favorite} 
               />
             ))}
           </Row>

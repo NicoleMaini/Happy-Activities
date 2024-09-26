@@ -1,5 +1,9 @@
 import { MicroTask } from "./MicroTask";
 
+export interface TaskProgress{
+  type: string,
+}
+
 export interface Task {
   id: number;
   project_id: number;
@@ -15,6 +19,4 @@ export interface Task {
   microtasks: MicroTask[];
 }
 
-export interface TaskProp {
-  task: Task;
-}
+

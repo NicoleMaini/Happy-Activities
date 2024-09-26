@@ -7,8 +7,8 @@ import heartGrey from "../../../assets/img/heart-grey.svg";
 import heart from "../../../assets/img/heart.svg";
 import userImg from "../../../assets/img/user.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { goProject } from "../../../includes/functions";
+import { useEffect, useState } from "react";
+import { disappeardAnimation, goProject } from "../../../includes/functions";
 import { useAppDispatch } from "../../../redux/store";
 import MenuCardProjectComponent from "./MenuCardProjectComponent";
 
@@ -29,6 +29,12 @@ function CardProjectComponent({
   const navigate = useNavigate();
 
   const [openMenu, SetOpenMenu] = useState(false);
+  const [showCard, setShowCard] = useState(true);
+  const [isMounted, setIsMounted] = useState<string>('');
+
+  useEffect(()=>{
+    disappeardAnimation({showCard, setIsMounted})
+  },[showCard])
   
 
   // logica per la progress bar ---------------------------------
@@ -43,9 +49,9 @@ function CardProjectComponent({
   // ------------------------------------------------------------
 
   return (
-    <Col sm={6} md={6} lg={4} xl={3} className="card-project-component">
+    <Col sm={6} md={6} lg={4} xl={3} className={`card-project-component ${showCard ? "" : `disappeared ${isMounted}`}`}>
       {
-        <div className={`card-container card-${project.type}`}>
+        <div className={`card-container card-${project.type} `}>
           <div className="d-flex justify-content-between align-items-center">
             <div
               className={`img-container ${project.type}`}
@@ -81,7 +87,7 @@ function CardProjectComponent({
                   SetOpenMenu(!openMenu);
                 }}
               />
-              <MenuCardProjectComponent type='edit' project={project} open={openMenu} leave={()=>SetOpenMenu(false)}/> 
+              <MenuCardProjectComponent type='edit' project={project} open={openMenu} leave={()=>SetOpenMenu(false)} showCard={()=>setShowCard(false)}/> 
            </div>
 
           </div>

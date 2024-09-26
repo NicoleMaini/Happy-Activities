@@ -37,8 +37,3 @@ export interface FormDataRegister {
   password_confirmation: string;
   profile_image: File | null;
 }
-
-export interface SendData {
-  id: number;
-  action: string;
-}

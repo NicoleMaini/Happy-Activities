@@ -5,13 +5,15 @@ import { Project } from "../../../interfaces/Project";
 import edit from "../../../assets/img/edit-minimal.svg";
 import trash from "../../../assets/img/trash-minimal.svg";
 import { changeStatus } from "../../../includes/functions";
-import { SendData } from "../../../interfaces/User";
+import { SendData } from "../../../includes/functions";
+import { useAppDispatch } from "../../../redux/store";
 
 interface MenuCardProjectComponentProps {
   type: string;
   project: Project;
   open: boolean; // Aggiungi questa riga
   leave: () => void;
+  showCard: () => void;
 }
 
 function MenuCardProjectComponent({
@@ -19,6 +21,7 @@ function MenuCardProjectComponent({
   project,
   open,
   leave,
+  showCard
 }: MenuCardProjectComponentProps) {
   const [errors, setErrors] = useState<
     { [key: string]: any } | { general: string } | null
@@ -28,6 +31,8 @@ function MenuCardProjectComponent({
   const [showMoveOnTrash, setShowMoveOnTrash] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showRestore, setShowRestore] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const handleClick = (set: (value: boolean) => void) => {
     set(true);
@@ -40,7 +45,8 @@ function MenuCardProjectComponent({
       action: "delete",
     };
     changeStatus("/api/v1/projects/update-status", sendData, setErrors);
-    setShowDelete(false);
+    showCard()
+    setShowMoveOnTrash(false);
   };
 
   const restoreClick = (id: number) => {
@@ -49,6 +55,7 @@ function MenuCardProjectComponent({
       action: "active",
     };
     changeStatus("/api/v1/projects/update-status", sendData, setErrors);
+    showCard()
     setShowRestore(false);
   };
 
@@ -58,9 +65,9 @@ function MenuCardProjectComponent({
       action: "active",
     };
     // changeStatus("/api/v1/projects/update-status", sendData, setErrors);
-    // setShowRestore(false);
+    showCard()
+    setShowRestore(false);
   };
-
 
   return (
     <div

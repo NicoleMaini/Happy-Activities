@@ -6,6 +6,7 @@ import './assets/css/sidebar-style.css';
 import './assets/css/dashboard-style.css';
 import './assets/css/create-page-project-style.css';
 import './assets/css/delete-page-style.css';
+import './assets/css/project-page-style.css';
 
 import axios from "axios";
 import { useAppDispatch } from "./redux/store";
@@ -23,7 +24,7 @@ import HomePage from "./view/pages/HomePage";
 import CreateProjectPage from "./view/pages/CreateProjectPage";
 import ProjectPage from "./view/pages/ProjectPage";
 // import FooterComponent from "./view/components/FooterComponent";
-import DeletePlacePage from "./view/pages/DeletePlacePage";
+import TrashPage from "./view/pages/TrashPage";
 import NotFoundPage from "./view/pages/NotFoundPage";
 
 function App() {
@@ -70,7 +71,7 @@ function App() {
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route
                 path="/dashboard/projects/trash"
-                element={<DeletePlacePage />}
+                element={<TrashPage />}
               />
               <Route
                 path="/dashboard/create-project"

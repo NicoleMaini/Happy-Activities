@@ -61,6 +61,7 @@ h5 {
   --dark-grey: #37474f;
   --grey: #a2b1b9;
   --light-grey: #d5d5d5;
+  --clear-grey: #f5f5f5;
   --lighter-grey: #edecec;
   --deep-violet: #353255;
   --dark-violet: #5e35b1;
@@ -68,10 +69,18 @@ h5 {
   --dark-green: #2e7d32;
   --green: #6fc183;
   --light-green: #d5e7da;
-  --clear-green: #e7ffed;
+  --clear-green: #ebebeb;
+  --progress-red: #ff6060;
+  --progress-yellow: #ffd260;
+  --progress-blue: #60baff;
+  --progress-green: #5fb261;
 }
 
 /* Fine reset CSS */
+
+.page-component {
+  height: calc(100vh - 55px);
+}
 
 .press{
   cursor: pointer;
@@ -84,6 +93,16 @@ h5 {
 
 .press:active{
   scale:0.9
+}
+
+.delete-card-project-component,
+.card-project-component {
+  transform: scale(1);
+  transition: transform 0.4s ease;
+}
+
+.disappeared {
+  transform: scale(0);
 }
 
 /* --------------------------------------------------------------------- */
@@ -201,13 +220,14 @@ h5 {
 /* scroll bar */
 
 ::-webkit-scrollbar {
-  width: 8px; /* Larghezza della scrollbar verticale */
-  height: 6px; /* Altezza della scrollbar orizzontale */
+
+  width: 3px; /* Larghezza della scrollbar verticale */
+  height: 10px; /* Altezza della scrollbar orizzontale */
 }
 
 /* Parte interna della scrollbar */
 ::-webkit-scrollbar-thumb {
-  background-color: var(--orange); /* Colore della parte interna */
+  background-color: var(--green-blue); /* Colore della parte interna */
   border-radius: 10px; /* Arrotondamento degli angoli */
   border: px solid transparent; /* Bordo trasparente */
   background-clip: content-box; /* Ritaglia lo sfondo */
@@ -215,9 +235,10 @@ h5 {
 
 /* Parte della track (il binario su cui scorre la scrollbar) */
 ::-webkit-scrollbar-track {
-  background: var(--clear-orange); /* Colore del binario */
+  background: var(--light-grey); /* Colore del binario */
   border-radius: 10px; /* Arrotondamento degli angoli */
-  margin: 4px; /* Margine per evitare che tocchi i bordi */
+  margin-top: 3.9rem; /* Margine per evitare che tocchi i bordi */
+  margin-bottom: 1rem; /* Margine per evitare che tocchi i bordi */
 }
 
 /* Responsiveness */

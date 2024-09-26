@@ -2,11 +2,12 @@ import { Project } from "../../../interfaces/Project";
 import threePoints from "../../../assets/img/three-points.svg";
 
 import axios, { all } from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import workingAlone from "../../../assets/img/working-alone.jpg";
 import collaboration from "../../../assets/img/collaboration.png";
 import { Col, Row } from "react-bootstrap";
 import MenuCardProjectComponent from "../project-card/MenuCardProjectComponent";
+import { disappeardAnimation } from "../../../includes/functions";
 
 interface DeleteCardProjectProps {
   project: Project;
@@ -17,14 +18,20 @@ interface DeleteCardProjectProps {
 function DeleteCardProjectComponent({ project }: DeleteCardProjectProps) {
   const [errors, setErrors] = useState(null);
 
-  const [showDelete, setShowDelete] = useState(false);
-  const [showRestore, setShowRestore] = useState(false);
-
   const [openMenu, SetOpenMenu] = useState(false);
+  const [showCard, setShowCard] = useState(true);
+  const [isMounted, setIsMounted] = useState<string>('');
+
+  // Effetto per gestire la rimozione dal DOM dopo l'animazione
+  useEffect(() => {
+    disappeardAnimation({showCard, setIsMounted})
+  }, [showCard]);
 
   return (
     <Row
-      className={`delete-card-project-component align-items-center p-2 mb-3 card-${project.type}`}
+      className={`delete-card-project-component align-items-center p-2 mb-3 card-${
+        project.type
+      } ${showCard ? "" : `disappeared ${isMounted}`}`} // sistemare il d-none in modo da fare uno scale 0.0
     >
       <Col sm={1}>
         <div className="img-container">
@@ -70,6 +77,7 @@ function DeleteCardProjectComponent({ project }: DeleteCardProjectProps) {
             project={project}
             open={openMenu}
             leave={() => SetOpenMenu(false)}
+            showCard={() => setShowCard(false)}
           />
         </div>
       </Col>

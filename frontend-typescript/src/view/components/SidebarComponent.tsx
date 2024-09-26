@@ -43,7 +43,7 @@ function SidebarComponent() {
 
   return (
     <div
-      className="icons-circle"
+      className="icons-circle position-sticky"
       onMouseOver={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >

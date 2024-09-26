@@ -2,7 +2,6 @@ import { Project } from "./../interfaces/Project";
 import { NavigateFunction, Location } from "react-router-dom";
 import { PROJECT, ProjectActions, RESET_PROJECT } from "../redux/actions";
 import axios from "axios";
-import { SendData } from "../interfaces/User";
 
 // FUNZIONI PER LA GESTIONE DEL PROGETTO -------------------------------------------------
 
@@ -81,6 +80,12 @@ export const getProjects = (
 
 // CHANGE STATUS FUNCTION -----------------------------------------------------------------
 
+export interface SendData {
+  id: number;
+  action: string;
+}
+
+
 export const changeStatus = (
   url: string,
   sendData: SendData,
@@ -96,3 +101,25 @@ export const changeStatus = (
       // Gestisci l'errore, ad esempio mostrando un messaggio all'utente
     });
 };
+
+// DISAPPEARD ANIMATION FOR MOVE OR DELETE ------------------------------------------------
+
+interface DisappeardAnimationParam {
+  showCard: boolean;
+  setIsMounted: (value: string) => void;
+}
+
+export const disappeardAnimation = ({showCard, setIsMounted}: DisappeardAnimationParam) => {
+  if (!showCard) {
+    const timer = setTimeout(() => {
+      setIsMounted("d-none");
+    }, 400); // Durata dell'animazione (0.5 secondi)
+    return () => clearTimeout(timer);
+  } else {
+    // Quando `showCard` diventa true, rimuoviamo la classe `d-none`
+    setIsMounted("");
+  }
+  return () => {};
+};
+
+// disappeardAnimation(showCard, setIsMounted)
