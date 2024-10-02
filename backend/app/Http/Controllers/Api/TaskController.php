@@ -44,9 +44,7 @@ class TaskController extends Controller
         try {
             $this->checkAutentication();
             $user = Auth::user();
-
-            // $user = User::find(2);
-
+            
             if ($user === null) {
                 throw new \Exception("L'utente selezionato non esiste", 404);
             }
@@ -91,10 +89,7 @@ class TaskController extends Controller
             $this->checkAuthorization($request->project_id);
 
             $validatedData = $request->validate([
-                'image1' => 'nullable|string',
-                'image2' => 'nullable|string',
-                'image3' => 'nullable|string',
-                'image4' => 'nullable|string',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validazione immagini
                 'title' => 'required|string',
                 'description' => 'nullable|string',
                 'assigned' => 'nullable|string',
@@ -102,14 +97,29 @@ class TaskController extends Controller
                 'appointment' => 'nullable|date',
             ]);
 
+            $imagesPaths = [];
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    // Salva ogni immagine nella cartella pubblica e ottieni il percorso
+                    $path = $image->store('images', 'public');
+                    $imagesPaths[] = $path; // Aggiungi il percorso all'array
+                }
+            }
+
             // Creazione del nuovo prodotto
             $newTask = new Task();
             $newTask->fill($validatedData);
             $newTask->project_id = $request->project_id; // ID del progetto corrente da controllare e inserire con un hidden value
+            $newTask->images = json_encode($imagesPaths); // Salva le immagini come JSON
             $newTask->save();
 
             // Restituisci i dati del nuovo prodotto creato in formato JSON
-            return response()->json(['message' => 'Task created successfully', 'task' => $newTask], 201);
+            return response()->json([
+                'message' => 'Task created successfully',
+                'task' => $newTask,
+                'images' => $imagesPaths
+            ], 201);
         } catch (\Exception $e) {
             // Gestisci l'eccezione e restituisci un messaggio di errore appropriato con codice di stato 500 (Internal Server Error)
             return response()->json(['error' => $e->getMessage()], 500);
@@ -154,10 +164,7 @@ class TaskController extends Controller
             $this->checkAuthorization($task->project_id);
 
             $validator = Validator::make($request->all(), [
-                'image1' => 'nullable|string',
-                'image2' => 'nullable|string',
-                'image3' => 'nullable|string',
-                'image4' => 'nullable|string',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validazione immagini
                 'title' => 'required|string',
                 'description' => 'nullable|string',
                 'assigned' => 'nullable|string',
@@ -165,21 +172,36 @@ class TaskController extends Controller
                 'appointment' => 'nullable|date',
             ]);
 
+            // Gestisci la validazione fallita
             if ($validator->fails()) {
                 return response()->json(['error' => $validator->errors()], 422);
             }
 
-            $task->save([
-                'image1' => $request->image1,
-                'image2' => $request->image2,
-                'image3' => $request->image3,
-                'image4' => $request->image4,
-                'title' => $request->title,
-                'description' => $request->description,
-                'assigned' => $request->assigned,
-                'progress' => $request->progress,
-                'appointment' => $request->appointment, // da vedere come viene mandato il dato
-            ]);
+            // Gestione delle immagini
+            $imagesPaths = $task->images ? $task->images : []; // Recupera le immagini esistenti
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    // Salva ogni nuova immagine nella cartella pubblica e ottieni il percorso
+                    $path = $image->store('images', 'public');
+                    $imagesPaths[] = $path; // Aggiungi il percorso delle nuove immagini all'array
+                }
+            }
+
+            // Assegna i valori aggiornati al task
+            $task->title = $request->title;
+            $task->description = $request->description;
+            $task->assigned = $request->assigned;
+            $task->progress = $request->progress;
+            $task->appointment = $request->appointment;
+
+            // Aggiorna le immagini solo se ce ne sono di nuove
+            if ($request->hasFile('images')) {
+                $task->images = json_encode($imagesPaths); // Salva i nuovi percorsi immagini come JSON
+            }
+
+            // Salva il task aggiornato nel database
+            $task->save();
 
             // Restituisci una risposta JSON con il prodotto aggiornato
             return response()->json(['message' => 'Task updated successfully', 'task' => $task], 200);
@@ -188,25 +210,18 @@ class TaskController extends Controller
         }
     }
 
-    public function progress($id, $request) // ha bisogno dell'id del task e del valore della volonna 'to do', 'delite', 'in review', 'completed'
+    public function updateStatusTask(Request $request) // ha bisogno dell'id del task e del valore della volonna 'to do', 'delite', 'in review', 'completed'
     {
         try {
             $this->checkAutentication();
 
+            $id = $request->input('id');
+            $action = $request->input('action');
             $task = Task::findOrFail($id);
 
             // Verifica se l'utente è collegato al progetto
             $this->checkAuthorization($task->project_id);
-
-            $validator = Validator::make($request->all(), [
-                'progress' => 'required|in:to do, in progress, in review, completed, delete',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()], 422);
-            }
-
-            $task->update(['progress' => $request->progress]);
+            $task->update(['progress' => $action]);
 
             // Restituisci una risposta JSON con il prodotto aggiornato
             return response()->json(['message' => 'Task updated successfully', 'task' => $task], 200);

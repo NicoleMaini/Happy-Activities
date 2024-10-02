@@ -1,15 +1,5 @@
 /* SIDEBAR --------------------------------------------------- */
 
-.icons-circle img {
-  border-radius: 50%;
-  padding: 0.2rem;
-  background-color: white;
-  overflow: hidden;
-}
-.icons-circle img:hover {
-  scale: 1.008;
-}
-
 .sidebar-component {
   display: flex;
   flex-direction: column;
@@ -99,11 +89,3 @@
   background-size: cover;
 }
 
-.sidebar-component .open-arrow {
-  transition: transform 0.3s ease; /* Anima la trasformazione */
-  cursor: pointer; /* Indica che è cliccabile */
-}
-
-.sidebar-component .rotate {
-  transform: rotate(180deg);
-}

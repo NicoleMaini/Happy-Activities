@@ -10,6 +10,8 @@ class Microtask extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['progress', 'task_id', 'description']; // Assicurati che 'progress' sia fillable
+
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);

@@ -12,6 +12,21 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'description',
+        'assigned',
+        'progress',
+        'appointment',
+        'project_id',
+        'images'
+    ];
+
+    // Definisci che il campo 'images' sia castato come array
+    protected $casts = [
+        'images' => 'array',
+    ];
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

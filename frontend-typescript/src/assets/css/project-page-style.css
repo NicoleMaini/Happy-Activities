@@ -60,7 +60,7 @@
   margin: 0.6rem;
   background-color: white;
 }
-.card-task-progress-component .task-container .task h5{
+.card-task-progress-component .task-container .task h5 {
   margin-bottom: 0;
 }
 .card-task-progress-component .task-container .task.to-do {
@@ -93,4 +93,134 @@
 }
 .card-task-progress-component .task-container .img-container:active {
   scale: 0.9;
+}
+
+.card-task-progress-component .task-container .task .description {
+  max-height: 0;
+  width: 100%;
+  line-height: 1rem; /* Altezza di ogni riga */
+  font-size: small;
+  display: -webkit-box; /* Necessario per utilizzare line-clamp */
+  -webkit-line-clamp: 4; /* Numero massimo di righe visibili */
+  -webkit-box-orient: vertical;
+  overflow: hidden; /* Nasconde il testo oltre il limite */
+  text-overflow: ellipsis; /* Mostra l'ellissi dopo aver raggiunto il limite */
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+}
+
+.card-task-progress-component .task-container .task .description.open {
+  max-height: 4.5rem;
+  padding-top: 0.5rem;
+}
+
+.task .btn-done {
+  width: 1.2rem;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  margin-top: 0.6rem;
+  margin-left: auto;
+  cursor: pointer;
+  scale: 1;
+  transition: scale 0.3s ease;
+}
+
+.task .btn-done:hover {
+  scale: 1.02;
+}
+.task .btn-done:active {
+  scale: 0.95;
+}
+
+/* .task .line{
+  height: 1px;
+  margin-top: 0.6rem;
+  background-color: var(--grey);
+} */
+
+.task .btn-done.to-do{
+  /* border: 1px solid var(--progress-red); */
+  background-color: var(--progress-red);
+}
+.task .btn-done.in-progress {
+  background-color: var(--progress-yellow);
+}
+.task .btn-done.in-review {
+  background-color: var(--progress-blue);
+}
+
+.task .finished {
+  border-bottom: 1px solid var(--progress-green);
+  border-top: 1px solid var(--progress-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: small;
+  margin-top: 0.5rem;
+  padding-top: 0.2rem;
+  background-color: var(--lighter-green);
+}
+
+
+/* MICROTASK CSS */
+
+.micro-task-component{
+  padding: 0.3rem;
+  margin-top: 0.8rem;
+  border: 1px solid var(--clear-grey);
+  font-size: small;
+  cursor: pointer;
+  position: relative; /* Necessario per posizionare lo pseudo-elemento */
+}
+
+.micro-task-component::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 12px; /* Posiziona la linea sotto il testo */
+  width: 88%;
+  height: 1px; /* Spessore della linea */
+  background-color: #333; /* Colore della linea */
+  transform: scaleX(0); /* Nasconde la linea */
+  transform-origin: left; /* Punto di origine dell'animazione */
+  transition: transform 0.3s ease; /* Effetto di transizione */
+}
+
+.micro-task-component:hover::after {
+  transform: scaleX(1); /* Estende la linea su hover */
+}
+
+.micro-task-component .check-opacity {
+  opacity: 0;
+}
+.micro-task-component .check-opacity:hover {
+  opacity: 1;
+}
+
+.micro-task-component .check{
+ position: absolute;
+  left: 5px;
+  top: 12px; /* Posiziona la linea sotto il testo */
+  width: 88%;
+  height: 1px; /* Spessore della linea */
+  background-color: #333; /* Colore della linea */
+}
+
+.micro-task-component img{
+  fill: red; /* Colore di riempimento (per l'interno dell'icona) */
+}
+.micro-task-component.to-do {
+  border-left: 2px solid var(--progress-red);
+}
+.micro-task-component.in-progress {
+  border-left: 2px solid var(--progress-yellow);
+}
+.micro-task-component.in-review {
+  border-left: 2px solid var(--progress-blue);
+}
+.micro-task-component.completed {
+  border-left: 2px solid var(--progress-green);
 }

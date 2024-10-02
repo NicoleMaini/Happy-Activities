@@ -42,6 +42,7 @@ h5 {
 }
 
 :root {
+  --body-gray: #717373;
   --green-blue: #b8d1ce;
   --light-green-blue: #eef3f3;
   --dark-blue: #445a66;
@@ -69,6 +70,7 @@ h5 {
   --dark-green: #2e7d32;
   --green: #6fc183;
   --light-green: #d5e7da;
+  --lighter-green: #ecf9ee;
   --clear-green: #ebebeb;
   --progress-red: #ff6060;
   --progress-yellow: #ffd260;
@@ -80,6 +82,12 @@ h5 {
 
 .page-component {
   height: calc(100vh - 55px);
+}
+
+.text-nowarp {
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .press{
@@ -96,14 +104,36 @@ h5 {
 }
 
 .delete-card-project-component,
-.card-project-component {
+.card-project-component, .task {
   transform: scale(1);
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 
 .disappeared {
   transform: scale(0);
 }
+
+/* ROTAZIONE DELL'APERTURA DEL MENU */
+
+.open-arrow {
+  transition: transform 0.3s ease; /* Anima la trasformazione */
+  cursor: pointer; /* Indica che è cliccabile */
+}
+
+.rotate {
+  transform: rotate(180deg) !important;
+}
+
+.icons-circle img {
+  border-radius: 50%;
+  padding: 0.2rem;
+  background-color: white;
+  overflow: hidden;
+}
+.icons-circle img:hover {
+  scale: 1.008;
+}
+
 
 /* --------------------------------------------------------------------- */
 

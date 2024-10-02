@@ -66,6 +66,12 @@ return [
             'url' => env('APP_URL') . '/storage/projects', // URL pubblico per accedere ai file
             'visibility' => 'public', // Visibilità predefinita dei file
         ],
+        'images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images'), // Imposta il percorso della cartella di archiviazione
+            'url' => env('APP_URL') . '/storage/images', // URL pubblico per accedere ai file
+            'visibility' => 'public', // Visibilità predefinita dei file
+        ],
     ],
 
     /*

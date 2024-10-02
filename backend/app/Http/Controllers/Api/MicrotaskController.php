@@ -7,7 +7,10 @@ use App\Models\User;
 use App\Models\Project;
 use App\Models\Microtask;
 use App\Models\microtasks;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoremicrotasksRequest;
 use App\Http\Requests\UpdatemicrotasksRequest;
 
@@ -149,7 +152,7 @@ class MicrotaskController extends Controller
             ])->findOrFail($id);
 
             if ($microtask === null) {
-                throw new \Exception("Non ci sono microtask disponibili per $user->name", 404);
+                throw new \Exception("Non ci sono microtask disponibili per ", 404);
             }
 
             $this->checkAuthorization($microtask->task->project_id);
@@ -181,7 +184,7 @@ class MicrotaskController extends Controller
                 return response()->json(['error' => $validator->errors()], 422);
             }
 
-            $microtask->update([
+            $microtask = $validator->update([
                 'title' => $request->title,
                 'description' => $request->description,
                 'assigned' => $request->assigned,
@@ -190,68 +193,30 @@ class MicrotaskController extends Controller
             ]);
 
             // Restituisci i dati del nuovo prodotto creato in formato JSON
-            return response()->json(['message' => 'Task updated successfully', 'task' => $newTask], 201);
+            return response()->json(['message' => 'Task updated successfully', 'task' => $microtask], 201);
         } catch (\Exception $e) {
             // Gestisci l'eccezione e restituisci un messaggio di errore appropriato con codice di stato 500 (Internal Server Error)
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    public function completed($id)
+    public function updateStatusMicroTask(Request $request)
     {
         try {
             $this->checkAutentication();
+            $id = $request->input('id');
+            $action = $request->input('action');
+
 
             $microtask = Microtask::findOrFail($id);
             $task = Task::find($microtask->task_id);
 
             $this->checkAuthorization($task->project_id);
 
-            $newValue = 'completed';
-            $microtask->update(['progress' => $newValue]);
+            $microtask->update(['progress' => $action]);;
 
             // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Microtask completed successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
-        }
-    }
-
-    public function delete($id)
-    {
-        try {
-            $this->checkAutentication();
-
-            $microtask = Microtask::findOrFail($id);
-            $task = Task::find($microtask->task_id);
-
-            $this->checkAuthorization($task->project_id);
-
-            $newValue = 'delete';
-            $microtask->update(['progress' => $newValue]);
-
-            // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Microtask delete successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
-        }
-    }
-
-    public function restore($id)
-    {
-        try {
-            $this->checkAutentication();
-
-            $microtask = Microtask::findOrFail($id);
-            $task = Task::find($microtask->task_id);
-
-            $this->checkAuthorization($task->project_id);
-
-            $newValue = 'to do';
-            $microtask->update(['progress' => $newValue]);
-
-            // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Microtask restore successfully']);
+            return response()->json(['message' => 'Microtask completed successfully', 'action'=>$microtask]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
@@ -270,7 +235,7 @@ class MicrotaskController extends Controller
             $microtask->delete();
 
             // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Microtask destroy successfully']);
+            return response()->json(['message' => 'Microtask delete successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }

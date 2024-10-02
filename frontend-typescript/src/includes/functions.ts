@@ -113,7 +113,7 @@ export const disappeardAnimation = ({showCard, setIsMounted}: DisappeardAnimatio
   if (!showCard) {
     const timer = setTimeout(() => {
       setIsMounted("d-none");
-    }, 400); // Durata dell'animazione (0.5 secondi)
+    }, 200); // Durata dell'animazione (0.5 secondi)
     return () => clearTimeout(timer);
   } else {
     // Quando `showCard` diventa true, rimuoviamo la classe `d-none`

@@ -15,6 +15,8 @@ function CardProgressTaskComponent({
 }: CardProgressTaskComponentProps) {
   const [typeTasks, setTypeTasks] = useState<Task[] | []>([]);
 
+  // filtra i task per progetto
+
   useEffect(() => {
     if (tasks) {
       const filterTasks = tasks.filter(
@@ -22,9 +24,9 @@ function CardProgressTaskComponent({
       );
       setTypeTasks(filterTasks);
     }
-  }, [tasks]);
+  }, [tasks ]);
 
-  console.log("ty", typeTasks);
+  // ----------------------------------------------------
 
   return (
     <Col className="card-task-progress-component h-100 mt-0">
@@ -34,7 +36,6 @@ function CardProgressTaskComponent({
             {progress.type}
           </div>
           <div className="task-container">
-            {/* <TaskComponent progressType={progress.type} tasks={tasks}/> */}
             {typeTasks.length >= 1 ? (
               typeTasks.map((task) => (
                 <TaskComponent progressType={progress.type} task={task} />
