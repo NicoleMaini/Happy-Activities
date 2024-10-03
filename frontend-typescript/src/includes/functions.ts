@@ -85,7 +85,6 @@ export interface SendData {
   action: string;
 }
 
-
 export const changeStatus = (
   url: string,
   sendData: SendData,
@@ -109,7 +108,10 @@ interface DisappeardAnimationParam {
   setIsMounted: (value: string) => void;
 }
 
-export const disappeardAnimation = ({showCard, setIsMounted}: DisappeardAnimationParam) => {
+export const disappeardAnimation = ({
+  showCard,
+  setIsMounted,
+}: DisappeardAnimationParam) => {
   if (!showCard) {
     const timer = setTimeout(() => {
       setIsMounted("d-none");
@@ -123,3 +125,19 @@ export const disappeardAnimation = ({showCard, setIsMounted}: DisappeardAnimatio
 };
 
 // disappeardAnimation(showCard, setIsMounted)
+
+//FUNZIONE ELIMINA - DISTRUGGI
+
+export const deleteCard = (
+  url: string,
+  setErrors: (errors: { [key: string]: any } | { general: string }) => void
+) => {
+  axios
+    .delete(url)
+    .then((resp) => {
+      console.log("tutto ok", resp.data);
+    })
+    .catch((err) => {
+      setErrors(err.response?.data.errors || { general: "Unknown error" });
+    });
+};

@@ -38,7 +38,7 @@ function CardProgressTaskComponent({
           <div className="task-container">
             {typeTasks.length >= 1 ? (
               typeTasks.map((task) => (
-                <TaskComponent progressType={progress.type} task={task} />
+                <TaskComponent key={task.id} progressType={progress.type} task={task} />
               ))
             ) : (
               <h6 className={`task ${progress.type.replace(" ", "-")}`}>

@@ -34,7 +34,6 @@ function TaskComponent({ progressType, task }: TaskProp) {
     setShowCard(false)
   };
 
-  console.log('task', task);
 
   // ------------------------------------------------------
 
@@ -58,7 +57,7 @@ function TaskComponent({ progressType, task }: TaskProp) {
       <p className={`description ${openDescription && "open"}`}>
         {task.description && task.description}
       </p>
-      {task.microtasks && task.microtasks.map((microTask)=> <MicroTaskComponent microTask={microTask} progressType={classProgress}/>)}
+      {task.microtasks && task.microtasks.map((microTask)=> <MicroTaskComponent key={microTask.id} microTask={microTask} progressType={classProgress}/>)}
       {progressType === "completed" ? (
         <div className="finished">finished</div>
       ) : (

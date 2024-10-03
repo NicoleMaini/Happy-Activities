@@ -8,11 +8,12 @@
 
 .card-task-progress-component .card-task-container {
   position: relative;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  background-color: var(--clear-grey);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  background-color: var(--light-grey);
   height: 100%;
   z-index: 0;
+  overflow: hidden;
 }
 
 .card-task-progress-component .hat {
@@ -29,6 +30,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 11;
 }
 .card-task-progress-component .hat.to-do {
   background-color: var(--progress-red);
@@ -159,7 +161,7 @@
   align-items: center;
   justify-content: center;
   font-size: small;
-  margin-top: 0.5rem;
+  margin-top: 0.9rem;
   padding-top: 0.2rem;
   background-color: var(--lighter-green);
 }
@@ -168,50 +170,81 @@
 /* MICROTASK CSS */
 
 .micro-task-component{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 0.3rem;
   margin-top: 0.8rem;
   border: 1px solid var(--clear-grey);
   font-size: small;
   cursor: pointer;
-  position: relative; /* Necessario per posizionare lo pseudo-elemento */
+  position: relative; 
 }
 
-.micro-task-component::after {
-  content: '';
+.micro-task-component h5{
+  margin-right: 0.3rem;
+}
+
+
+.micro-task-component .check {
   position: absolute;
   left: 5px;
-  top: 12px; /* Posiziona la linea sotto il testo */
+  top: 12px; 
   width: 88%;
-  height: 1px; /* Spessore della linea */
-  background-color: #333; /* Colore della linea */
-  transform: scaleX(0); /* Nasconde la linea */
-  transform-origin: left; /* Punto di origine dell'animazione */
-  transition: transform 0.3s ease; /* Effetto di transizione */
+  height: 1px; 
+  background-color: #333; 
+  transform: scaleX(0); 
+  transform-origin: left;
+  transition: transform 0.3s ease; 
 }
 
-.micro-task-component:hover::after {
-  transform: scaleX(1); /* Estende la linea su hover */
+.micro-task-component .check.isCheck {
+  transform: scaleX(1);
 }
 
-.micro-task-component .check-opacity {
-  opacity: 0;
-}
-.micro-task-component .check-opacity:hover {
-  opacity: 1;
+.micro-task-component .description-micro{
+  width: 100%;
+  line-height: 1rem; 
+  font-size: small;
+  text-overflow: ellipsis; 
+  display: -webkit-box;          /* Necessario per supportare line-clamp */
+  -webkit-box-orient: vertical; /* Imposta l'orientamento del box verticale */
+  -webkit-line-clamp: 1;        /* Limita a 3 righe */
+  max-height: 1rem;           /* Altezza massima per 3 righe */
+  overflow: hidden;              /* Nasconde il contenuto in eccesso */
+  transition: max-height 0.3s ease; /* Transizione su altezza */
+  
+
 }
 
-.micro-task-component .check{
- position: absolute;
-  left: 5px;
-  top: 12px; /* Posiziona la linea sotto il testo */
-  width: 88%;
-  height: 1px; /* Spessore della linea */
-  background-color: #333; /* Colore della linea */
+.micro-task-component .description-micro.show-all-text {
+  max-height: 10rem;
+  -webkit-line-clamp: 10;    /* Rimuovi la limitazione delle righe */
 }
 
-.micro-task-component img{
-  fill: red; /* Colore di riempimento (per l'interno dell'icona) */
+
+.micro-task-component .open{
+  position: absolute;
+  bottom: -8px;
+  left: 45%;
+  background-color: white;
+  opacity: 0.50;
+  border-radius: 50%;
+  border: 1px solid var(--light-grey);
+  width: 0.8rem;
+  height: 0.8rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.micro-task-component .open img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .micro-task-component.to-do {
   border-left: 2px solid var(--progress-red);
 }
@@ -224,3 +257,4 @@
 .micro-task-component.completed {
   border-left: 2px solid var(--progress-green);
 }
+

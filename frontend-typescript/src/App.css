@@ -13,7 +13,7 @@ body {
   font-family: "League Spartan", sans-serif;
   line-height: 1.6;
   counter-reset: section;
-  /* background-color: var(--light-blue); */
+  /* background-color: var(--body-gray); */
 }
 
 ul,
