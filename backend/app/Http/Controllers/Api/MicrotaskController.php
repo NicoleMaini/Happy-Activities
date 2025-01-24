@@ -206,6 +206,7 @@ class MicrotaskController extends Controller
             $this->checkAutentication();
             $id = $request->input('id');
             $action = $request->input('action');
+            $description = $request->input('description');
 
 
             $microtask = Microtask::findOrFail($id);
@@ -213,10 +214,22 @@ class MicrotaskController extends Controller
 
             $this->checkAuthorization($task->project_id);
 
-            $microtask->update(['progress' => $action]);;
+            if ($action) {
+                $microtask->update(['progress' => $action]);
+            } else {
+                $validator = Validator::make(['description' => $description], [
+                    'description' => 'nullable|string',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json(['error' => $validator->errors()], 422);
+                }
+                $microtask->update([
+                    'description' => $description,
+                ]);
+            }
 
             // Restituisci una risposta JSON con il prodotto aggiornato
-            return response()->json(['message' => 'Microtask completed successfully', 'action'=>$microtask]);
+            return response()->json(['message' => 'Microtask completed successfully', 'action' => $microtask]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }

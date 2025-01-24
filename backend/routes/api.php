@@ -18,7 +18,9 @@ Route::name('api.v1')
         Route::put('/projects/update-status', [ProjectController::class, 'updateStatusProject']);
         Route::resource('/projects', ProjectController::class);
         Route::put('/tasks/update-status', [TaskController::class, 'updateStatusTask']);
-        Route::resource('/tasks', TaskController::class);
+        Route::get('/tasks/{id}/get-tasks-project/', [TaskController::class, 'getProjectTasks']);
+        Route::get('/tasks/{id}', [TaskController::class, 'show']);
+        // Route::resource('/tasks', TaskController::class);
         Route::put('/microtasks/update-status', [MicrotaskController::class, 'updateStatusMicroTask']);
         Route::resource('/microtasks', MicrotaskController::class);
         Route::get('/users', [UserController::class, 'usersGet']);

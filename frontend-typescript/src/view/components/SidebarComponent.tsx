@@ -102,7 +102,7 @@ function SidebarComponent() {
                     <div
                       key={proj.id}
                       className={
-                        location.pathname === projectPageLink(proj)
+                        location.pathname === projectPageLink(proj.id, proj.name)
                           ? "d-flex align-items-center project selected"
                           : "d-flex align-items-center project-padding"
                       }

@@ -9,6 +9,7 @@ import NavbarComponent from "../components/NavbarComponent";
 import { getProjects, projectPageLink } from "../../includes/functions";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { ReloadProjects, STOP_LOAD_PROJECTS } from "../../redux/actions";
+import MySpinner from "../components/my-component/MySpinner";
 
 function DashboardPage() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function DashboardPage() {
   useEffect(() => {
     if (projects.length === 1) {
       projects.forEach((project) => {
-        navigate(projectPageLink(project));
+        navigate(projectPageLink(project.id, project.name));
       });
     }
   }, [projects.length]);
@@ -71,7 +72,7 @@ function DashboardPage() {
   return (
     <Container fluid className="p-0">
       <NavbarComponent />
-      {projects.length > 1 && (
+      {projects.length > 1 ? (
         <div className="d-flex page-component">
           <SidebarComponent />
           <Row className="mx-4 py-3 w-100 h-100">
@@ -85,7 +86,8 @@ function DashboardPage() {
             ))}
           </Row>
         </div>
-      )}
+      ): ( <MySpinner/>)
+      }
     </Container>
   );
 }

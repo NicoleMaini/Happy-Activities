@@ -83,7 +83,7 @@ function CreateProjectPage() {
           <h4 className="p-0">STEP 3 - Well done!</h4>
           <h4 className={`py-2 color-${type}`}>PROJECT CREATES SUCCESSFULLY</h4>
             {project && (
-              <Link to={projectPageLink(project)} className={`link-go-to ${type} mb-3`}>go to the project</Link>
+              <Link to={projectPageLink(project.id, project.name)} className={`link-go-to ${type} mb-3`}>go to the project</Link>
             )}
             <Link to={"/dashboard"} className={`link-go-to ${type}`}>back to the dashborad</Link>
         </div>

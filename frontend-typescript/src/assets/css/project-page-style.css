@@ -137,11 +137,11 @@
   scale: 0.95;
 }
 
-/* .task .line{
+.task .line{
   height: 1px;
   margin-top: 0.6rem;
   background-color: var(--grey);
-} */
+}
 
 .task .btn-done.to-do{
   /* border: 1px solid var(--progress-red); */

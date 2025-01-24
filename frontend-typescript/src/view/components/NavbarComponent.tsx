@@ -90,18 +90,18 @@ function NavbarComponent() {
 
       {user ? (
         <div className="ms-auto d-flex align-items-center">
-          <img
-            src={user.profile_image ? user.profile_image : userImg}
-            alt=""
-            width={30}
-            className="rounded-circle object-fit-cover me-2"
-          />
           <div>
             <div>{user.name ? user.name : "unknow"}</div>
             <div className="user-role">
               {project ? teamComponentFunction() : ""}
             </div>
           </div>
+          <img
+            src={user.profile_image ? user.profile_image : userImg}
+            alt=""
+            width={30}
+            className="rounded-circle object-fit-cover ms-2"
+          />
         </div>
       ) : (
         <div className="ms-auto d-flex">

@@ -1,5 +1,11 @@
 import { MicroTask } from "./MicroTask";
 
+export interface DataTask{
+  data: Task,
+  status: string,
+}
+
+
 export interface TaskProgress{
   type: string,
 }

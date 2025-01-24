@@ -81,6 +81,27 @@ class TaskController extends Controller
         }
     }
 
+    public function getProjectTasks($id)
+    {
+        try {
+            $user = $this->checkAuthorization($id);
+            
+            if ($user === null) {
+                throw new \Exception("L'utente selezionato non esiste", 404);
+            }
+
+            $tasks = Task::with('project', 'microtasks')->where('project_id', $id)->get();
+
+            if ($tasks->isEmpty()) {
+                throw new \Exception("Non ci sono task disponibili per questo progetto", 404);
+            }
+
+            return response()->json(['status' => 'success', 'data' => $tasks]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
+        }
+    }
+
     public function store(Request $request)
     {
         try {

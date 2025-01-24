@@ -65,7 +65,7 @@ function App() {
             </Route>
             <Route path="" element={<UserRoutes />}>
               <Route
-                path="/dashboard/project/:projectId"
+                path="/dashboard/project/:projectId/:projectName"
                 element={<ProjectPage />}
               />
               <Route path="/dashboard" element={<DashboardPage />} />

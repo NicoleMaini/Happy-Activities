@@ -1,15 +1,16 @@
 import { Project } from "./../interfaces/Project";
 import { NavigateFunction, Location } from "react-router-dom";
 import { PROJECT, ProjectActions, RESET_PROJECT } from "../redux/actions";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import axios, { AxiosError } from "axios";
 
 // FUNZIONI PER LA GESTIONE DEL PROGETTO -------------------------------------------------
 
 // link della pagina progetto
-export const projectPageLink = (project: Project) => {
-  return `/dashboard/project/${project.id}-${project.name
-    .replace(/\s+/g, "-")
-    .toLowerCase()}`;
+export const projectPageLink = (projectId: number, projectName: string) => {
+  const encodedProjectName = encodeURIComponent(projectName);
+  const url = `/dashboard/project/${projectId}/${encodedProjectName}`.toLowerCase();
+  return url;
 };
 // ----------------------------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ export const goProject = (
   dispatch(action);
 
   if (navigate) {
-    navigate(projectPageLink(project));
+    navigate(projectPageLink(project.id, project.name));
   }
 };
 // ----------------------------------------------------------------------------------------
@@ -38,7 +39,7 @@ export const resetProject = (
   dispatch: (action: ProjectActions) => void,
   location: Location
 ) => {
-  if (location.pathname !== projectPageLink(project)) {
+  if (location.pathname !== projectPageLink(project.id, project.name)) {
     const action: ProjectActions = { type: RESET_PROJECT } as const;
     dispatch(action);
   }
@@ -73,7 +74,7 @@ export const getProjects = (
       if (navigate) {
         navigate("/dashboard/create-project");
       }
-      setErrors(err.response?.data.errors || { general: "Unknown error" });
+      setErrors(err.response?.data.error || { general: "Unknown error" });
     });
 };
 // ----------------------------------------------------------------------------------------
@@ -82,7 +83,8 @@ export const getProjects = (
 
 export interface SendData {
   id: number;
-  action: string;
+  action?: string;
+  description?: string;
 }
 
 export const changeStatus = (
@@ -96,7 +98,7 @@ export const changeStatus = (
       console.log("tutto ok", resp.data);
     })
     .catch((err) => {
-      setErrors(err.response?.data.errors || { general: "Unknown error" });
+      setErrors(err.response?.data.error || { general: "Unknown error" });
       // Gestisci l'errore, ad esempio mostrando un messaggio all'utente
     });
 };
@@ -138,6 +140,33 @@ export const deleteCard = (
       console.log("tutto ok", resp.data);
     })
     .catch((err) => {
-      setErrors(err.response?.data.errors || { general: "Unknown error" });
+      setErrors(err.response?.data.error || { general: "Unknown error" });
     });
+};
+
+// get fetch
+
+interface UseFetchResult<T> {
+  data: T | null;
+  error: string | null;
+}
+
+export const useGetFetch = <T>(url: string): UseFetchResult<T> => {
+  const [data, setData] = useState<T | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get<T>(url);
+        setData(response.data); // Imposta i dati dalla risposta
+      } catch (err) {
+        const axiosError = err as AxiosError;
+        setError(axiosError.request || axiosError.message || "Unknown error");
+      }
+    };
+    fetchData();
+  }, [url]);
+
+  return { data, error };
 };

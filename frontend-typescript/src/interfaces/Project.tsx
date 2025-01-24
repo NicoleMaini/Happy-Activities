@@ -3,6 +3,12 @@ import { User } from "./User";
 
 // interfacce progetto
 
+export interface DataProject{
+  data: Project,
+  status: string,
+}
+
+
 export interface Project {
   id: number;
   cover_image: string | null;
